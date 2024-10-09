@@ -1,0 +1,31 @@
+@startuml
+actor User as User
+interface HTTPS as Interface_HTTPS
+User <.> Interface_HTTPS: connects over
+
+component "Character Builder application" {
+[Frontend\n<<Container>> Apache httpd] as Frontend
+
+component "Backend" {
+  [REST API\n<<Container>> Java Spring Boot] as SpringBootBackend
+  Database "<<Container>> PostgreSQL" as NonUserDataDb
+  note right of NonUserDataDb
+    Non-user data only
+  end note
+  component "User Management" {
+    Database "<<Container>> PostgreSQL" as UserDataDb
+    [<<Container>> Auth server] as AuthServer
+    note right of UserDataDb
+      User data only
+    end note
+  }
+}
+
+Interface_HTTPS - Frontend
+Frontend <--> SpringBootBackend: communicates with
+SpringBootBackend - NonUserDataDb
+SpringBootBackend <--> AuthServer: communicates with
+AuthServer - UserDataDb
+
+}
+@enduml
