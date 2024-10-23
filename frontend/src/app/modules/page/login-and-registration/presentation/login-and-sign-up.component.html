@@ -7,7 +7,7 @@
        class="rounded-full">
   <h1 class="text-5xl mt-2">CHARACTYR</h1>
 
-  <form [formGroup]="loginOrSignUpForm" class="flex flex-col mt-5 w-2/3">
+  <form [formGroup]="loginOrSignUpForm" class="flex flex-col mt-5 w-2/3 max-w-60">
     <label for="email-input" class="text-xl">Email</label>
     <input id="email-input" formControlName="emailFormControl" class="input-field-style corner-rounding">
 
@@ -15,8 +15,11 @@
     <div class="flex bg-white corner-rounding">
       <input id="password-input" formControlName="passwordFormControl"
              class="flex-grow input-field-style corner-rounding"
-             type="password">
-      <img class="mr-1" ngSrc="assets/images/eye-strikethrough.svg" height="16" width="16" alt="Eye strikethrough icon">
+             type="{{showPasswordCleartext ? 'text' : 'password'}}">
+      <img class="mr-1 cursor-pointer"
+           ngSrc="assets/images/{{showPasswordCleartext ? 'eye.svg' : 'eye-strikethrough.svg'}}"
+           height="16" width="16" alt="Eye {{ !showPasswordCleartext ? 'strikethrough':'' }} icon"
+           (click)="toggleShowPasswordCleartext()">
     </div>
 
     <div *ngIf="isLoginPage" class="my-5 flex">

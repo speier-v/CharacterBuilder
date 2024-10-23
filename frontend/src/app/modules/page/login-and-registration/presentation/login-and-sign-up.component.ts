@@ -21,8 +21,13 @@ export class LoginAndSignUpComponent {
   });
 
   isLoginPage = true;
+  showPasswordCleartext = false;
 
   toggleIsLoginPage() {
     this.isLoginPage = !this.isLoginPage;
+  }
+
+  toggleShowPasswordCleartext() {
+    this.showPasswordCleartext = !this.showPasswordCleartext;
   }
 }
