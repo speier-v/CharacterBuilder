@@ -1,15 +1,7 @@
 @tailwind components;
 
-* {
-  font-family: "Metal Mania", serif;
-}
-
 @layer components {
   .input-field-style {
     @apply outline-0 px-2 py-1
-  }
-
-  .corner-rounding {
-    @apply rounded-xl
   }
 }

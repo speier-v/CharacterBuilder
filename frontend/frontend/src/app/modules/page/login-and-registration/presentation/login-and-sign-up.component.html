@@ -2,10 +2,9 @@
      alt="Background image of the Charactyr website's login and registration page showing a character walking towards a fantasy land"
      priority>
 
-<div class="absolute h-screen right-0 bg-amber-400 opacity-85 w-1/3 flex flex-col justify-center items-center">
+<div class="bg-color absolute h-screen right-0 opacity-85 w-1/3 flex flex-col justify-center items-center">
   <img ngSrc="assets/images/logo.png" alt="Charactyr logo" width="140" height="140">
   <h1 class="text-5xl">CHARACTYR</h1>
-  <h2 class="mt-2 text-4xl">{{ isLoginPage ? "Log in" : "Sign up" }}</h2>
 
   <form [formGroup]="loginOrSignUpForm" class="flex flex-col mt-5 w-2/3">
     <label for="email-input" class="text-xl">Email</label>
@@ -19,14 +18,13 @@
       <img class="mr-1" ngSrc="assets/images/eye-strikethrough.svg" height="16" width="16" alt="Eye strikethrough icon">
     </div>
 
-
     <div *ngIf="isLoginPage" class="my-5 flex">
       <input type="checkbox" id="stay-logged-in-checkbox" class="mr-2 scale-125">
       <label for="stay-logged-in-checkbox" class="text-xl">Stay logged in</label>
     </div>
 
     <button [ngClass]="{'mb-5':isLoginPage, 'my-5':!isLoginPage}"
-            class="bg-black text-white h-10 text-3xl corner-rounding">{{ isLoginPage ? "Log in" : "Sign up" }}
+            class="btn-color-scheme h-10 text-3xl corner-rounding">{{ isLoginPage ? "Log in" : "Sign up" }}
     </button>
 
     <p *ngIf="isLoginPage" class="text-center text-xl mb-3">I forgot my password</p>
