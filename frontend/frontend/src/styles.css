@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Metal Mania";
+  src: url("assets/fonts/metal-mania-regular.ttf") format("truetype");
+}
+
+body {
+  font-family: "Metal Mania", serif;
+}
+
+.corner-rounding {
+  @apply rounded-xl;
+}
+
+.bg-color {
+  @apply bg-amber-400;
+}
+
+.btn-color-scheme {
+  @apply bg-black;
+  @apply text-white;
+}

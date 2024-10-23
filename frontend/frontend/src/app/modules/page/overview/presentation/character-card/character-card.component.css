@@ -1,0 +1,6 @@
+@tailwind components;
+
+.action-button:hover {
+  @apply text-white;
+  background-color: rgba(0, 0, 0, 0.2);
+}
