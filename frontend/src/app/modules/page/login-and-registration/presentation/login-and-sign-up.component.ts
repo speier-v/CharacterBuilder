@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NgClass, NgIf, NgOptimizedImage} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {LoginAndSignUpScreenState} from '../model/login-and-sign-up-screen-state.enum';
 
 @Component({
   selector: 'app-login-page',
@@ -15,19 +16,39 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
   styleUrl: './login-and-sign-up.component.css'
 })
 export class LoginAndSignUpComponent {
-  loginOrSignUpForm = new FormGroup({
+  protected readonly loginOrSignUpForm = new FormGroup({
+    usernameFormControl: new FormControl(''),
     emailFormControl: new FormControl(''),
     passwordFormControl: new FormControl('')
   });
 
-  isLoginPage = true;
-  showPasswordCleartext = false;
+  protected screenState = LoginAndSignUpScreenState.LOGIN
+  protected showPasswordCleartext = false;
 
-  toggleIsLoginPage() {
-    this.isLoginPage = !this.isLoginPage;
-  }
-
-  toggleShowPasswordCleartext() {
+  protected toggleShowPasswordCleartext() {
     this.showPasswordCleartext = !this.showPasswordCleartext;
   }
+
+  protected setScreenState(screenState: LoginAndSignUpScreenState) {
+    this.screenState = screenState;
+  }
+
+  protected alternateActionButtonClicked() {
+    const newScreenState = this.screenState == LoginAndSignUpScreenState.LOGIN ?
+      LoginAndSignUpScreenState.SIGN_UP : LoginAndSignUpScreenState.LOGIN;
+    this.setScreenState(newScreenState);
+  }
+
+  protected getButtonTextForState(): string {
+    switch (this.screenState) {
+      case LoginAndSignUpScreenState.LOGIN:
+        return 'Log in';
+      case LoginAndSignUpScreenState.SIGN_UP:
+        return 'Sign up';
+      case LoginAndSignUpScreenState.PASSWORD_RESET:
+        return 'Send link';
+    }
+  }
+
+  protected readonly LoginAndSignUpScreenState = LoginAndSignUpScreenState;
 }
