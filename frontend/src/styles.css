@@ -7,7 +7,16 @@
   src: url("assets/fonts/metal-mania-regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Almendra SC";
+  src: url("assets/fonts/almendra-sc-regular.ttf") format("truetype");
+}
+
 body {
+  font-family: "Almendra SC", serif;
+}
+
+.heading-font {
   font-family: "Metal Mania", serif;
 }
 
