@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { OverviewComponent } from './overview/overview.component';
 import { StatsComponent } from './stats/stats.component';
@@ -14,9 +15,16 @@ import { CharacterClassComponent } from './character-class/character-class.compo
   })
 
 export class CharacterEditorComponent {
+
+  constructor(private router: Router) {}
+
   selectedComponent: string = 'overview';
 
   selectComponent(component: string) {
     this.selectedComponent = component;
+  }
+
+  clickToNav() {
+    this.router.navigate(['/character-sheet']);
   }
 }

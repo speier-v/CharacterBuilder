@@ -1,20 +1,20 @@
 <div class="flex flex-col p-5">
     <div class="flex justify-around">
-      <h1 class="text-5xl">Character builder</h1>
+      <h1 class="text-5xl heading-font">Character builder</h1>
     </div>
     <hr class="border-black opacity-80 mt-5">
     <div class="flex flex-row justify-around h-[10vh]">
-      <button class="w-1/4 action-button corner-rounding"
+      <button class="w-1/4 action-button corner-rounding text-lg"
         (click)="selectComponent('overview')">Minibar Overview</button>
-      <button class="w-1/4 action-button corner-rounding"
+      <button class="w-1/4 action-button corner-rounding text-lg"
         (click)="selectComponent('character-class')">Minibar Level/Klasse/Fähigkeiten</button>
-      <button class="w-1/4 height=100% action-button corner-rounding"
+      <button class="w-1/4 height=100% action-button corner-rounding text-lg"
         (click)="selectComponent('stats')">Minibar Stats</button>
-      <button class="w-1/4 height=100% action-button corner-rounding"
-        (click)="selectComponent('stats')">Minibar Character Sheet anzeigen</button>
+      <button class="w-1/4 height=100% action-button corner-rounding text-lg"
+        (click)="clickToNav()">Minibar Character Sheet anzeigen</button>
     </div>
     <hr class="border-black opacity-20">
-    <div class="component-display">
+    <div class="component-display pt-5">
       <overview *ngIf="selectedComponent == 'overview'"></overview>
       <character-class *ngIf="selectedComponent == 'character-class'"></character-class>
       <stats *ngIf="selectedComponent == 'stats'"></stats>
