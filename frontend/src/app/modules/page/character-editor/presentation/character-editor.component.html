@@ -1,5 +1,5 @@
-<div class="flex flex-col p-5">
-    <div class="flex justify-around">
+<div class="flex flex-col">
+    <div class="flex justify-around pt-5">
       <h1 class="text-5xl heading-font">Character builder</h1>
     </div>
     <hr class="border-black opacity-80 mt-5">
@@ -13,10 +13,18 @@
       <button class="w-1/4 height=100% action-button corner-rounding text-lg"
         (click)="clickToNav()">Minibar Character Sheet anzeigen</button>
     </div>
-    <hr class="border-black opacity-20">
-    <div class="component-display pt-5">
-      <overview *ngIf="selectedComponent == 'overview'"></overview>
-      <character-class *ngIf="selectedComponent == 'character-class'"></character-class>
-      <stats *ngIf="selectedComponent == 'stats'"></stats>
+    <hr class="border-black opacity-50">
+    <div class="component-display">
+      <div class="relative min-h-screen bg-cover bg-center bg-no-repeat w-full h-screen"
+        style="background-image: url('assets/images/bg_character_editor_3.webp'); background-size: cover;">
+        <div class="absolute inset-0 bg-black opacity-0"></div>
+        <div class="flex justify-center items-center h-screen">
+          <div class="bg-white w-1/2 relative z-10 flex flex-col h-full text-black">
+            <overview *ngIf="selectedComponent == 'overview'"></overview>
+            <character-class *ngIf="selectedComponent == 'character-class'"></character-class>
+            <stats *ngIf="selectedComponent == 'stats'"></stats>
+          </div>
+        </div>        
+      </div>
     </div>
   </div>
