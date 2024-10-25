@@ -1,0 +1,21 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.2
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    secrets:
+      - tls_cert
+      - tls_key
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    command: [ "start-dev",
+               "--https-certificate-file=/run/secrets/tls_cert",
+               "--https-certificate-key-file=/run/secrets/tls_key" ]
+
+secrets:
+  tls_cert:
+    file: cert.pem
+  tls_key:
+    file: key.pem
