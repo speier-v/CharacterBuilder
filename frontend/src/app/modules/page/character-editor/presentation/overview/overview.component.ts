@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconChoiceModalComponent } from './icon-choice-modal/icon-choice-modal.component';
 
@@ -12,6 +12,7 @@ import { IconChoiceModalComponent } from './icon-choice-modal/icon-choice-modal.
 export class OverviewComponent {
   @Input() selectedImage: { src: string; caption: string } | null = null;
   isModalOpen = false;
+  @Output() navigate = new EventEmitter<string>();
 
   showImageChoice() {
     this.isModalOpen = true;
@@ -23,5 +24,9 @@ export class OverviewComponent {
 
   onImageSelected(image: { src: string; caption: string } | null) {
     this.selectedImage = image;
+  }
+
+  onNavigate() {
+    this.navigate.emit('character-class');
   }
 }
