@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconChoiceModalComponent } from './icon-choice-modal/icon-choice-modal.component';
 
@@ -10,6 +10,7 @@ import { IconChoiceModalComponent } from './icon-choice-modal/icon-choice-modal.
   styleUrl: './overview.component.css'
 })
 export class OverviewComponent {
+  @Input() selectedImage: { src: string; caption: string } | null = null;
   isModalOpen = false;
 
   showImageChoice() {
@@ -18,5 +19,9 @@ export class OverviewComponent {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  onImageSelected(image: { src: string; caption: string } | null) {
+    this.selectedImage = image;
   }
 }
