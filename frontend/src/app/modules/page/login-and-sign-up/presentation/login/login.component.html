@@ -1,0 +1,39 @@
+<background-image></background-image>
+<div class="form-container bg-color">
+  <form-header></form-header>
+  <form [formGroup]="loginForm" class="form">
+    <label for="email-input" class="text-xl">Email</label>
+    <input id="email-input" formControlName="email" class="input-field corner-rounding">
+    <p *ngIf="!loginForm.controls.email.untouched && loginForm.controls.email.invalid" class="input-error">
+      Please enter your email using the format name&#64;example.com
+    </p>
+
+    <label for="password-input" class="text-xl mt-3">Password</label>
+    <div class="flex bg-white corner-rounding">
+      <input id="password-input" formControlName="password" class="flex-grow input-field corner-rounding"
+             type="{{ showPasswordCleartext ? 'text' : 'password' }}">
+      <img class="mr-1 cursor-pointer"
+           ngSrc="assets/images/{{ showPasswordCleartext ? 'eye.svg' : 'eye-strikethrough.svg' }}"
+           height="16" width="16" alt="Eye {{ !showPasswordCleartext ? 'strikethrough' : '' }} icon"
+           (click)="togglePasswordClearText()">
+    </div>
+    <p
+      *ngIf="!loginForm.controls.password.untouched && loginForm.controls.password.invalid"
+      class="input-error">
+      You need to enter your password to log in.</p>
+
+    <div class="my-5 flex">
+      <input type="checkbox" id="stay-logged-in-checkbox" class="mr-2 scale-125" formControlName="stayLoggedIn">
+      <label for="stay-logged-in-checkbox" class="text-xl">Stay logged in</label>
+    </div>
+
+    <button class="btn-color-scheme text-2xl md:text-3xl lg:text-4xl corner-rounding heading-font mb-5">Log in</button>
+
+    <p class="text-center text-xl mb-3 cursor-pointer link" routerLink="/request-password-reset">I forgot my
+      password</p>
+
+    <hr class="border-black opacity-20">
+    <p class="text-center text-xl mt-3 cursor-pointer link" routerLink="/sign-up">Sign up instead</p>
+  </form>
+</div>
+

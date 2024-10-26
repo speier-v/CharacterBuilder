@@ -1,0 +1,21 @@
+@tailwind components;
+
+.form-container {
+  @apply absolute h-full w-full md:w-2/5 lg:w-1/3 right-0 opacity-90 p-3 flex flex-col items-center;
+}
+
+.form {
+  @apply flex flex-col mt-5 w-2/3 max-w-60;
+}
+
+.input-field {
+  @apply outline-0 px-2 py-1 min-w-20;
+}
+
+.link {
+  @apply hover:underline;
+}
+
+.input-error {
+  @apply text-red-600 font-bold;
+}
