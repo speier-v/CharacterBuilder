@@ -12,7 +12,7 @@ import {NgOptimizedImage} from "@angular/common";
       <img ngSrc="assets/images/character-avatar.jpeg"
            alt="Charactyr logo" width="140" height="140"
            class="rounded-full" priority>
-      <h1 class="mt-2 text-3xl md:text-4xl lg:text-5xl heading-font">CHARACTYR</h1>
+      <h1 class="mt-2 text-4xl lg:text-5xl heading-font">CHARACTYR</h1>
     </div>`
 })
 export class FormHeader {
