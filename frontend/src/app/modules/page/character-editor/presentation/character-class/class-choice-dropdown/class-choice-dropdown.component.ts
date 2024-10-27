@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,13 +9,16 @@ import { CommonModule } from '@angular/common';
   styleUrl: './class-choice-dropdown.component.css'
 })
 export class ClassChoiceDropdownComponent {
-  items = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+  items = ['Fighter', 'Mage', 'Rogue'];
   selectedItem: string | null = null;
   isDropdownOpen = false;
+
+  @Output() itemSelected = new EventEmitter<string>();
 
   ngOnInit() {
     if (this.items.length > 0) {
       this.selectedItem = this.items[0];
+      this.itemSelected.emit(this.selectedItem);
     }
   }
 
@@ -27,5 +30,6 @@ export class ClassChoiceDropdownComponent {
   selectItem(item: string) {
     this.selectedItem = item;
     this.isDropdownOpen = false;
+    this.itemSelected.emit(item);
   }
 }

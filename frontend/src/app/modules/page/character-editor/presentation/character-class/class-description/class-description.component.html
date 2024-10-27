@@ -1,0 +1,11 @@
+<div *ngIf="selectedClass && selectedLevel !== null">
+  <h3>{{ selectedClass.className }} Skills for Level {{ selectedLevel }}</h3>
+  <ul>
+    <li *ngFor="let skill of getSkills()">
+      <strong>{{ skill.name }}:</strong> {{ skill.description }}
+    </li>
+  </ul>
+</div>
+<div *ngIf="!selectedClass || selectedLevel === null">
+  <p>Please choose a Character Level and Class to see the available skills.</p>
+</div>
