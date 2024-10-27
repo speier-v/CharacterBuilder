@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModelCharacterClass } from '../../../character.model';
+import { ModelCharacterClass } from '../../../../../character-model/character.model';
 
 @Component({
   selector: 'class-description',

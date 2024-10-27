@@ -4,7 +4,7 @@ import { IconChoiceModalComponent } from './icon-choice-modal/icon-choice-modal.
 import { ClassChoiceDropdownComponent } from './class-choice-dropdown/class-choice-dropdown.component';
 import { ClassDescriptionComponent } from './class-description/class-description.component';
 import { LevelChoiceDropdownComponent } from './level-choice-dropdown/level-choice-dropdown.component';
-import { modelCharacterClasses, ModelCharacterClass } from '../../character.model';
+import { modelCharacterClasses, ModelCharacterClass } from '../../../../character-model/character.model';
 
 @Component({
   selector: 'character-class',

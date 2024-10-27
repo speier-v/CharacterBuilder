@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModelCharacterClass } from '../../../character.model';
+import { ModelCharacterClass } from '../../../../../character-model/character.model';
 
 @Component({
   selector: 'level-choice-dropdown',
@@ -20,13 +20,8 @@ export class LevelChoiceDropdownComponent implements OnChanges {
   }
 
   onLevelSelect(event: Event) {
-    const selectElement = event.target as HTMLSelectElement; // Cast to HTMLSelectElement
-    const level = selectElement.value ? parseInt(selectElement.value, 10) : null; // Handle the case where value is empty
-    this.levelChange.emit(level); // Emit the selected level or null
+    const selectElement = event.target as HTMLSelectElement;
+    const level = selectElement.value ? parseInt(selectElement.value, 10) : null;
+    this.levelChange.emit(level);
   }
-  /*
-  onLevelSelect(level: string | null) {
-    this.levelChange.emit(level ? parseInt(level, 10) : null); // Emit null if no level is selected
-  }
-  */
 }
