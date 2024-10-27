@@ -4,17 +4,24 @@
     </div>
     <hr class="border-black opacity-80 mt-5">
     <div class="flex flex-row justify-around h-[10vh]">
-      <button class="w-1/4 action-button text-lg"
-        [ngClass]="{ 'bg-orange-500 text-white': selectedComponent === 'overview' }"
-        (click)="selectComponent('overview')">Minibar Overview</button>
-      <button class="w-1/4 action-button text-lg"
+      <button class="w-2/5 action-button text-lg flex flew-row items-center justify-center"
         [ngClass]="{ 'bg-orange-500 text-white': selectedComponent === 'character-class' }"
-        (click)="selectComponent('character-class')">Minibar Level/Klasse/Fähigkeiten</button>
-      <button class="w-1/4 height=100% action-button text-lg"
+        (click)="selectComponent('character-class')">
+        <p class="pr-5">Class</p>
+        <i class="fa-solid fa-user fa-xl"></i>
+      </button>
+      <button class="w-2/5 height=100% action-button text-lg flex flex-row items-center justify-center"
         [ngClass]="{ 'bg-orange-500 text-white': selectedComponent === 'stats' }"
-        (click)="selectComponent('stats')">Minibar Stats</button>
-      <button class="w-1/4 height=100% action-button text-lg"
-        (click)="clickToNav()">Minibar Character Sheet anzeigen</button>
+        (click)="selectComponent('stats')">
+        <p class="pr-5">Stats</p>
+        <i class="fa-solid fa-chart-simple fa-xl"></i>
+      </button>
+      <button class="w-1/5 height=100% action-button text-lg flex flex-row items-center justify-center"
+        (click)="clickToNav()">
+        <p class="pr-5">Character Sheet</p>
+        <i class="fa-solid fa-sheet-plastic fa-xl pr-3"></i>
+        <i class="fa-solid fa-arrow-right fa-xl"></i>
+      </button>
     </div>
     <hr class="border-black opacity-50">
     <div class="component-display">
@@ -23,8 +30,7 @@
         <div class="absolute inset-0 bg-black opacity-0"></div>
         <div class="flex justify-center items-center h-screen">
           <div class="bg-white w-1/2 relative z-10 flex flex-col h-full text-black">
-            <overview *ngIf="selectedComponent == 'overview'" (navigate)="selectComponent($event)"></overview>
-            <character-class *ngIf="selectedComponent == 'character-class'"></character-class>
+            <character-class *ngIf="selectedComponent == 'character-class'" (navigate)="selectComponent($event)"></character-class>
             <stats *ngIf="selectedComponent == 'stats'"></stats>
           </div>
         </div>        
