@@ -1,9 +1,16 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NgIf, NgOptimizedImage, NgTemplateOutlet} from "@angular/common";
-import {BackgroundImage} from '../shared/background-image.component';
-import {FormHeader} from '../shared/form-header.component';
-import {RouterOutlet} from '@angular/router';
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { NgIf, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
+import { BackgroundImage } from '../shared/background-image.component';
+import { FormHeader } from '../shared/form-header.component';
+import { RouterOutlet } from '@angular/router';
+import { validateInputsHaveSameValue } from '../../../../util/utility';
 
 @Component({
   selector: 'app-password-reset',
@@ -16,16 +23,27 @@ import {RouterOutlet} from '@angular/router';
     NgTemplateOutlet,
     BackgroundImage,
     FormHeader,
-    RouterOutlet
+    RouterOutlet,
   ],
   templateUrl: './password-reset.component.html',
-  styleUrl: './password-reset.component.css'
+  styleUrl: './password-reset.component.css',
 })
 export class PasswordResetComponent {
-  protected readonly passwordResetForm = new FormGroup({
-    password: new FormControl('', [Validators.required]),
-    confirmedPassword: new FormControl('', [Validators.required]),
-  });
+  protected readonly passwordResetForm = new FormGroup(
+    {
+      password: new FormControl('', {
+        validators: [Validators.required],
+        updateOn: 'blur',
+      }),
+      confirmedPassword: new FormControl('', {
+        validators: [Validators.required],
+        updateOn: 'blur',
+      }),
+    },
+    {
+      validators: validateInputsHaveSameValue('password', 'confirmedPassword'),
+    },
+  );
 
   showPasswordCleartext = false;
   showConfirmedPasswordClearText = false;

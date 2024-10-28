@@ -40,7 +40,7 @@
     <p
       *ngIf="!signUpForm.controls.confirmedPassword.untouched && signUpForm.controls.confirmedPassword.hasError('required')"
       class="input-error">Please enter again the password entered in the previous field</p>
-    <p *ngIf="!signUpForm.controls.confirmedPassword.untouched && signUpForm.hasError('notSamePassword')"
+    <p *ngIf="!signUpForm.controls.confirmedPassword.untouched && signUpForm.hasError('sameValue')"
        class="input-error">This password does not match the one entered in the previous field</p>
 
     <button class="btn-color-scheme text-2xl md:text-3xl lg:text-4xl corner-rounding heading-font my-5">Sign up</button>
