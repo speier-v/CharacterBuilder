@@ -1,3 +1,12 @@
+export interface CharacterStats {
+  dexterity: number | null;
+  strength: number | null;
+  wisdom: number | null;
+  intelligence: number | null;
+  charisma: number | null;
+  constitution: number | null;
+}
+
 export interface Skill {
     name: string;
     description: string;
@@ -36,4 +45,11 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
         { level: 2, skills: [{ name: 'Evasion', description: 'Avoids damage once per round' }] },
       ],
     },
-];  
+];
+
+export interface Character {
+  name: string;
+  level: number;
+  characterClass: string;
+  stats: CharacterStats;
+}
