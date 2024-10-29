@@ -26,7 +26,6 @@ export class StatsComponent {
 
   selectedStat: string | null = null;
   showScoreModifierTable: boolean = false;
-  availableValues = [15, 14, 13, 12, 10, 8];
   statsList: (keyof CharacterStats)[] = [
     'dexterity', 'strength', 'wisdom', 'intelligence', 'charisma', 'constitution'
   ];
@@ -65,21 +64,49 @@ export class StatsComponent {
     { value: '30', modifier: '+10' }
   ];
 
-  isValueAssigned(value: number): boolean {
-    return Object.values(this.stats).includes(value);
+  isValueAssigned(value: string | number): boolean {
+    return typeof value === 'number' && Object.values(this.stats).includes(value);
   }
+
+  availableValues = [15, 14, 13, 12, 10, 8, 'manual'] as (number | string)[];
+  manualEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
+  manualStatValues: { [key in keyof CharacterStats]?: number | null } = {};
 
   assignValue(stat: keyof CharacterStats, event: Event) {
     const selectElement = event.target as HTMLSelectElement;
-    const value = selectElement.value ? parseInt(selectElement.value, 10) : null;
+    const value = selectElement.value;
+  
+    if (value === 'manual') {
+      this.manualEntryStats[stat] = true;
+      this.stats[stat] = null;
+    } else {
+      this.manualEntryStats[stat] = false;
+      this.stats[stat] = value ? parseInt(value, 10) : null;
+      this.statsChange.emit(this.stats);
+    }
+  }
+  
+
+  updateManualValue(stat: keyof CharacterStats, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    let value = inputElement.value ? parseInt(inputElement.value, 10) : null;
+  
+    if (value !== null && value > 30) {
+      value = 30;
+      inputElement.value = '30';
+    }
+  
+    this.manualStatValues[stat] = value;
     this.stats[stat] = value;
     this.statsChange.emit(this.stats);
   }
+  
 
   unassignValue(stat: keyof CharacterStats) {
     this.stats[stat] = null;
+    this.manualEntryStats[stat] = false;
     this.statsChange.emit(this.stats);
-  }
+  }  
 
   toggleDescription(stat: string): void {
     this.selectedStat = this.selectedStat === stat ? null : stat;
@@ -96,5 +123,9 @@ export class StatsComponent {
 
   toggleScoreModifierTable() {
     this.showScoreModifierTable = !this.showScoreModifierTable;
+  }
+
+  isNumber(value: any): boolean {
+    return typeof value === 'number';
   }
 }
