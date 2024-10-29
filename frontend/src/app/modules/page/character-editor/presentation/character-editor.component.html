@@ -32,7 +32,7 @@
         <div class="flex justify-center items-center min-h-screen">
           <div class="bg-white w-1/2 relative z-10 flex flex-col h-full text-black">
             <character-class class="min-h-screen h-full" *ngIf="selectedComponent == 'character-class'" (navigate)="selectComponent($event)"></character-class>
-            <stats class="min-h-screen h-full" *ngIf="selectedComponent == 'stats'"></stats>
+            <stats class="min-h-screen h-full" *ngIf="selectedComponent == 'stats'" (navigate)="selectComponent($event)"></stats>
           </div>
         </div>        
       </div>

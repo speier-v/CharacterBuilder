@@ -14,6 +14,7 @@ export class StatsComponent {
 
   constructor(private router: Router) {}
 
+  @Output() navigate = new EventEmitter<string>();
   @Input() stats: CharacterStats = {
     dexterity: null,
     strength: null,
@@ -106,6 +107,9 @@ export class StatsComponent {
     if (value !== null && value > 30) {
       value = 30;
       inputElement.value = '30';
+    } else if (value !== null && value < 1) {
+      value = 1;
+      inputElement.value = '1';
     }
   
     this.manualStatValues[stat] = value;
@@ -147,5 +151,9 @@ export class StatsComponent {
     rolls.sort((a, b) => b - a);
     rolls.pop();
     return rolls.reduce((acc, roll) => acc + roll, 0);
+  }
+
+  onNavigate() {
+    this.navigate.emit('character-class');
   }
 }
