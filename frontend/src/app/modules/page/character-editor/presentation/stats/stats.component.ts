@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { CharacterStats } from '../../../../character-model/character.model';
 
 @Component({
@@ -10,6 +11,9 @@ import { CharacterStats } from '../../../../character-model/character.model';
   styleUrl: './stats.component.css'
 })
 export class StatsComponent {
+
+  constructor(private router: Router) {}
+
   @Input() stats: CharacterStats = {
     dexterity: null,
     strength: null,
@@ -60,5 +64,9 @@ export class StatsComponent {
 
   toggleDescription(stat: string): void {
     this.selectedStat = this.selectedStat === stat ? null : stat;
+  }
+
+  clickToNav() {
+    this.router.navigate(['/character-sheet']);
   }
 }

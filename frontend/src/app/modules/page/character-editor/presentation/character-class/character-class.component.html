@@ -19,6 +19,14 @@
     <hr class="border-black opacity-20 mt-5">
     <h1 class="text-2xl heading-font pt-5 pl-10">Character Class</h1>
     <hr class="border-black opacity-20 mt-5">
+    <div class="pr-10 pl-10 py-5">
+        <p class="py-3">A <strong>class</strong> represents your character's skills, abilities, and role in the adventure. Each class offers a unique set of talents and a specific playstyle that defines how your character can contribute to the group.</p>
+        <p class="py-3">For example, the <strong>Fighter</strong> excels in physical combat, wielding weapons and wearing armor to protect themselves and deal damage effectively. They are versatile warriors capable of standing at the front lines.</p>
+        <p class="py-3">The <strong>Rogue</strong>, on the other hand, specializes in stealth and cunning, using agility and intelligence to outsmart opponents, sneak through shadows, and deliver devastating sneak attacks.</p>
+        <p class="py-3">Finally, the <strong>Wizard</strong> harnesses the power of arcane magic, casting spells to manipulate the battlefield, deal damage from a distance, or even assist allies.</p>
+        <p class="py-3">Choosing a class is a crucial step in creating your character, as it determines your abilities, playstyle, and contributions to the adventuring party.</p>
+    </div>
+    <hr class="border-black opacity-20 mt-5">
     <div class="pl-10 pt-5 pb-10">
         <div class="flex flex-row justify-between items-center pr-10 pb-5">
             <class-choice-dropdown (itemSelected)="onClassChosen($event)"></class-choice-dropdown>
@@ -27,9 +35,12 @@
         <class-description [selectedClass]="selectedClass" [selectedLevel]="selectedLevel"></class-description>
     </div>
 
-    <button class="absolute right-10 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600" (click)="onNavigate()">
-        Weiter
-    </button>
+    <div class="flex justify-end pr-10">
+        <button class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600" (click)="onNavigate()">
+            Weiter
+        </button>
+    </div>
+    <div class="pt-5"></div>
 
     <!--Modal-->
     <icon-choice-modal [isOpen]="isModalOpen" (close)="closeModal()" (imageSelected)="onImageSelected($event)"></icon-choice-modal>
