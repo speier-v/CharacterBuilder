@@ -17,4 +17,9 @@ export class SavingThrowsDisplayComponent {
     wisdom: 1,
     intelligence: -2
   };
+  senses = {
+    "passive perception": 13,
+    "passive investigation": 16,
+    "passive insight": 10
+  };
 }
