@@ -1,0 +1,13 @@
+@tailwind components;
+
+.action-button {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.action-button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.action-button.bg-orange-500:hover {
+  background-color: rgba(250, 129, 7, 0.6);
+}
