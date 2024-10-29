@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { CharacterStats } from '../../../../character-model/character.model';
+import { CharacterStats, Character } from '../../../../character-model/character.model';
+import { CharacterGenService } from '../../../../character-model/character-gen.service';
 
 @Component({
   selector: 'stats',
@@ -12,7 +13,7 @@ import { CharacterStats } from '../../../../character-model/character.model';
 })
 export class StatsComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private characterService: CharacterGenService) {}
 
   @Output() navigate = new EventEmitter<string>();
   @Input() stats: CharacterStats = {

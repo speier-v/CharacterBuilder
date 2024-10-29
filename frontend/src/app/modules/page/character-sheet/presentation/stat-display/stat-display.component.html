@@ -1,0 +1,11 @@
+<div class="px-5 pb-10 grid grid-cols-6 gap-2 bg-white bg-transparent p-5">
+    <div *ngFor="let entry of stats | keyvalue" class="pb-5 flex flex-col items-center border-4 border-orange-400 rounded-md p-3 shadow-sm bg-gray-50 relative">
+        <label class="text-lg font-semibold text-gray-800">{{ entry.key | titlecase }}</label>
+        <span class="text-center text-gray-700">{{ entry.value }}</span>
+        
+        <!-- Circular Border positioned to overlap at the bottom -->
+        <div class="flex items-center justify-center w-10 h-10 border-2 border-orange-300 rounded-full bg-white shadow-md absolute bottom-[-20px]">
+            <span class="text-center text-gray-500 opacity-75">{{ calculateModifier(entry.value) }}</span>
+        </div>
+    </div>
+</div>
