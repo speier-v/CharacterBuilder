@@ -34,7 +34,6 @@
   </div>
 </div>
 
-
 <hr class="border-black opacity-20 mt-5">
 <div class="pl-10 pr-5 pt-5 text-lg">
     <p class="mb-4">
@@ -52,15 +51,15 @@
             {{ statDescriptions[stat] }}
           </div>
         </li>
-        <li class="mt-4 cursor-pointer" (click)="toggleScoreModifierTable()">
-          <div class="font-bold flex flex-row items-start p-2 text-lg font-medium text-gray-900 bg-gray-500 border rounded-md shadow-sm cursor-pointer hover:bg-gray-600">
+        <li (click)="toggleScoreModifierTable()" class="flex flex-col items-start p-2 text-lg font-medium text-gray-700 bg-gray-500 border rounded-md shadow-sm cursor-pointer hover:bg-gray-600">
+          <span class="flex items-center gap-2 w-100">
             <span class="pr-2">🎲</span>
             <strong>Score Modifier Table</strong>
-          </div>
-          <div *ngIf="showScoreModifierTable">
+          </span>
+          <div *ngIf="showScoreModifierTable" class="mt-5 p-2 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded">
+            <p>Each ability has a modifier that you apply whenever you roll a D20 die with that ability. An ability modifier is derived from its score, as shown in the Ability Modifiers table below. It gets added as a flat bonus to your role, meaning higher scores make you more likely to succeed.</p>
             <table class="min-w-full border-collapse border border-gray-300 mt-2">
               <thead>
-                <p class="pl-5">Each ability has a modifier that you apply whenever you roll a D20 die with that ability. An ability modifier is derived from its score, as shown in the Ability Modifiers table below. It gets added as a flat bonus to your role, meaning higher scores make you more likely to succeed.</p>
                 <tr>
                   <th class="border border-gray-300 px-4 py-2">Score</th>
                   <th class="border border-gray-300 px-4 py-2">Modifier</th>
