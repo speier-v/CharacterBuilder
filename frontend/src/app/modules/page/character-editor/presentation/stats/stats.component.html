@@ -13,6 +13,9 @@
                 {{ value }}
                 </option>
             </select>
+            <span class="pl-2 font-medium text-gray-700 bg-gray-100 border rounded-md shadow-sm">
+              Modifier: {{ calculateModifier(stats[stat]) }}
+            </span>
             <button *ngIf="stats[stat] !== null" (click)="unassignValue(stat)" class="mt-2 text-sm text-red-600 underline hover:text-red-800">Clear</button>
         </div>
     </div>
@@ -32,6 +35,29 @@
       
           <div *ngIf="selectedStat === stat" class="mt-2 p-2 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded">
             {{ statDescriptions[stat] }}
+          </div>
+        </li>
+        <li class="mt-4 cursor-pointer" (click)="toggleScoreModifierTable()">
+          <div class="font-bold flex flex-row items-start p-2 text-lg font-medium text-gray-900 bg-gray-500 border rounded-md shadow-sm cursor-pointer hover:bg-gray-600">
+            <span class="pr-2">🎲</span>
+            <strong>Score Modifier Table</strong>
+          </div>
+          <div *ngIf="showScoreModifierTable">
+            <table class="min-w-full border-collapse border border-gray-300 mt-2">
+              <thead>
+                <p class="pl-5">Each ability has a modifier that you apply whenever you roll a D20 die with that ability. An ability modifier is derived from its score, as shown in the Ability Modifiers table below. It gets added as a flat bonus to your role, meaning higher scores make you more likely to succeed.</p>
+                <tr>
+                  <th class="border border-gray-300 px-4 py-2">Score</th>
+                  <th class="border border-gray-300 px-4 py-2">Modifier</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let score of scoreModifierTable">
+                  <td class="border border-gray-300 px-4 py-2 text-center">{{ score.value }}</td>
+                  <td class="border border-gray-300 px-4 py-2 text-center">{{ score.modifier }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </li>
       </ul>
