@@ -9,12 +9,12 @@
 }
 
 @font-face {
-  font-family: "Almendra SC";
-  src: url("assets/fonts/almendra-sc-regular.ttf") format("truetype");
+  font-family: "Bokor";
+  src: url("assets/fonts/bokor-regular.ttf") format("truetype");
 }
 
 body {
-  font-family: "Almendra SC", serif;
+  font-family: "Bokor", sans-serif;
 }
 
 .heading-font {
