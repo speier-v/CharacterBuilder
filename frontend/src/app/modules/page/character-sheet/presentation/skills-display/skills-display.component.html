@@ -7,7 +7,7 @@
             <span>Bonus</span>
         </div>
         <div *ngFor="let skill of skills" class="flex items-center justify-center grid grid-cols-5 gap-5">
-            <input type="checkbox" [checked]="skill[0]" disabled  class="mr-2">
+            <input type="checkbox" [checked]="skill[0]" class="mr-2">
             <span class="text-center text-gray-500 opacity-50">{{ skill[1] }}</span>
             <span class="py-2 col-span-2 text-left pl-2">
                 {{ skill[2] }}
