@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './class-choice-dropdown.component.css'
 })
 export class ClassChoiceDropdownComponent {
-  items = ['Fighter', 'Mage', 'Rogue'];
+  items = ['Fighter', 'Wizard', 'Rogue'];
   selectedItem: string | null = null;
   isDropdownOpen = false;
 

@@ -32,7 +32,7 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
       ],
     },
     {
-      className: 'Mage',
+      className: 'Wizard',
       levels: [
         { level: 1, skills: [{ name: 'Magic Missile', description: 'Deals magic damage' }] },
         { level: 2, skills: [{ name: 'Fireball', description: 'Deals area fire damage' }] },

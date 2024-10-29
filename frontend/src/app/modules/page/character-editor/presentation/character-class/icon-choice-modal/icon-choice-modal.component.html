@@ -5,7 +5,6 @@
   <div class="bg-white rounded-lg shadow-lg p-5 max-w-sm w-full">
     <h2 class="text-xl font-bold mb-4 heading-font">Icon Choice</h2>
     
-    <!-- 3x3 Grid Layout -->
     <div class="grid grid-cols-3 gap-2 pb-3">
         <div *ngFor="let image of images" class="border p-4 text-center pl-5 cursor-pointer hover:opacity-50 transition-opacity duration-300">
             <img [src]="image.src" [alt]="image.caption" class="w-full h-auto" (click)="selectImage(image)">
