@@ -19,6 +19,11 @@ export class StatDisplayComponent {
     constitution: 20
   };
   statEntries = Object.entries(this.stats);
+  proficiencyModifier : number = 4;
+  currentHP : number = 40;
+  maxHP : number = 80;
+  initiative : number = 4;
+  armorClass : number = 17;
 
   calculateModifier(value: number | null): number {
     if (value === null) return 0;
