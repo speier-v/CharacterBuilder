@@ -24,6 +24,7 @@ export class StatDisplayComponent {
   maxHP : number = 80;
   initiative : number = 4;
   armorClass : number = 17;
+  speed : number = 30;
 
   calculateModifier(value: number | null): number {
     if (value === null) return 0;

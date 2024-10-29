@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <div class="w-1/2 flex flex-row justify-between ml-10 gap-x-3">
+    <div class="w-1/2 flex flex-row justify-around ml-10 gap-x-3">
         <div class="mt-5 mb-10 flex flex-col flex-grow justify-center border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
             <label class="text-gray-800 text-center">Proficiency</label>
             <div class="font-bold text-center text-gray-700">+ {{ proficiencyModifier }}</div>
@@ -19,8 +19,13 @@
             <label class="text-gray-800 text-center">Initiative</label>
             <div class="font-bold text-center text-gray-700">+ {{ initiative }}</div>
         </div>
+        <div class="mt-5 mb-10 flex flex-col flex-grow justify-center items-center border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
+            <label class="text-gray-800 text-center">Speed</label>
+            <div class="font-bold text-center text-gray-700">{{ speed }} ft </div>
+        </div>
         <div class="mt-5 mb-10 flex flex-col flex-grow justify-center border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
-            <label class="text-gray-800 text-center">Armor Class</label>
+            <label class="text-gray-800 text-center">Armor</label>
+            <label class="text-gray-800 text-center">Class</label>
             <div class="font-bold text-center text-gray-700">{{ armorClass }}</div>
         </div>
         <div class="mt-5 mb-10 flex flex-col flex-grow border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
