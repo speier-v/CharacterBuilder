@@ -25,7 +25,13 @@ export class StatsComponent {
   @Output() statsChange = new EventEmitter<CharacterStats>();
 
   selectedStat: string | null = null;
+  rolledValue: number | null = null;
   showScoreModifierTable: boolean = false;
+  availableValues = [15, 14, 13, 12, 10, 8, 'manual', 'random'] as (number | string)[];
+  manualEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
+  manualStatValues: { [key in keyof CharacterStats]?: number | null } = {};
+  rolledEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
+  rolledStatValues: { [key in keyof CharacterStats]?: number | null } = {};
   statsList: (keyof CharacterStats)[] = [
     'dexterity', 'strength', 'wisdom', 'intelligence', 'charisma', 'constitution'
   ];
@@ -68,22 +74,28 @@ export class StatsComponent {
     return typeof value === 'number' && Object.values(this.stats).includes(value);
   }
 
-  availableValues = [15, 14, 13, 12, 10, 8, 'manual'] as (number | string)[];
-  manualEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
-  manualStatValues: { [key in keyof CharacterStats]?: number | null } = {};
-
   assignValue(stat: keyof CharacterStats, event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const value = selectElement.value;
   
     if (value === 'manual') {
       this.manualEntryStats[stat] = true;
+      this.rolledEntryStats[stat] = false;
+      this.rolledValue = null;
       this.stats[stat] = null;
-    } else {
+    } else if (value === 'random') {
       this.manualEntryStats[stat] = false;
+      this.rolledEntryStats[stat] = true;
+      this.rolledValue = this.roll4d6();
+      this.rolledStatValues[stat] = this.rolledValue;
+      this.stats[stat] = this.rolledValue;
+    } else {
+      this.rolledValue = null;
+      this.manualEntryStats[stat] = false;
+      this.rolledEntryStats[stat] = false;
       this.stats[stat] = value ? parseInt(value, 10) : null;
-      this.statsChange.emit(this.stats);
     }
+    this.statsChange.emit(this.stats);
   }
   
 
@@ -105,6 +117,7 @@ export class StatsComponent {
   unassignValue(stat: keyof CharacterStats) {
     this.stats[stat] = null;
     this.manualEntryStats[stat] = false;
+    this.rolledEntryStats[stat] = false;
     this.statsChange.emit(this.stats);
   }  
 
@@ -127,5 +140,12 @@ export class StatsComponent {
 
   isNumber(value: any): boolean {
     return typeof value === 'number';
+  }
+
+  roll4d6(): number {
+    const rolls = Array.from({ length: 4 }, () => Math.floor(Math.random() * 6) + 1);
+    rolls.sort((a, b) => b - a);
+    rolls.pop();
+    return rolls.reduce((acc, roll) => acc + roll, 0);
   }
 }
