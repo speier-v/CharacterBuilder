@@ -8,12 +8,21 @@
       <p class="text-xl">Campaign: Some campaign</p>
     </div>
     <img ngSrc="assets/images/character-avatar.jpeg"
-         alt="Character card background image" height="128" width="128" class="rounded-full">
+         alt="Character card background image" height="128" width="128" class="rounded-full" priority>
   </div>
   <div class="flex mt-2">
-    <button class="w-1/4 action-button corner-rounding lg:text-xl">View</button>
-    <button class="w-1/4 action-button corner-rounding lg:text-xl">Edit</button>
-    <button class="w-1/4 action-button corner-rounding lg:text-xl">Copy</button>
-    <button class="w-1/4 action-button corner-rounding lg:text-xl">Delete</button>
+    <button class="w-1/4 action-button corner-rounding lg:text-xl" routerLink="/character-sheet">View</button>
+    <button class="w-1/4 action-button corner-rounding lg:text-xl" routerLink="/character-editor">Edit</button>
+    <button class="w-1/4 action-button corner-rounding lg:text-xl" (click)="toggleModalVisibility()">Copy</button>
+    <div class="relative w-1/4 flex flex-col items-center action-button corner-rounding">
+      <button class="w-full corner-rounding lg:text-xl" (click)="toggleShowDeleteConfirmationDialog()">Delete</button>
+      <div *ngIf="showDeleteConfirmationDialog"
+           class="heading-font flex justify-center bg-black text-white absolute w-36 top-8 corner-rounding">
+        <span>Really delete?</span>
+        <button class="mx-2 text-green-500 hover:underline">Yes</button>
+        <button class="text-red-500 hover:underline" (click)="toggleShowDeleteConfirmationDialog()">No</button>
+      </div>
+    </div>
   </div>
+  <copy-character-modal [modalOpen]="modalOpen" (modalClosedEvent)="toggleModalVisibility()"></copy-character-modal>
 </div>

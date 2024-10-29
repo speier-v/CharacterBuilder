@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "~@fortawesome/fontawesome-free/css/all.css";
 
 @font-face {
   font-family: "Metal Mania";
@@ -32,4 +31,12 @@ body {
 .btn-color-scheme {
   @apply bg-black;
   @apply text-white;
+}
+
+.input-field {
+  @apply outline-0 px-2 py-1 min-w-20;
+}
+
+.input-field-error-msg {
+  @apply text-red-600 font-bold mt-1;
 }
