@@ -26,13 +26,13 @@
     </div>
     <hr class="border-black opacity-50">
     <div class="component-display">
-      <div class="relative min-h-screen bg-cover bg-center bg-no-repeat w-full h-screen"
+      <div class="relative min-h-screen bg-cover bg-center bg-no-repeat w-full h-full"
         style="background-image: url('assets/images/bg_character_editor_3.webp'); background-size: cover;">
         <div class="absolute inset-0 bg-black opacity-0"></div>
-        <div class="flex justify-center items-center h-screen">
+        <div class="flex justify-center items-center min-h-screen">
           <div class="bg-white w-1/2 relative z-10 flex flex-col h-full text-black">
-            <character-class *ngIf="selectedComponent == 'character-class'" (navigate)="selectComponent($event)"></character-class>
-            <stats *ngIf="selectedComponent == 'stats'"></stats>
+            <character-class class="min-h-screen h-full" *ngIf="selectedComponent == 'character-class'" (navigate)="selectComponent($event)"></character-class>
+            <stats class="min-h-screen h-full" *ngIf="selectedComponent == 'stats'"></stats>
           </div>
         </div>        
       </div>

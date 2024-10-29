@@ -1,8 +1,11 @@
 <div *ngIf="selectedClass && selectedLevel !== null">
   <h3>{{ selectedClass.className }} Skills for Level {{ selectedLevel }}</h3>
-  <ul>
-    <li *ngFor="let skill of getSkills()">
-      <strong>{{ skill.name }}:</strong> {{ skill.description }}
+  <ul class="space-y-2 pr-10">
+    <li *ngFor="let skill of getSkills()" class="flex flex-col items-start p-2 text-lg font-medium text-gray-700 bg-gray-100 border rounded-md shadow-sm">
+      <div>
+        <p><strong>{{ skill.name }}:</strong></p>
+        <p>{{ skill.description }}</p>
+      </div>      
     </li>
   </ul>
 </div>

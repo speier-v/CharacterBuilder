@@ -1,1 +1,40 @@
-<p>stats works!</p>
+<hr class="border-black opacity-20 mt-5">
+<h1 class="text-2xl heading-font pt-5 pl-10">Ability Scores</h1>
+<hr class="border-black opacity-20 mt-5">
+<div class="stat-assignment grid grid-cols-3 gap-4 pl-10">
+    <div *ngFor="let stat of statsList" class="flex flex-col items-start">
+        <div class="flex flex-col pu-5 pt-5">
+            <label>{{ stat | titlecase }}:</label>
+            <select (change)="assignValue(stat, $event)" [value]="stats[stat] || ''" class="w-full px-4 py-2 text-left bg-white border rounded-md shadow-sm hover:bg-gray-100">
+                <option value="">-- Select Value --</option>
+                <option *ngFor="let value of availableValues" 
+                        [value]="value" 
+                        [disabled]="isValueAssigned(value) && stats[stat] !== value">
+                {{ value }}
+                </option>
+            </select>
+            <button *ngIf="stats[stat] !== null" (click)="unassignValue(stat)" class="mt-2 text-sm text-red-600 underline hover:text-red-800">Clear</button>
+        </div>
+    </div>
+</div>
+<hr class="border-black opacity-20 mt-5">
+<div class="pl-10 pr-5 pt-5">
+    <p class="mb-4">
+        Much of what your character does in the game depends on their <strong>six abilities</strong>:
+      </p>
+      <ul class="space-y-2">
+        <li *ngFor="let stat of statsList" (click)="toggleDescription(stat)"
+            class="flex flex-col items-start p-2 text-lg font-medium text-gray-700 bg-gray-100 border rounded-md shadow-sm cursor-pointer hover:bg-gray-200">
+          <div class="flex items-center gap-2">
+            <span [innerHTML]="statIcons[stat]"></span>
+            <strong>{{ stat | titlecase }}</strong>
+          </div>
+      
+          <div *ngIf="selectedStat === stat" class="mt-2 p-2 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded">
+            {{ statDescriptions[stat] }}
+          </div>
+        </li>
+      </ul>
+      <p class="pt-10"></p>
+</div>
+  
