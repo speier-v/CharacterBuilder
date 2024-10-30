@@ -1,0 +1,20 @@
+services:
+  backend-db:
+    container_name: charactyr-backend-postgres
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: charactyr-app-management
+
+  auth-db:
+    container_name: charactyr-auth-postgres
+    image: postgres
+    restart: always
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: charactyr-user-management
