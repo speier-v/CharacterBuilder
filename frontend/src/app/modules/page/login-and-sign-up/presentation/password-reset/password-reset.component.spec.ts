@@ -8,9 +8,9 @@ describe('PasswordResetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PasswordResetComponent]
+      imports: [PasswordResetComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(PasswordResetComponent);
     component = fixture.componentInstance;

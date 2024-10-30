@@ -2,40 +2,44 @@
 <div class="form-container bg-color">
   <form-header></form-header>
   <form [formGroup]="signUpForm" class="form">
-    <label for="username-input" class="text-xl">Username</label>
-    <input id="username-input" formControlName="username" class="input-field corner-rounding">
+    <label class="text-xl" for="username-input">Username</label>
+    <input class="input-field corner-rounding" formControlName="username" id="username-input">
     <p *ngIf="!signUpForm.controls.username.untouched && signUpForm.controls.username.hasError('required')"
        class="input-field-error-msg">Please enter a username</p>
     <p *ngIf="!signUpForm.controls.username.untouched && signUpForm.controls.username.hasError('pattern')"
-       class="input-field-error-msg">Username must have at least one letter and can optionally have digits and underscores</p>
+       class="input-field-error-msg">Username must have at least one letter and can optionally have digits and
+      underscores</p>
 
-    <label for="email-input" class="text-xl mt-3">Email</label>
-    <input id="email-input" formControlName="email" class="input-field corner-rounding">
+    <label class="text-xl mt-3" for="email-input">Email</label>
+    <input class="input-field corner-rounding" formControlName="email" id="email-input">
     <p *ngIf="!signUpForm.controls.email.untouched && signUpForm.controls.email.invalid" class="input-field-error-msg">
       Please enter your email using the format name&#64;example.com</p>
 
-    <label for="password-input" class="text-xl mt-3">Password</label>
+    <label class="text-xl mt-3" for="password-input">Password</label>
     <div class="flex bg-white corner-rounding">
-      <input id="password-input" formControlName="password"
-             class="flex-grow input-field corner-rounding"
+      <input class="flex-grow input-field corner-rounding" formControlName="password"
+             id="password-input"
              type="{{ showPasswordCleartext ? 'text' : 'password' }}">
-      <img class="mr-1 cursor-pointer"
+      <img (click)="togglePasswordCleartext(true)"
+           alt="Eye {{ !showPasswordCleartext ? 'strikethrough' : '' }} icon"
+           class="mr-1 cursor-pointer" height="16"
            ngSrc="assets/images/{{ showPasswordCleartext ? 'eye.svg' : 'eye-strikethrough.svg' }}"
-           height="16" width="16" alt="Eye {{ !showPasswordCleartext ? 'strikethrough' : '' }} icon"
-           (click)="togglePasswordCleartext(true)">
+           width="16">
     </div>
-    <p *ngIf="!signUpForm.controls.password.untouched && signUpForm.controls.password.invalid" class="input-field-error-msg">
+    <p *ngIf="!signUpForm.controls.password.untouched && signUpForm.controls.password.invalid"
+       class="input-field-error-msg">
       Please enter a password</p>
 
-    <label for="confirmed-password-input" class="text-xl mt-3">Confirm password</label>
+    <label class="text-xl mt-3" for="confirmed-password-input">Confirm password</label>
     <div class="flex bg-white corner-rounding">
-      <input id="confirmed-password-input" formControlName="confirmedPassword"
-             class="flex-grow input-field corner-rounding"
+      <input class="flex-grow input-field corner-rounding" formControlName="confirmedPassword"
+             id="confirmed-password-input"
              type="{{ showConfirmedPasswordCleartext ? 'text' : 'password' }}">
-      <img class="mr-1 cursor-pointer"
+      <img (click)="togglePasswordCleartext(false)"
+           alt="Eye {{ !showConfirmedPasswordCleartext ? 'strikethrough' : '' }} icon"
+           class="mr-1 cursor-pointer" height="16"
            ngSrc="assets/images/{{ showConfirmedPasswordCleartext ? 'eye.svg' : 'eye-strikethrough.svg' }}"
-           height="16" width="16" alt="Eye {{ !showConfirmedPasswordCleartext ? 'strikethrough' : '' }} icon"
-           (click)="togglePasswordCleartext(false)">
+           width="16">
     </div>
     <p
       *ngIf="!signUpForm.controls.confirmedPassword.untouched && signUpForm.controls.confirmedPassword.hasError('required')"

@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
-import {NgIf, NgOptimizedImage} from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {CopyCharacterModalComponent} from '../copy-character-modal/copy-character-modal.component';
+import { Component, Input } from '@angular/core';
+import { NgIf, NgOptimizedImage } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { CopyCharacterModalComponent } from '../copy-character-modal/copy-character-modal.component';
 
 @Component({
   selector: 'character-card',
@@ -13,7 +13,7 @@ import {CopyCharacterModalComponent} from '../copy-character-modal/copy-characte
     NgIf,
   ],
   templateUrl: './character-card.component.html',
-  styleUrl: './character-card.component.css'
+  styleUrl: './character-card.component.css',
 })
 export class CharacterCardComponent {
   @Input() isPublicCharacterCard = false;

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,15 +6,16 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './top-bar.component.html',
-  styleUrl: './top-bar.component.css'
+  styleUrl: './top-bar.component.css',
 })
 export class TopBarComponent {
-  
-  constructor(private router: Router) {}
 
   @Output() navigate = new EventEmitter<string>();
 
-  clickToNav(path : string) {
+  constructor(private router: Router) {
+  }
+
+  clickToNav(path: string) {
     this.router.navigate([path]);
   }
 }

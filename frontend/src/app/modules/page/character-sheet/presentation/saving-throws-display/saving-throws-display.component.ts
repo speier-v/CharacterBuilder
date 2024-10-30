@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './saving-throws-display.component.html',
-  styleUrl: './saving-throws-display.component.css'
+  styleUrl: './saving-throws-display.component.css',
 })
 export class SavingThrowsDisplayComponent {
   savingThrows = {
@@ -15,11 +15,11 @@ export class SavingThrowsDisplayComponent {
     dexterity: 3,
     constitution: 2,
     wisdom: 1,
-    intelligence: -2
+    intelligence: -2,
   };
   senses = {
-    "passive perception": 13,
-    "passive investigation": 16,
-    "passive insight": 10
+    'passive perception': 13,
+    'passive investigation': 16,
+    'passive insight': 10,
   };
 }

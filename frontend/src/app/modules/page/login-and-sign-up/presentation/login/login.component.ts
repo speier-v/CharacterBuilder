@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NgIf, NgOptimizedImage} from "@angular/common";
-import {BackgroundImage} from '../shared/background-image.component';
-import {FormHeader} from '../shared/form-header.component';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgIf, NgOptimizedImage } from '@angular/common';
+import { BackgroundImage } from '../shared/background-image.component';
+import { FormHeader } from '../shared/form-header.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,17 +16,17 @@ import {RouterLink, RouterOutlet} from '@angular/router';
     BackgroundImage,
     FormHeader,
     RouterOutlet,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   protected readonly loginForm = new FormGroup({
     email: new FormControl('',
-      {validators: [Validators.required, Validators.email], updateOn: 'blur'}),
-    password: new FormControl('', {validators: [Validators.required], updateOn: 'blur'}),
-    stayLoggedIn: new FormControl(false)
+      { validators: [Validators.required, Validators.email], updateOn: 'blur' }),
+    password: new FormControl('', { validators: [Validators.required], updateOn: 'blur' }),
+    stayLoggedIn: new FormControl(false),
   });
 
   protected showPasswordCleartext = false;

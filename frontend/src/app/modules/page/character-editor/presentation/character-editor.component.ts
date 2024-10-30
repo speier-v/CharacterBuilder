@@ -6,18 +6,19 @@ import { StatsComponent } from './stats/stats.component';
 import { CharacterClassComponent } from './character-class/character-class.component';
 
 @Component({
-    selector: 'character-editor',
-    standalone: true,
-    imports: [CommonModule, StatsComponent, CharacterClassComponent],
-    templateUrl: './character-editor.component.html',
-    styleUrl: './character-editor.component.css'
-  })
+  selector: 'character-editor',
+  standalone: true,
+  imports: [CommonModule, StatsComponent, CharacterClassComponent],
+  templateUrl: './character-editor.component.html',
+  styleUrl: './character-editor.component.css',
+})
 
 export class CharacterEditorComponent {
 
-  constructor(private router: Router) {}
-
   selectedComponent: string = 'character-class';
+
+  constructor(private router: Router) {
+  }
 
   selectComponent(component: string) {
     this.selectedComponent = component;

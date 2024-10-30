@@ -7,7 +7,7 @@ import { CharacterStats } from '../../../../character-model/character.model';
   standalone: true,
   imports: [CommonModule, NgFor],
   templateUrl: './stat-display.component.html',
-  styleUrl: './stat-display.component.css'
+  styleUrl: './stat-display.component.css',
 })
 export class StatDisplayComponent {
   stats: CharacterStats = {
@@ -16,15 +16,15 @@ export class StatDisplayComponent {
     wisdom: 14,
     intelligence: 17,
     charisma: 9,
-    constitution: 20
+    constitution: 20,
   };
   statEntries = Object.entries(this.stats);
-  proficiencyModifier : number = 4;
-  currentHP : number = 40;
-  maxHP : number = 80;
-  initiative : number = 4;
-  armorClass : number = 17;
-  speed : number = 30;
+  proficiencyModifier: number = 4;
+  currentHP: number = 40;
+  maxHP: number = 80;
+  initiative: number = 4;
+  armorClass: number = 17;
+  speed: number = 30;
 
   calculateModifier(value: number | null): number {
     if (value === null) return 0;

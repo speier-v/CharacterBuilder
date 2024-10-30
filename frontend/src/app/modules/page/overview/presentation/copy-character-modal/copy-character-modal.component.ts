@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgForOf, NgIf } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'copy-character-modal',
@@ -8,10 +8,10 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
   imports: [
     NgForOf,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './copy-character-modal.component.html',
-  styleUrl: './copy-character-modal.component.css'
+  styleUrl: './copy-character-modal.component.css',
 })
 export class CopyCharacterModalComponent {
   @Input() modalOpen: boolean = false;
@@ -20,9 +20,9 @@ export class CopyCharacterModalComponent {
   protected readonly copyCharacterForm = new FormGroup({
     newCharacterName: new FormControl('', {
       validators: [Validators.required, Validators.pattern('([a-zA-Z0-9]+[ -]*)+')],
-      updateOn: 'blur'
+      updateOn: 'blur',
     }),
-    newCharacterVisibility: new FormControl('character-visibility-private', {updateOn: 'blur'}),
+    newCharacterVisibility: new FormControl('character-visibility-private', { updateOn: 'blur' }),
   });
 
   protected modalClosed() {

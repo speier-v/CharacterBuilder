@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModelCharacterClass } from '../../../../../character-model/character.model';
 
@@ -7,7 +7,7 @@ import { ModelCharacterClass } from '../../../../../character-model/character.mo
   standalone: true,
   imports: [CommonModule],
   templateUrl: './level-choice-dropdown.component.html',
-  styleUrl: './level-choice-dropdown.component.css'
+  styleUrl: './level-choice-dropdown.component.css',
 })
 export class LevelChoiceDropdownComponent implements OnChanges {
   @Input() selectedClass: ModelCharacterClass | null = null;

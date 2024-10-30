@@ -4,7 +4,7 @@
     <div class="flex justify-between">
       <div class="flex flex-col w-1/2">
         <label class="text-2xl heading-font" for="new-character-name">Character name:</label>
-        <input class="input-field corner-rounding" id="new-character-name" formControlName="newCharacterName">
+        <input class="input-field corner-rounding" formControlName="newCharacterName" id="new-character-name">
         <p
           *ngIf="!copyCharacterForm.controls.newCharacterName.untouched && copyCharacterForm.controls.newCharacterName.hasError('required')"
           class="input-field-error-msg">Please enter a name for the new character</p>
@@ -17,16 +17,16 @@
         <h2 class="text-2xl heading-font">Visibility:</h2>
         <div class="flex">
           <div class="flex input-field">
-            <input id="character-visibility-public"
-                   type="radio" value="character-visibility-public" class="mr-2 scale-150"
-                   formControlName="newCharacterVisibility">
-            <label for="character-visibility-public" class="text-lg">Public</label>
+            <input class="mr-2 scale-150"
+                   formControlName="newCharacterVisibility" id="character-visibility-public" type="radio"
+                   value="character-visibility-public">
+            <label class="text-lg" for="character-visibility-public">Public</label>
           </div>
           <div class="flex input-field">
-            <input id="character-visibility-private"
-                   type="radio" value="character-visibility-private" class="mr-2 scale-150"
-                   formControlName="newCharacterVisibility">
-            <label for="character-visibility-private" class="text-lg">Private</label>
+            <input class="mr-2 scale-150"
+                   formControlName="newCharacterVisibility" id="character-visibility-private" type="radio"
+                   value="character-visibility-private">
+            <label class="text-lg" for="character-visibility-private">Private</label>
           </div>
         </div>
       </div>

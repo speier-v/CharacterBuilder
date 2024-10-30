@@ -8,7 +8,7 @@ import { ModelCharacterClass } from '../../../../../character-model/character.mo
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './class-description.component.html',
-  styleUrl: './class-description.component.css'
+  styleUrl: './class-description.component.css',
 })
 export class ClassDescriptionComponent {
   @Input() selectedClass: ModelCharacterClass | null = null;
@@ -16,30 +16,30 @@ export class ClassDescriptionComponent {
   selectedAbilities: (any | null)[] = [null, null, null];
 
   abilities = [
-    [false, "Dex", "Acrobatics", "+3"],
-    [false, "Wis", "Animal Handling", "+9"],
-    [false, "Int", "Arcana", "+6"],
-    [false, "Str", "Athletics", "+0"],
-    [false, "Cha", "Deception", "+5"],
-    [false, "Int", "History", "+3"],
-    [false, "Wis", "Insight", "+5"],
-    [false, "Cha", "Intimidation", "+4"],
-    [false, "Int", "Investigation", "+9"],
-    [false, "Wis", "Medicine", "-1"],
-    [false, "Int", "Nature", "+5"],
-    [false, "Wis", "Perception", "+5"],
-    [false, "Cha", "Performance", "+0"],
-    [false, "Cha", "Persuasion", "+0"],
-    [false, "Int", "Religion", "+5"],
-    [false, "Dex", "Sleight of Hand", "+3"],
-    [false, "Dex", "Stealth", "+3"],
-    [false, "Wis", "Survival", "-1"]
+    [false, 'Dex', 'Acrobatics', '+3'],
+    [false, 'Wis', 'Animal Handling', '+9'],
+    [false, 'Int', 'Arcana', '+6'],
+    [false, 'Str', 'Athletics', '+0'],
+    [false, 'Cha', 'Deception', '+5'],
+    [false, 'Int', 'History', '+3'],
+    [false, 'Wis', 'Insight', '+5'],
+    [false, 'Cha', 'Intimidation', '+4'],
+    [false, 'Int', 'Investigation', '+9'],
+    [false, 'Wis', 'Medicine', '-1'],
+    [false, 'Int', 'Nature', '+5'],
+    [false, 'Wis', 'Perception', '+5'],
+    [false, 'Cha', 'Performance', '+0'],
+    [false, 'Cha', 'Persuasion', '+0'],
+    [false, 'Int', 'Religion', '+5'],
+    [false, 'Dex', 'Sleight of Hand', '+3'],
+    [false, 'Dex', 'Stealth', '+3'],
+    [false, 'Wis', 'Survival', '-1'],
   ];
 
   get availableAbilities() {
-    return this.abilities.filter(ability => 
-      !this.selectedAbilities.includes(ability) || 
-      this.selectedAbilities.some(selectedAbility => selectedAbility === ability)
+    return this.abilities.filter(ability =>
+      !this.selectedAbilities.includes(ability) ||
+      this.selectedAbilities.some(selectedAbility => selectedAbility === ability),
     );
   }
 
@@ -60,8 +60,8 @@ export class ClassDescriptionComponent {
       return [];
     } else {
       return this.selectedClass.levels
-      .filter(level => level.level <= this.selectedLevel!)
-      .flatMap(level => level.skills);
-    }   
+        .filter(level => level.level <= this.selectedLevel!)
+        .flatMap(level => level.skills);
+    }
   }
 }
