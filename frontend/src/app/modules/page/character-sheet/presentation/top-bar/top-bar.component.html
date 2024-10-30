@@ -1,7 +1,7 @@
 <div class="flex flex-row p-5 bg-white bg-opacity-50 w-full">
     <div>
         <img src="assets/images/character_frame_empty.jpeg" width="100px" height="100px"
-            class="pr-5 cursor-pointer hover:opacity-50 transition-opacity duration-300">
+            class="pr-5">
     </div>
     <div class="flex flex-col">
         <p class="text-2xl">Character Name</p>
@@ -10,6 +10,7 @@
     </div>
     <div class="flex ml-auto items-center">
         <button (click)="clickToNav('/character-editor')" class="action-button px-5 py-3 bg-orange-500 text-white rounded hover:bg-orange-600 mr-5">Edit</button>
-        <button (click)="clickToNav('/overview')" class="action-button px-5 py-3 bg-orange-500 text-white rounded hover:bg-orange-600">My characters</button>
+        <button (click)="clickToNav('/overview')" class="action-button px-5 py-3 bg-orange-500 text-white rounded hover:bg-orange-600 mr-5">My characters</button>
+        <button (click)="clickToNav('/overview')" class="action-button px-5 py-3 bg-orange-500 text-white rounded hover:bg-orange-600">Go to public characters</button>
     </div>
 </div>
