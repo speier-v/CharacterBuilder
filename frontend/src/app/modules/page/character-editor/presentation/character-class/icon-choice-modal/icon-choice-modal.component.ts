@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './icon-choice-modal.component.html',
-  styleUrl: './icon-choice-modal.component.css'
+  styleUrl: './icon-choice-modal.component.css',
 })
 export class IconChoiceModalComponent {
   @Input() isOpen: boolean = false;
@@ -22,13 +22,13 @@ export class IconChoiceModalComponent {
     { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 6' },
     { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 7' },
     { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 8' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 9' }
+    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 9' },
   ];
 
   selectedImage: { src: string; caption: string } | null = null;
 
   selectImage(image: { src: string; caption: string }) {
-    this.selectedImage = image; 
+    this.selectedImage = image;
     this.imageSelected.emit(this.selectedImage);
   }
 

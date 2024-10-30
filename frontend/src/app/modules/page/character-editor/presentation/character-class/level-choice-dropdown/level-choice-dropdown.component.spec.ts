@@ -8,9 +8,9 @@ describe('LevelChoiceDropdownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LevelChoiceDropdownComponent]
+      imports: [LevelChoiceDropdownComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(LevelChoiceDropdownComponent);
     component = fixture.componentInstance;

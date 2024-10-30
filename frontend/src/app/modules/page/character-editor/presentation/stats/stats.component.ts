@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { CharacterStats, Character } from '../../../../character-model/character.model';
+import { CharacterStats } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 
 @Component({
@@ -9,11 +9,9 @@ import { CharacterGenService } from '../../../../character-model/character-gen.s
   standalone: true,
   imports: [CommonModule],
   templateUrl: './stats.component.html',
-  styleUrl: './stats.component.css'
+  styleUrl: './stats.component.css',
 })
 export class StatsComponent {
-
-  constructor(private router: Router, private characterService: CharacterGenService) {}
 
   @Output() navigate = new EventEmitter<string>();
   @Input() stats: CharacterStats = {
@@ -22,10 +20,9 @@ export class StatsComponent {
     wisdom: null,
     intelligence: null,
     charisma: null,
-    constitution: null
+    constitution: null,
   };
   @Output() statsChange = new EventEmitter<CharacterStats>();
-
   selectedStat: string | null = null;
   rolledValue: number | null = null;
   showScoreModifierTable: boolean = false;
@@ -35,15 +32,15 @@ export class StatsComponent {
   rolledEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
   rolledStatValues: { [key in keyof CharacterStats]?: number | null } = {};
   statsList: (keyof CharacterStats)[] = [
-    'dexterity', 'strength', 'wisdom', 'intelligence', 'charisma', 'constitution'
+    'dexterity', 'strength', 'wisdom', 'intelligence', 'charisma', 'constitution',
   ];
   statDescriptions: { [key: string]: string } = {
     strength: `Strength measures your character's physical power and athletic ability. It determines how well they can lift heavy objects, perform feats of brute strength, and deal damage in melee combat. A high Strength score is essential for classes like Fighters and Barbarians, who rely on their might to dominate the battlefield.`,
-    dexterity: "Dexterity reflects agility, reflexes, and hand-eye coordination. It affects your character’s ability to dodge attacks, move stealthily, and perform tasks requiring finesse, such as picking locks or using ranged weapons. Rogues and Rangers often benefit from high Dexterity scores, as it enhances their ability to strike quickly and avoid danger.",
-    constitution: "Constitution represents your character's health and stamina. It influences hit points, which determine how much damage your character can take before falling unconscious. A strong Constitution is vital for all classes, especially those that often find themselves in combat, as it bolsters their resilience and durability.",
-    intelligence: "Intelligence measures your character's mental acuity and problem-solving abilities. It affects knowledge-based skills, spellcasting for Wizards, and the ability to recall information. Characters with high Intelligence can excel in academic pursuits, magic use, and strategic planning.",
-    wisdom: "Wisdom gauges your character's perception, insight, and intuition. It impacts skills related to awareness and understanding of the environment and other characters. Clerics and Druids rely on Wisdom to cast their spells and connect with the world around them, making it crucial for those who seek to guide or heal their allies.",
-    charisma: "Charisma reflects your character's charm, persuasion, and leadership abilities. It affects social interactions, making it easier to influence others, negotiate, and command respect. Classes like Bards and Sorcerers thrive on high Charisma scores, using their personality to inspire, deceive, or captivate others in and out of combat."
+    dexterity: 'Dexterity reflects agility, reflexes, and hand-eye coordination. It affects your character’s ability to dodge attacks, move stealthily, and perform tasks requiring finesse, such as picking locks or using ranged weapons. Rogues and Rangers often benefit from high Dexterity scores, as it enhances their ability to strike quickly and avoid danger.',
+    constitution: 'Constitution represents your character\'s health and stamina. It influences hit points, which determine how much damage your character can take before falling unconscious. A strong Constitution is vital for all classes, especially those that often find themselves in combat, as it bolsters their resilience and durability.',
+    intelligence: 'Intelligence measures your character\'s mental acuity and problem-solving abilities. It affects knowledge-based skills, spellcasting for Wizards, and the ability to recall information. Characters with high Intelligence can excel in academic pursuits, magic use, and strategic planning.',
+    wisdom: 'Wisdom gauges your character\'s perception, insight, and intuition. It impacts skills related to awareness and understanding of the environment and other characters. Clerics and Druids rely on Wisdom to cast their spells and connect with the world around them, making it crucial for those who seek to guide or heal their allies.',
+    charisma: 'Charisma reflects your character\'s charm, persuasion, and leadership abilities. It affects social interactions, making it easier to influence others, negotiate, and command respect. Classes like Bards and Sorcerers thrive on high Charisma scores, using their personality to inspire, deceive, or captivate others in and out of combat.',
   };
   statIcons: { [key: string]: string } = {
     strength: '💪',
@@ -51,7 +48,7 @@ export class StatsComponent {
     constitution: '💖',
     intelligence: '🧠',
     wisdom: '🦉',
-    charisma: '🎭'
+    charisma: '🎭',
   };
   scoreModifierTable = [
     { value: '1', modifier: '-5' },
@@ -69,8 +66,11 @@ export class StatsComponent {
     { value: '24–25', modifier: '+7' },
     { value: '26–27', modifier: '+8' },
     { value: '28–29', modifier: '+9' },
-    { value: '30', modifier: '+10' }
+    { value: '30', modifier: '+10' },
   ];
+
+  constructor(private router: Router, private characterService: CharacterGenService) {
+  }
 
   isValueAssigned(value: string | number): boolean {
     return typeof value === 'number' && Object.values(this.stats).includes(value);
@@ -79,7 +79,7 @@ export class StatsComponent {
   assignValue(stat: keyof CharacterStats, event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const value = selectElement.value;
-  
+
     if (value === 'manual') {
       this.manualEntryStats[stat] = true;
       this.rolledEntryStats[stat] = false;
@@ -99,12 +99,12 @@ export class StatsComponent {
     }
     this.statsChange.emit(this.stats);
   }
-  
+
 
   updateManualValue(stat: keyof CharacterStats, event: Event) {
     const inputElement = event.target as HTMLInputElement;
     let value = inputElement.value ? parseInt(inputElement.value, 10) : null;
-  
+
     if (value !== null && value > 30) {
       value = 30;
       inputElement.value = '30';
@@ -112,19 +112,19 @@ export class StatsComponent {
       value = 1;
       inputElement.value = '1';
     }
-  
+
     this.manualStatValues[stat] = value;
     this.stats[stat] = value;
     this.statsChange.emit(this.stats);
   }
-  
+
 
   unassignValue(stat: keyof CharacterStats) {
     this.stats[stat] = null;
     this.manualEntryStats[stat] = false;
     this.rolledEntryStats[stat] = false;
     this.statsChange.emit(this.stats);
-  }  
+  }
 
   toggleDescription(stat: string): void {
     this.selectedStat = this.selectedStat === stat ? null : stat;

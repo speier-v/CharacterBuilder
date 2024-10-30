@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Character, ModelCharacterClass, CharacterStats } from './character.model';
+import { Character, CharacterStats } from './character.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CharacterGenService {
   private characters: Character[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   createCharacter(name: string, characterClass: string, stats: CharacterStats): Character {
     const newCharacter: Character = {

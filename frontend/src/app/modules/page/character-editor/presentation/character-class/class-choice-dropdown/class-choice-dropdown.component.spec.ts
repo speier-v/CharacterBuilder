@@ -8,9 +8,9 @@ describe('ClassChoiceDropdownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClassChoiceDropdownComponent]
+      imports: [ClassChoiceDropdownComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ClassChoiceDropdownComponent);
     component = fixture.componentInstance;

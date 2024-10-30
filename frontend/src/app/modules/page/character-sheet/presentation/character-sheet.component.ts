@@ -10,7 +10,7 @@ import { AbilitiesAndSpellsComponent } from './abilities-and-spells/abilities-an
   standalone: true,
   imports: [TopBarComponent, StatDisplayComponent, SavingThrowsDisplayComponent, SkillsDisplayComponent, AbilitiesAndSpellsComponent],
   templateUrl: './character-sheet.component.html',
-  styleUrl: './character-sheet.component.css'
+  styleUrl: './character-sheet.component.css',
 })
 export class CharacterSheetComponent {
 

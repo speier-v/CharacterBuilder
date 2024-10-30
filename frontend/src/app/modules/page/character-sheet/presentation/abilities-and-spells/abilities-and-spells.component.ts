@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './abilities-and-spells.component.html',
-  styleUrl: './abilities-and-spells.component.css'
+  styleUrl: './abilities-and-spells.component.css',
 })
 export class AbilitiesAndSpellsComponent {
   selectedTab: string = 'all';
@@ -28,7 +28,7 @@ export class AbilitiesAndSpellsComponent {
     { name: 'Fireball', level: 3, description: 'Deals 8d6 fire damage in a 20-foot radius.' },
     { name: 'Mage Armor', level: 1, description: 'Grants a creature AC of 13 + Dex modifier.' },
   ];
-  
+
   availableSpells = [
     { name: 'Healing Word', level: 1, description: 'Heals 1d4 + your spellcasting modifier.' },
     { name: 'Shield', level: 1, description: 'Grants +5 AC until the start of your next turn.' },

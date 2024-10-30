@@ -8,9 +8,9 @@ describe('OverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CharacterEditorComponent]
+      imports: [CharacterEditorComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CharacterEditorComponent);
     component = fixture.componentInstance;

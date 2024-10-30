@@ -8,9 +8,9 @@ describe('CopyCharacterModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CopyCharacterModalComponent]
+      imports: [CopyCharacterModalComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CopyCharacterModalComponent);
     component = fixture.componentInstance;

@@ -1,40 +1,42 @@
 <div class="flex flex-col ">
-    <div class="flex flew-row justify-center items-center pt-5">
-      <h1 class="text-5xl heading-font pr-5">Character editor</h1>
-      <i class="fa-solid fa-pen-fancy fa-2xl"></i>
-    </div>
-    <hr class="border-black opacity-80 mt-5">
-    <div class="flex flex-row justify-around h-[10vh]">
-      <button class="w-1/3 action-button text-lg flex flew-row items-center justify-center"
-        [ngClass]="{ 'bg-orange-500 text-white': selectedComponent === 'character-class' }"
-        (click)="selectComponent('character-class')">
-        <p class="pr-5 text-2xl">Class</p>
-        <i class="fa-solid fa-user fa-xl"></i>
-      </button>
-      <button class="w-1/3 height=100% action-button text-lg flex flex-row items-center justify-center"
-        [ngClass]="{ 'bg-orange-500 text-white': selectedComponent === 'stats' }"
-        (click)="selectComponent('stats')">
-        <p class="pr-5 text-2xl">Stats</p>
-        <i class="fa-solid fa-chart-simple fa-xl"></i>
-      </button>
-      <button class="w-1/3 height=100% action-button text-lg flex flex-row items-center justify-center"
-        (click)="clickToNav()">
-        <p class="pr-5 text-2xl">Character Sheet</p>
-        <i class="fa-solid fa-sheet-plastic fa-xl pr-3"></i>
-        <i class="fa-solid fa-arrow-right fa-xl"></i>
-      </button>
-    </div>
-    <hr class="border-black opacity-50">
-    <div class="component-display">
-      <div class="relative min-h-screen bg-cover bg-center bg-no-repeat w-full h-full"
-        style="background-image: url('assets/images/bg_character_editor_3.webp'); background-size: cover;">
-        <div class="absolute inset-0 bg-black opacity-0"></div>
-        <div class="flex justify-center items-center min-h-screen">
-          <div class="bg-white w-1/2 relative z-10 flex flex-col h-full text-black">
-            <character-class class="min-h-screen h-full" *ngIf="selectedComponent == 'character-class'" (navigate)="selectComponent($event)"></character-class>
-            <stats class="min-h-screen h-full" *ngIf="selectedComponent == 'stats'" (navigate)="selectComponent($event)"></stats>
-          </div>
-        </div>        
+  <div class="flex flew-row justify-center items-center pt-5">
+    <h1 class="text-5xl heading-font pr-5">Character editor</h1>
+    <i class="fa-solid fa-pen-fancy fa-2xl"></i>
+  </div>
+  <hr class="border-black opacity-80 mt-5">
+  <div class="flex flex-row justify-around h-[10vh]">
+    <button (click)="selectComponent('character-class')"
+            [ngClass]="{ 'bg-orange-500 text-white': selectedComponent === 'character-class' }"
+            class="w-1/3 action-button text-lg flex flew-row items-center justify-center">
+      <p class="pr-5 text-2xl">Class</p>
+      <i class="fa-solid fa-user fa-xl"></i>
+    </button>
+    <button (click)="selectComponent('stats')"
+            [ngClass]="{ 'bg-orange-500 text-white': selectedComponent === 'stats' }"
+            class="w-1/3 height=100% action-button text-lg flex flex-row items-center justify-center">
+      <p class="pr-5 text-2xl">Stats</p>
+      <i class="fa-solid fa-chart-simple fa-xl"></i>
+    </button>
+    <button (click)="clickToNav()"
+            class="w-1/3 height=100% action-button text-lg flex flex-row items-center justify-center">
+      <p class="pr-5 text-2xl">Character Sheet</p>
+      <i class="fa-solid fa-sheet-plastic fa-xl pr-3"></i>
+      <i class="fa-solid fa-arrow-right fa-xl"></i>
+    </button>
+  </div>
+  <hr class="border-black opacity-50">
+  <div class="component-display">
+    <div class="relative min-h-screen bg-cover bg-center bg-no-repeat w-full h-full"
+         style="background-image: url('assets/images/bg_character_editor_3.webp'); background-size: cover;">
+      <div class="absolute inset-0 bg-black opacity-0"></div>
+      <div class="flex justify-center items-center min-h-screen">
+        <div class="bg-white w-1/2 relative z-10 flex flex-col h-full text-black">
+          <character-class (navigate)="selectComponent($event)" *ngIf="selectedComponent == 'character-class'"
+                           class="min-h-screen h-full"></character-class>
+          <stats (navigate)="selectComponent($event)" *ngIf="selectedComponent == 'stats'"
+                 class="min-h-screen h-full"></stats>
+        </div>
       </div>
     </div>
+  </div>
 </div>

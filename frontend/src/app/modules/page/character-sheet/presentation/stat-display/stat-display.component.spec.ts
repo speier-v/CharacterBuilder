@@ -8,9 +8,9 @@ describe('StatDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StatDisplayComponent]
+      imports: [StatDisplayComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(StatDisplayComponent);
     component = fixture.componentInstance;

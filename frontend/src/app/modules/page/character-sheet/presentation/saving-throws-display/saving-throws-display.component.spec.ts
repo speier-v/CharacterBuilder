@@ -8,9 +8,9 @@ describe('SavingThrowsDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SavingThrowsDisplayComponent]
+      imports: [SavingThrowsDisplayComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(SavingThrowsDisplayComponent);
     component = fixture.componentInstance;

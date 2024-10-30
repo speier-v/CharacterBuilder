@@ -8,9 +8,9 @@ describe('IconChoiceModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IconChoiceModalComponent]
+      imports: [IconChoiceModalComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(IconChoiceModalComponent);
     component = fixture.componentInstance;

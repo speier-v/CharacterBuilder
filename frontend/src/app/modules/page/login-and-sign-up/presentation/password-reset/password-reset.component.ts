@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 import { BackgroundImage } from '../shared/background-image.component';
 import { FormHeader } from '../shared/form-header.component';
@@ -29,6 +23,8 @@ import { validateInputsHaveSameValue } from '../../../../util/utility';
   styleUrl: './password-reset.component.css',
 })
 export class PasswordResetComponent {
+  showPasswordCleartext = false;
+  showConfirmedPasswordClearText = false;
   protected readonly passwordResetForm = new FormGroup(
     {
       password: new FormControl('', {
@@ -44,9 +40,6 @@ export class PasswordResetComponent {
       validators: validateInputsHaveSameValue('password', 'confirmedPassword'),
     },
   );
-
-  showPasswordCleartext = false;
-  showConfirmedPasswordClearText = false;
 
   protected togglePasswordCleartext(forDefaultInputField: boolean) {
     if (forDefaultInputField) {

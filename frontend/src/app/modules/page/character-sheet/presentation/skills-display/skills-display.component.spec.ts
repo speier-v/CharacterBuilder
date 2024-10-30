@@ -8,9 +8,9 @@ describe('SkillsDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SkillsDisplayComponent]
+      imports: [SkillsDisplayComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(SkillsDisplayComponent);
     component = fixture.componentInstance;

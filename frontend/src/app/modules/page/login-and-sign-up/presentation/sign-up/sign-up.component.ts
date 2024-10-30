@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass, NgIf, NgOptimizedImage } from '@angular/common';
 import { BackgroundImage } from '../shared/background-image.component';
 import { FormHeader } from '../shared/form-header.component';

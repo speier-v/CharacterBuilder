@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './class-choice-dropdown.component.html',
-  styleUrl: './class-choice-dropdown.component.css'
+  styleUrl: './class-choice-dropdown.component.css',
 })
 export class ClassChoiceDropdownComponent {
   items = ['Fighter', 'Wizard', 'Rogue'];
@@ -24,7 +24,7 @@ export class ClassChoiceDropdownComponent {
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
-    console.log("Dropdown is now:", this.isDropdownOpen);
+    console.log('Dropdown is now:', this.isDropdownOpen);
   }
 
   selectItem(item: string) {
