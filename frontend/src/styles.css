@@ -32,3 +32,11 @@ body {
   @apply bg-black;
   @apply text-white;
 }
+
+.input-field {
+  @apply outline-0 px-2 py-1 min-w-20;
+}
+
+.input-field-error-msg {
+  @apply text-red-600 font-bold mt-1;
+}

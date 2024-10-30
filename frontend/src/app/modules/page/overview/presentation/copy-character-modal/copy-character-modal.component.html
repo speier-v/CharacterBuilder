@@ -1,0 +1,42 @@
+<div *ngIf="modalOpen"
+     class="fixed inset-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <form [formGroup]="copyCharacterForm" class="bg-color p-4 w-1/2 max-w-lg corner-rounding">
+    <div class="flex justify-between">
+      <div class="flex flex-col w-1/2">
+        <label class="text-2xl heading-font" for="new-character-name">Character name:</label>
+        <input class="input-field corner-rounding" id="new-character-name" formControlName="newCharacterName">
+        <p
+          *ngIf="!copyCharacterForm.controls.newCharacterName.untouched && copyCharacterForm.controls.newCharacterName.hasError('required')"
+          class="input-field-error-msg">Please enter a name for the new character</p>
+        <p
+          *ngIf="!copyCharacterForm.controls.newCharacterName.untouched && copyCharacterForm.controls.newCharacterName.hasError('pattern')"
+          class="input-field-error-msg">A character name must consist of at least one letter or digit and can optionally
+          have spaces and hyphens</p>
+      </div>
+      <div class="flex flex-col w-1/2 items-center">
+        <h2 class="text-2xl heading-font">Visibility:</h2>
+        <div class="flex">
+          <div class="flex input-field">
+            <input id="character-visibility-public"
+                   type="radio" value="character-visibility-public" class="mr-2 scale-150"
+                   formControlName="newCharacterVisibility">
+            <label for="character-visibility-public" class="text-lg">Public</label>
+          </div>
+          <div class="flex input-field">
+            <input id="character-visibility-private"
+                   type="radio" value="character-visibility-private" class="mr-2 scale-150"
+                   formControlName="newCharacterVisibility">
+            <label for="character-visibility-private" class="text-lg">Private</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full flex justify-between mt-5">
+      <button (click)="modalClosed()" class="px-4 py-1 text-xl btn-color-scheme heading-font corner-rounding">Cancel
+      </button>
+      <button (click)="modalClosed()" class="px-4 py-1 text-xl btn-color-scheme heading-font corner-rounding">Create new
+        character
+      </button>
+    </div>
+  </form>
+</div>

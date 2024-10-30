@@ -1,7 +1,0 @@
-@tailwind components;
-
-@layer components {
-  .input-field-style {
-    @apply outline-0 px-2 py-1
-  }
-}
