@@ -1,0 +1,91 @@
+<div class="actions-container ml-5 space-y-5 max-w-3xl border-4 border-orange-700 rounded-md px-4 py-4 shadow-sm bg-gray-50 text-center items-center max-h-[820px] overflow-y-auto">
+    <div class="flex justify-around mb-5 bg-gray-200 p-2 rounded-md shadow-inner">
+      <button 
+        class="tab-button" 
+        [class.active]="selectedTab === 'all'" 
+        (click)="setTab('all')">All</button>
+      <button 
+        class="tab-button" 
+        [class.active]="selectedTab === 'actions'" 
+        (click)="setTab('actions')">Actions</button>
+      <button 
+        class="tab-button" 
+        [class.active]="selectedTab === 'bonusActions'" 
+        (click)="setTab('bonusActions')">Bonus Actions</button>
+      <button 
+        class="tab-button" 
+        [class.active]="selectedTab === 'spells'" 
+        (click)="setTab('spells')">Spells</button>
+    </div>
+  
+    <div *ngIf="selectedTab === 'all' || selectedTab === 'actions'">
+      <h2 class="text-xl font-bold mb-3 text-gray-700">Actions</h2>
+      <ul class="space-y-3">
+        <li *ngFor="let action of actions" class="p-3 bg-white border-l-4 border-blue-500 rounded-md shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-800">{{ action.name }}</h3>
+          <p class="text-gray-600">{{ action.description }}</p>
+        </li>
+      </ul>
+    </div>
+  
+    <div *ngIf="selectedTab === 'all' || selectedTab === 'bonusActions'">
+      <h2 class="text-xl font-bold mb-3 text-gray-700">Bonus Actions</h2>
+      <ul class="space-y-3">
+        <li *ngFor="let bonusAction of bonusActions" class="p-3 bg-white border-l-4 border-green-500 rounded-md shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-800">{{ bonusAction.name }}</h3>
+          <p class="text-gray-600">{{ bonusAction.description }}</p>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="selectedTab === 'all' || selectedTab === 'spells'">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-xl font-bold text-gray-700">Spells</h2>
+          <button class="bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600" (click)="toggleModal()">Edit</button>
+        </div>
+        <ul class="space-y-3">
+          <li *ngFor="let spell of activeSpells" class="p-3 bg-white border-l-4 border-purple-500 rounded-md shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-800">{{ spell.name }} (Level {{ spell.level }})</h3>
+            <p class="text-gray-600">{{ spell.description }}</p>
+          </li>
+        </ul>
+    </div>
+    
+    <div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-white w-3/4 md:w-1/2 p-6 rounded-lg shadow-lg relative">
+          <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800" (click)="toggleModal()">✕</button>
+          <h2 class="text-2xl font-bold mb-5 text-gray-700">Manage Spells</h2>
+    
+          <div class="mb-4">
+            <p class="text-gray-600 text-center">Active Spells: {{ activeSpells.length }} / {{ spellLimit }}</p>
+          </div>
+    
+          <div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-3">Active Spells</h3>
+            <ul class="space-y-3">
+              <li *ngFor="let spell of activeSpells" class="p-3 bg-gray-100 border border-purple-400 rounded-md flex justify-between items-center">
+                <span>{{ spell.name }} (Level {{ spell.level }})</span>
+                <button class="text-red-500 font-semibold" (click)="deactivateSpell(spell)">Remove</button>
+              </li>
+            </ul>
+          </div>
+    
+          <div class="mt-5">
+            <h3 class="text-lg font-semibold text-gray-700 mb-3">Available Spells</h3>
+            <ul class="space-y-3">
+              <li *ngFor="let spell of availableSpells" class="p-3 bg-gray-100 border border-gray-300 rounded-md flex justify-between items-center">
+                <span>{{ spell.name }} (Level {{ spell.level }})</span>
+                <button 
+                  class="text-green-500 font-semibold"
+                  (click)="activateSpell(spell)"
+                  [disabled]="isSpellLimitReached()"
+                  [class.opacity-50]="isSpellLimitReached()"
+                >
+                  Add
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+</div>  

@@ -1,36 +1,41 @@
 <div class="flex flex-row w-full justify-between px-5">
-    <div class="w-1/2 pb-10 grid grid-cols-6 gap-2 bg-white bg-transparent py-5">
+    <div class="w-1/2 pb-10 grid grid-cols-6 gap-2 bg-transparent py-5">
         <div *ngFor="let entry of stats | keyvalue" class="pb-5 flex flex-col items-center border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
             <label class="text-lg text-gray-800">{{ entry.key | titlecase }}</label>
-            <span class="text-center text-gray-700 mt-2 font-bold">{{ entry.value }}</span>
+            <span class="text-center text-gray-700 mt-2 font-bold px-5 border border-gray-300">{{ entry.value }}</span>
             
             <div class="flex items-center justify-center w-10 h-10 border-2 border-orange-700 rounded-full bg-white shadow-md absolute bottom-[-20px] hover:bg-gray-200 transition-colors duration-100 cursor-pointer">
                 <span class="text-center text-gray-500 opacity-75">{{ calculateModifier(entry.value) }}</span>
             </div>
         </div>
     </div>
-    <div class="w-1/2 flex flex-row justify-between ml-10 gap-x-3">
-        <div class="mt-5 mb-10 flex flex-col flex-grow justify-center border-4 border-green-900 rounded-md p-3 shadow-sm bg-gray-50 relative">
+    <div class="w-1/2 flex flex-row justify-around ml-10 gap-x-3">
+        <div class="mt-5 mb-10 flex flex-col flex-grow justify-center border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
             <label class="text-gray-800 text-center">Proficiency</label>
-            <div class="font-bold text-center text-gray-700">+ {{ proficiencyModifier }}</div>
+            <div class="font-bold text-center text-gray-700 border border-gray-300">+ {{ proficiencyModifier }}</div>
             <div class="text-center text-gray-700">Bonus</div>
         </div>
-        <div class="mt-5 mb-10 flex flex-col flex-grow justify-center items-center border-4 border-yellow-600 rounded-md p-3 shadow-sm bg-gray-50 relative">
+        <div class="mt-5 mb-10 flex flex-col flex-grow justify-center items-center border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
             <label class="text-gray-800 text-center">Initiative</label>
-            <div class="font-bold text-center text-gray-700">+ {{ initiative }}</div>
+            <div class="font-bold text-center px-5 border border-gray-300">+ {{ initiative }}</div>
         </div>
-        <div class="mt-5 mb-10 flex flex-col flex-grow justify-center border-4 border-gray-500 rounded-md p-3 shadow-sm bg-gray-50 relative">
-            <label class="text-gray-800 text-center">Armor Class</label>
-            <div class="font-bold text-center text-gray-700">{{ armorClass }}</div>
+        <div class="mt-5 mb-10 flex flex-col flex-grow justify-center items-center border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
+            <label class="text-gray-800 text-center">Speed</label>
+            <div class="font-bold text-center text-gray-700 px-3 border border-gray-300">{{ speed }} ft </div>
         </div>
-        <div class="mt-5 mb-10 flex flex-col flex-grow border-4 border-red-900 rounded-md p-3 shadow-sm bg-gray-50 relative">
+        <div class="mt-5 mb-10 flex flex-col flex-grow justify-center border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
+            <label class="text-gray-800 text-center">Armor</label>
+            <label class="text-gray-800 text-center">Class</label>
+            <div class="font-bold text-center text-gray-700 border border-gray-300">{{ armorClass }}</div>
+        </div>
+        <div class="mt-5 mb-10 flex flex-col flex-grow border-4 border-orange-700 rounded-md p-3 shadow-sm bg-gray-50 relative">
             <div class="grid grid-cols-3">
                 <label class="text-gray-800 text-lg opacity-50">Current</label>
                 <label></label>
                 <label class="text-gray-800 text-right pr-2 text-lg opacity-50">Max</label>
-                <div class="text-center text-gray-700 text-xl"> {{ currentHP }} </div>
+                <div class="text-center text-gray-700 text-xl border border-gray-300"> {{ currentHP }} </div>
                 <div class="text-center text-gray-700 text-xl"> / </div>
-                <div class="text-center text-gray-700 text-xl"> {{ maxHP }} </div>
+                <div class="text-center text-gray-700 text-xl border border-gray-300"> {{ maxHP }} </div>
             </div>        
             <label class="text-gray-800 opacity-50 text-center">Hit Points</label>
         </div>
