@@ -1,15 +1,19 @@
 <div class="flex flex-col p-5">
-  <div class="flex justify-between heading-font text-3xl md:text-4xl lg:text-5xl">
-    <h1>My characters</h1>
-    <button class="btn-color-scheme corner-rounding px-3" routerLink="/character-editor">Create a character</button>
+  <div class="flex justify-between heading-font ">
+    <h1
+      class="text-3xl md:text-4xl lg:text-5xl">{{ isPublicCharactersOverview ? 'Public characters' : 'My characters' }}</h1>
+    <div class="flex btn-color-scheme corner-rounding py-2 text-xl lg:text-2xl">
+      <button class="px-3 border-r-white border-r-4"
+              (click)="toggleIsPublicCharactersOverview()">{{ isPublicCharactersOverview ? 'My' : 'Public' }} characters
+      </button>
+      <button class="px-3" routerLink="/character-editor">Create a character</button>
+    </div>
   </div>
   <hr class="border-black opacity-20 my-5">
   <div class="grid auto-cols-auto md:grid-cols-2 lg:grid-cols-2 gap-4">
-    <character-card></character-card>
-    <character-card></character-card>
-    <character-card></character-card>
-    <character-card></character-card>
-    <character-card></character-card>
-    <character-card></character-card>
+    <character-card [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
+    <character-card [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
+    <character-card [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
+    <character-card [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
   </div>
 </div>

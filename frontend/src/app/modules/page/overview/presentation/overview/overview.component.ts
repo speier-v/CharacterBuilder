@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {CharacterCardComponent} from '../character-card/character-card.component';
 import {RouterLink} from '@angular/router';
 
@@ -13,5 +13,9 @@ import {RouterLink} from '@angular/router';
   styleUrl: './overview.component.css'
 })
 export class OverviewComponent {
+  protected isPublicCharactersOverview = false;
 
+  protected toggleIsPublicCharactersOverview() {
+    this.isPublicCharactersOverview = !this.isPublicCharactersOverview;
+  }
 }

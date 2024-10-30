@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NgIf, NgOptimizedImage} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {CopyCharacterModalComponent} from '../copy-character-modal/copy-character-modal.component';
@@ -16,6 +16,8 @@ import {CopyCharacterModalComponent} from '../copy-character-modal/copy-characte
   styleUrl: './character-card.component.css'
 })
 export class CharacterCardComponent {
+  @Input() isPublicCharacterCard = false;
+
   protected modalOpen = false;
   protected showDeleteConfirmationDialog = false;
 
