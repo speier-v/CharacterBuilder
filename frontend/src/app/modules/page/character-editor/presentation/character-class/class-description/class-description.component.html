@@ -11,6 +11,20 @@
         <p>{{ skill.description }}</p>
       </div>      
     </li>
+
+    <li *ngIf="selectedLevel === 2" class="flex flex-col items-start p-2 text-lg font-medium text-gray-700 bg-gray-100 border rounded-md shadow-sm">
+      <div class="text-lg mb-2"><strong>Choose Additional Skills:</strong></div>
+      <div class="mb-2">Choose 3 skills that you will gain <strong>Proficiency</strong> in. Being proficient in a skill gives you a bonus to your rolls with that skill equal to your <strong>proficiency modifier</strong>.</div>
+      <div class="space-y-3" class="flex flex-col items-start">
+        <ng-container *ngFor="let dropdown of [0, 1, 2]; let i = index" class="flex flex-col items-start">
+          <select [(ngModel)]="selectedAbilities[i]" (change)="onAbilityChange(i)" class="px-4">
+            <option *ngFor="let ability of availableAbilities" [ngValue]="ability" [disabled]="ability[0]">
+              {{ ability[2] }}
+            </option>
+          </select>
+        </ng-container>
+      </div>
+    </li>
   </ul>
 </div>
 <div *ngIf="!selectedClass || selectedLevel === null" class="text-lg">
