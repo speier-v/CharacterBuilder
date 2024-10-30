@@ -14,7 +14,7 @@ export class TopBarComponent {
 
   @Output() navigate = new EventEmitter<string>();
 
-  clickToNav() {
-    this.router.navigate(['/character-editor']);
+  clickToNav(path : string) {
+    this.router.navigate([path]);
   }
 }
