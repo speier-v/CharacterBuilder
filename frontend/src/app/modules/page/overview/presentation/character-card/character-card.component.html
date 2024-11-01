@@ -2,13 +2,13 @@
   class="hover:border-black hover:shadow hover:shadow-black flex flex-col sm:w-full bg-color px-4 py-2 shadow-2xl border border-gray-500 corner-rounding">
   <div class="flex cursor-pointer" routerLink="/character-sheet">
     <div class="flex flex-col w-2/3 mr-2 text-center">
-      <p class="text-3xl lg:text-4xl heading-font">My character</p>
+      <p class="text-3xl lg:text-4xl accent-font">My character</p>
       <p class="text-xl">Level 1 / Some information</p>
       <p class="text-xl">Some allegiance</p>
       <p class="text-xl">Campaign: Some campaign</p>
     </div>
     <img alt="Character card background image"
-         class="rounded-full" height="128" ngSrc="assets/images/character-avatar.jpeg" priority width="128">
+         class="rounded-full" height="128" ngSrc="assets/images/character-avatar.png" priority width="128">
   </div>
   <div *ngIf="!isPublicCharacterCard" class="flex mt-2">
     <button class="w-1/3 action-button corner-rounding lg:text-xl" routerLink="/character-editor">Edit</button>
@@ -16,7 +16,7 @@
     <div class="relative w-1/3 flex flex-col items-center action-button corner-rounding">
       <button (click)="toggleShowDeleteConfirmationDialog()" class="w-full corner-rounding lg:text-xl">Delete</button>
       <div *ngIf="showDeleteConfirmationDialog"
-           class="heading-font flex justify-center bg-black text-white absolute w-36 top-8 corner-rounding">
+           class="accent-font flex justify-center bg-black text-white absolute w-36 top-8 corner-rounding">
         <span>Really delete?</span>
         <button class="mx-2 text-green-500 hover:underline">Yes</button>
         <button (click)="toggleShowDeleteConfirmationDialog()" class="text-red-500 hover:underline">No</button>

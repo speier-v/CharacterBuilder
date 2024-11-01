@@ -9,10 +9,10 @@ import { NgOptimizedImage } from '@angular/common';
   ],
   template: `
     <div class="flex flex-col justify-center items-center">
-      <img ngSrc="assets/images/character-avatar.jpeg"
+      <img ngSrc="assets/images/character-avatar.png"
            alt="Charactyr logo" width="140" height="140"
            class="rounded-full" priority>
-      <h1 class="mt-2 text-4xl lg:text-5xl heading-font">CHARACTYR</h1>
+      <h1 class="mt-2 text-4xl lg:text-5xl accent-font">CHARACTYR</h1>
     </div>`,
 })
 export class FormHeader {

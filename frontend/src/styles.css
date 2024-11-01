@@ -16,7 +16,7 @@ body {
   font-family: "Bokor", sans-serif;
 }
 
-.heading-font {
+.accent-font {
   font-family: "Metal Mania", serif;
 }
 
@@ -29,8 +29,7 @@ body {
 }
 
 .btn-color-scheme {
-  @apply bg-black;
-  @apply text-white;
+  @apply bg-black text-white;
 }
 
 .input-field {
@@ -39,4 +38,8 @@ body {
 
 .input-field-error-msg {
   @apply text-red-900 font-bold mt-1;
+}
+
+.radio-btn-size {
+  @apply scale-125
 }

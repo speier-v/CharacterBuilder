@@ -47,7 +47,8 @@
   <div *ngIf="selectedTab === 'all' || selectedTab === 'spells'">
     <div class="flex justify-between items-center mb-3">
       <h2 class="text-xl font-bold text-gray-700">Spells</h2>
-      <button (click)="toggleModal()" class="bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600">Edit
+      <button (click)="toggleModal()"
+              class="bg-orange-500 text-white px-3 py-1 corner-rounding accent-font hover:bg-orange-600">Edit
       </button>
     </div>
     <ul class="space-y-3">
@@ -57,44 +58,43 @@
       </li>
     </ul>
   </div>
+</div>
+<div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+  <div class="bg-white w-3/4 md:w-1/2 p-6 rounded-lg shadow-lg relative">
+    <button (click)="toggleModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">✕</button>
+    <h2 class="text-2xl font-bold mb-5 text-gray-700">Manage Spells</h2>
 
-  <div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
-    <div class="bg-white w-3/4 md:w-1/2 p-6 rounded-lg shadow-lg relative">
-      <button (click)="toggleModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">✕</button>
-      <h2 class="text-2xl font-bold mb-5 text-gray-700">Manage Spells</h2>
+    <div class="mb-4">
+      <p class="text-gray-600 text-center">Active Spells: {{ activeSpells.length }} / {{ spellLimit }}</p>
+    </div>
 
-      <div class="mb-4">
-        <p class="text-gray-600 text-center">Active Spells: {{ activeSpells.length }} / {{ spellLimit }}</p>
-      </div>
+    <div>
+      <h3 class="text-lg font-semibold text-gray-700 mb-3">Active Spells</h3>
+      <ul class="space-y-3">
+        <li *ngFor="let spell of activeSpells"
+            class="p-3 bg-gray-100 border border-purple-400 rounded-md flex justify-between items-center">
+          <span>{{ spell.name }} (Level {{ spell.level }})</span>
+          <button (click)="deactivateSpell(spell)" class="text-red-500 font-semibold">Remove</button>
+        </li>
+      </ul>
+    </div>
 
-      <div>
-        <h3 class="text-lg font-semibold text-gray-700 mb-3">Active Spells</h3>
-        <ul class="space-y-3">
-          <li *ngFor="let spell of activeSpells"
-              class="p-3 bg-gray-100 border border-purple-400 rounded-md flex justify-between items-center">
-            <span>{{ spell.name }} (Level {{ spell.level }})</span>
-            <button (click)="deactivateSpell(spell)" class="text-red-500 font-semibold">Remove</button>
-          </li>
-        </ul>
-      </div>
-
-      <div class="mt-5">
-        <h3 class="text-lg font-semibold text-gray-700 mb-3">Available Spells</h3>
-        <ul class="space-y-3">
-          <li *ngFor="let spell of availableSpells"
-              class="p-3 bg-gray-100 border border-gray-300 rounded-md flex justify-between items-center">
-            <span>{{ spell.name }} (Level {{ spell.level }})</span>
-            <button
-              (click)="activateSpell(spell)"
-              [class.opacity-50]="isSpellLimitReached()"
-              [disabled]="isSpellLimitReached()"
-              class="text-green-500 font-semibold"
-            >
-              Add
-            </button>
-          </li>
-        </ul>
-      </div>
+    <div class="mt-5">
+      <h3 class="text-lg font-semibold text-gray-700 mb-3">Available Spells</h3>
+      <ul class="space-y-3">
+        <li *ngFor="let spell of availableSpells"
+            class="p-3 bg-gray-100 border border-gray-300 rounded-md flex justify-between items-center">
+          <span>{{ spell.name }} (Level {{ spell.level }})</span>
+          <button
+            (click)="activateSpell(spell)"
+            [class.opacity-50]="isSpellLimitReached()"
+            [disabled]="isSpellLimitReached()"
+            class="text-green-500 font-semibold"
+          >
+            Add
+          </button>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
