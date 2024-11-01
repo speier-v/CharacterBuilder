@@ -8,7 +8,7 @@ import { NgIf, NgOptimizedImage } from '@angular/common';
     NgOptimizedImage,
     NgIf,
   ],
-  template: `<img ngSrc="assets/images/charactyr.png" fill class="object-cover"
+  template: `<img ngSrc="assets/images/bg_login_2.webp" fill
                   alt="Background image of the Charactyr website's login and registration page showing a character walking towards a fantasy land"
                   priority>`,
 })

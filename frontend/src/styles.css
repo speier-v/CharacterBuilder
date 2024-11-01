@@ -25,7 +25,7 @@ body {
 }
 
 .bg-color {
-  @apply bg-amber-400;
+  @apply bg-teal-700;
 }
 
 .btn-color-scheme {
@@ -38,5 +38,5 @@ body {
 }
 
 .input-field-error-msg {
-  @apply text-red-600 font-bold mt-1;
+  @apply text-red-900 font-bold mt-1;
 }
