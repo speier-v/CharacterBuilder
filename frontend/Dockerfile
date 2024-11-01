@@ -62,4 +62,4 @@ COPY ./frontend/build/nginx.conf /etc/nginx/
 USER root
 RUN chown nginx:nginx /etc/nginx/nginx.conf
 
-USER 101
+USER nginx
