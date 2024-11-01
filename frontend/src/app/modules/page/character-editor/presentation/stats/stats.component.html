@@ -30,7 +30,7 @@
       Modifier: {{ calculateModifier(stats[stat]) }}
     </span>
     <button (click)="unassignValue(stat)" *ngIf="stats[stat] !== null || manualEntryStats[stat]"
-            class="mt-2 text-sm text-orange-600 underline hover:text-orange-800">
+            class="mt-2 text-teal-600 cursor-pointer underline hover:text-teal-800">
       Clear
     </button>
   </div>
