@@ -1,4 +1,12 @@
 services:
+  frontend:
+    container_name: charactyr-frontend
+    image: charactyr/frontend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend/build/environment.json:/usr/share/nginx/html/frontend/browser/assets/environment.json:ro
+
   keycloak:
     container_name: charactyr-auth-keycloak
     image: quay.io/keycloak/keycloak
