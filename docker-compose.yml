@@ -1,0 +1,38 @@
+services:
+  keycloak:
+    container_name: charactyr-auth-keycloak
+    image: quay.io/keycloak/keycloak
+    ports:
+      - "9090:8080"
+    depends_on:
+      - auth-db
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://charactyr-auth-postgres:5433/charactyr-user-management
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=password
+    command: [ "start-dev" ]
+
+  backend-db:
+    container_name: charactyr-backend-postgres
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: charactyr-app-management
+
+  auth-db:
+    container_name: charactyr-auth-postgres
+    image: postgres
+    restart: always
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: charactyr-user-management
+      PGPORT: 5433
+
