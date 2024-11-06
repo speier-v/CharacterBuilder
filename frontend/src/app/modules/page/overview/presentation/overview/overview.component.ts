@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CharacterCardComponent } from '../character-card/character-card.component';
-import { RouterLink } from '@angular/router';
+import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'character-cards-overview',
@@ -15,7 +16,17 @@ import { RouterLink } from '@angular/router';
 export class OverviewComponent {
   protected isPublicCharactersOverview = false;
 
+  constructor(
+    private characterService: CharacterGenService,
+    private router: Router
+  ) {}
+
   protected toggleIsPublicCharactersOverview() {
     this.isPublicCharactersOverview = !this.isPublicCharactersOverview;
+  }
+
+  createCharacter(): void {
+    this.characterService.createCharacter('unnamed');
+    this.router.navigate(['/character-editor']);
   }
 }

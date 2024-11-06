@@ -6,7 +6,7 @@
       <button (click)="toggleIsPublicCharactersOverview()"
               class="px-3 border-r-white border-r-4">{{ isPublicCharactersOverview ? 'My' : 'Public' }} characters
       </button>
-      <button class="px-3" routerLink="/character-editor">Create a character</button>
+      <button class="px-3" routerLink="/character-editor" (click)="createCharacter()">Create a character</button>
     </div>
   </div>
   <hr class="border-black opacity-20 my-5">

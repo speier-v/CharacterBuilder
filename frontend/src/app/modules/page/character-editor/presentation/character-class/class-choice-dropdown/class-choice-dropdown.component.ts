@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'class-choice-dropdown',
@@ -9,7 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './class-choice-dropdown.component.css',
 })
 export class ClassChoiceDropdownComponent {
-  items = ['Fighter', 'Wizard', 'Rogue'];
+  items = ['Select option', 'Fighter', 'Wizard', 'Rogue'];
   selectedItem: string | null = null;
   isDropdownOpen = false;
 
@@ -30,6 +31,11 @@ export class ClassChoiceDropdownComponent {
   selectItem(item: string) {
     this.selectedItem = item;
     this.isDropdownOpen = false;
-    this.itemSelected.emit(item);
+
+    if (item == 'Select option') {
+      this.itemSelected.emit(undefined);
+    } else {
+      this.itemSelected.emit(item);
+    }
   }
 }

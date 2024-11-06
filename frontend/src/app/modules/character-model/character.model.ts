@@ -67,3 +67,45 @@ export interface Character {
   characterClass: string;
   stats: CharacterStats;
 }
+
+export class Character implements Character {
+  name: string;
+  level: number;
+  characterClass: string;
+  stats: CharacterStats;
+
+  constructor(
+    name: string = '',
+    level: number = 1,
+    characterClass: string = '',
+    stats: CharacterStats = { 
+      dexterity: 0,
+      strength: 0,
+      wisdom: 0,
+      intelligence: 0,
+      charisma: 0,
+      constitution: 0
+    }
+  ) {
+    this.name = name;
+    this.level = level;
+    this.characterClass = characterClass;
+    this.stats = stats;
+    console.log(`Character created: ${JSON.stringify(this)}`);
+  }
+
+  setLevel(level: number): void {
+    this.level = level;
+    console.log(`Character changed level: ${this.name} is now level ${this.level}`);
+  }
+
+  setClass(characterClass: string): void {
+    this.characterClass = characterClass;
+    console.log(`Class updated: ${this.name} is now a ${this.characterClass}`);
+  }
+
+  updateStats(newStats: Partial<CharacterStats>): void {
+    this.stats = { ...this.stats, ...newStats };
+    console.log(`Stats updated for ${this.name}: ${JSON.stringify(this.stats)}`);
+  }
+}
