@@ -68,6 +68,7 @@ export interface Character {
   stats: CharacterStats;
   icon: String;
   visibility: string;
+  id: number;
 }
 
 export class IconImages {
@@ -95,9 +96,11 @@ export class Character implements Character {
   stats: CharacterStats;
   icon: String;
   visibility: string;
+  id: number;
 
   constructor(
     name: string,
+    id: number
   ) {
     this.name = name;
     this.level = 1;
@@ -110,8 +113,9 @@ export class Character implements Character {
       charisma: 0,
       constitution: 0
     };
-    this.icon = '';
+    this.icon = new IconImages().images[0];
     this.visibility = 'private';
+    this.id = id;
     console.log(`Character created: ${JSON.stringify(this)}`);
   }
 

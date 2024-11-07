@@ -7,7 +7,7 @@ import { Character, CharacterStats } from './character.model';
 export class CharacterGenService {
   private characters: Character[] = [];
   private currentCharacter: Character | null = null;
-
+  private lastAssignedId: number = 0;
   
   constructor() {
     this.loadCharactersFromStorage();
@@ -25,20 +25,21 @@ export class CharacterGenService {
   }
 
   createCharacter(name: string): Character {
-    const newCharacter = new Character(name);
+    const newCharacter = new Character(name, (this.lastAssignedId+1));
+    this.lastAssignedId += 1;
     this.characters.push(newCharacter);
-    this.setCurrentCharacter(name);
+    this.setCurrentCharacter(newCharacter.id);
     this.saveCharactersToStorage();
     console.log(`New character created: ${JSON.stringify(newCharacter)}`);
     return newCharacter;
   }
 
-  setCurrentCharacter(name: string): void {
-    this.currentCharacter = this.getCharacterByName(name) || null;
+  setCurrentCharacter(id: number): void {
+    this.currentCharacter = this.getCharacterById(id) || null;
     if (this.currentCharacter) {
-      console.log(`Current character set to: ${this.currentCharacter.name}`);
+      console.log(`Current character set to: ${this.currentCharacter.name}, ${this.currentCharacter.id}`);
     } else {
-      console.warn(`Character with name ${name} not found.`);
+      console.warn(`Character with id ${id} not found.`);
     }
   }
 
@@ -66,8 +67,23 @@ export class CharacterGenService {
     return character;
   }
 
+  private getCharacterById(id: number): Character | undefined {
+    const character = this.characters.find(character => character.id === id);
+    if (character) {
+      console.log(`Character found by id ${id}: ${JSON.stringify(character)}`);
+    } else {
+      console.warn(`Character not found by id: ${id}`);
+    }
+    return character;
+  }
+
   updateCurrentCharacter(updatedData: Partial<Character>): void {
     if (this.currentCharacter) {
+      const index = this.characters.findIndex(char => char.id === this.currentCharacter?.id);
+      if (index !== -1) {
+        this.characters[index] = { ...updatedData } as Character;
+      }
+
       this.currentCharacter = { 
         ...(this.currentCharacter as Character), 
         ...updatedData 
