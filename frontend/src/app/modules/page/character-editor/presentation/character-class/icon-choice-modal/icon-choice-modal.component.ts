@@ -15,14 +15,14 @@ export class IconChoiceModalComponent {
 
   images = [
     { src: 'assets/images/character_frame_questionmark.jpeg', caption: 'Caption 1' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 2' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 3' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 4' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 5' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 6' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 7' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 8' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 9' },
+    { src: 'assets/images/character_frame_1.jpeg', caption: 'Caption 2' },
+    { src: 'assets/images/character_frame_2.jpeg', caption: 'Caption 3' },
+    { src: 'assets/images/character_frame_3.jpeg', caption: 'Caption 4' },
+    { src: 'assets/images/character_frame_4.jpeg', caption: 'Caption 5' },
+    { src: 'assets/images/character_frame_5.jpeg', caption: 'Caption 6' },
+    { src: 'assets/images/character_frame_6.jpeg', caption: 'Caption 7' },
+    { src: 'assets/images/character_frame_7.jpeg', caption: 'Caption 8' },
+    { src: 'assets/images/character_frame_8.jpeg', caption: 'Caption 9' },
   ];
 
   selectedImage: { src: string; caption: string } | null = null;
