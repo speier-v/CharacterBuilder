@@ -8,7 +8,7 @@
     <div class="grid grid-cols-3 gap-2 pb-3">
       <div *ngFor="let image of images"
            class="border text-centercursor-pointer hover:opacity-50 transition-opacity duration-300">
-        <img (click)="selectImage(image)" [src]="image" class="w-full h-20 object-cover">
+        <img (click)="selectImage(image)" [src]="image" class="w-full h-32 w-32 object-contain">
       </div>
     </div>
 

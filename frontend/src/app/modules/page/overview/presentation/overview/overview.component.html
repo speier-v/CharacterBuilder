@@ -11,9 +11,8 @@
   </div>
   <hr class="border-black opacity-20 my-5">
   <div class="grid auto-cols-auto md:grid-cols-2 lg:grid-cols-2 gap-4">
-    <character-card [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
-    <character-card [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
-    <character-card [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
-    <character-card [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
+    <div div *ngFor="let character of characters">
+      <character-card [character]="character" [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
+    </div>
   </div>
 </div>

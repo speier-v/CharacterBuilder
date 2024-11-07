@@ -97,7 +97,6 @@ export class CharacterClassComponent {
   onClassChosen(selected: string) {
     this.dropdownSelectedClass = selected;
     this.selectedClass = this.characterClasses.find(c => c.className === selected) || null;
-    this.selectedLevel = null;
 
     if (this.selectedClass != null && this.character != null) {
       this.character.characterClass = this.selectedClass.className;

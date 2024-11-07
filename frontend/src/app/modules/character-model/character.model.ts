@@ -76,7 +76,7 @@ export class IconImages {
 
   constructor() {
     this.images = [
-      'assets/images/character_frame_questionmark.jpeg',
+      'assets/images/character-avatar.png',
       'assets/images/character_frame_1.jpeg',
       'assets/images/character_frame_2.jpeg',
       'assets/images/character_frame_3.jpeg',

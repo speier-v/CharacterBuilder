@@ -1,7 +1,6 @@
-<div *ngIf="levels.length > 0">
-  <select (change)="onLevelSelect($event)" [value]="selectedLevel || ''"
-          class="w-full py-2 text-center bg-white border rounded-md shadow-sm hover:bg-gray-100">
-    <option value="">-- Choose a Level --</option>
-    <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+<div *ngIf="levels.length > 0 && character">
+  <select [(ngModel)]="character.level" (change)="onLevelSelect($event)" [value]="character.level"
+          class="w-full py-2 pl-5 pr-10 text-center bg-white border rounded-md shadow-sm hover:bg-gray-100">
+    <option class="text-center" *ngFor="let level of levels" [value]="level">{{ level }}</option>
   </select>
 </div>

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgModel } from '@angular/forms';
+import { Character } from '../../../../../character-model/character.model';
+import { CharacterGenService } from '../../../../../character-model/character-gen.service';
 
 @Component({
   selector: 'class-choice-dropdown',
@@ -13,12 +15,20 @@ export class ClassChoiceDropdownComponent {
   items = ['Select option', 'Fighter', 'Wizard', 'Rogue'];
   selectedItem: string | null = null;
   isDropdownOpen = false;
+  character: Character | null = null;
 
   @Output() itemSelected = new EventEmitter<string>();
 
+  constructor(private characterService: CharacterGenService) {
+    this.character = this.characterService.getCurrentCharacter();
+  }
+
   ngOnInit() {
-    if (this.items.length > 0) {
+    if (this.character != null && this.character.characterClass == '') {
       this.selectedItem = this.items[0];
+      this.itemSelected.emit(this.selectedItem);
+    } else if (this.character != null) {
+      this.selectedItem = this.character.characterClass;
       this.itemSelected.emit(this.selectedItem);
     }
   }
