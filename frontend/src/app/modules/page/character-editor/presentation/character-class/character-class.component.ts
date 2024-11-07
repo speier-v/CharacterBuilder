@@ -8,7 +8,7 @@ import { ClassDescriptionComponent } from './class-description/class-description
 import { LevelChoiceDropdownComponent } from './level-choice-dropdown/level-choice-dropdown.component';
 import { ModelCharacterClass, modelCharacterClasses } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
-import { Character } from '../../../../character-model/character.model';
+import { Character, IconImages } from '../../../../character-model/character.model';
 
 @Component({
   selector: 'character-class',
@@ -18,7 +18,7 @@ import { Character } from '../../../../character-model/character.model';
   styleUrl: './character-class.component.css',
 })
 export class CharacterClassComponent {
-  @Input() selectedImage: { src: string; caption: string } | null = null;
+  @Input() selectedImage: String;
   isModalOpen = false;
   @Output() navigate = new EventEmitter<string>();
   dropdownSelectedClass: string | null = null;
@@ -29,9 +29,12 @@ export class CharacterClassComponent {
   characterClasses = modelCharacterClasses;
   selectedClass: ModelCharacterClass | null = null;
   selectedLevel: number | null = null;
+  images: Array<String>;
 
   constructor(private characterService: CharacterGenService) {
     this.character = this.characterService.getCurrentCharacter();
+    this.images = new IconImages().images;
+    this.selectedImage = this.images[0];
   }
 
   protected readonly copyCharacterForm = new FormGroup({
@@ -46,8 +49,12 @@ export class CharacterClassComponent {
     this.isModalOpen = false;
   }
 
-  onImageSelected(image: { src: string; caption: string } | null) {
+  onImageSelected(image: string) {
     this.selectedImage = image;
+    if (this.character != null) {
+      this.character.icon = image;
+      this.characterService.updateCurrentCharacter(this.character);
+    }
   }
 
   onNavigate() {

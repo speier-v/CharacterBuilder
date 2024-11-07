@@ -66,15 +66,36 @@ export interface Character {
   level: number;
   characterClass: string;
   stats: CharacterStats;
+  icon: string;
 }
+
+export class IconImages {
+  images: Array<String>;
+
+  constructor() {
+    this.images = [
+      'assets/images/character_frame_questionmark.jpeg',
+      'assets/images/character_frame_1.jpeg',
+      'assets/images/character_frame_2.jpeg',
+      'assets/images/character_frame_3.jpeg',
+      'assets/images/character_frame_4.jpeg',
+      'assets/images/character_frame_5.jpeg',
+      'assets/images/character_frame_6.jpeg',
+      'assets/images/character_frame_7.jpeg',
+      'assets/images/character_frame_8.jpeg'
+    ];
+  }
+} 
 
 export class Character implements Character {
   name: string;
   level: number;
   characterClass: string;
   stats: CharacterStats;
+  icon: string;
 
   constructor(
+    icon: string = '',
     name: string = '',
     level: number = 1,
     characterClass: string = '',
@@ -91,6 +112,7 @@ export class Character implements Character {
     this.level = level;
     this.characterClass = characterClass;
     this.stats = stats;
+    this.icon = icon;
     console.log(`Character created: ${JSON.stringify(this)}`);
   }
 
@@ -107,5 +129,14 @@ export class Character implements Character {
   updateStats(newStats: Partial<CharacterStats>): void {
     this.stats = { ...this.stats, ...newStats };
     console.log(`Stats updated for ${this.name}: ${JSON.stringify(this.stats)}`);
+  }
+
+  setIcon(icon: string): void {
+    this.icon = icon;
+    console.log(`Character changed icon to ${this.icon}`);
+  }
+
+  getIcon(): String {
+    return this.icon;
   }
 }
