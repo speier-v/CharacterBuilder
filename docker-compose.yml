@@ -4,24 +4,25 @@ services:
     image: charactyr/frontend
     ports:
       - "8080:8080"
-    volumes:
-      - ./frontend/build/environment.json:/usr/share/nginx/html/frontend/browser/assets/environment.json:ro
 
   keycloak:
     container_name: charactyr-auth-keycloak
-    image: quay.io/keycloak/keycloak
+    image: bitnami/keycloak
     ports:
       - "9090:8080"
     depends_on:
       - auth-db
     environment:
-      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
-      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
-      - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://charactyr-auth-postgres:5433/charactyr-user-management
-      - KC_DB_USERNAME=postgres
-      - KC_DB_PASSWORD=password
-    command: [ "start-dev" ]
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KEYCLOAK_DATABASE_HOST: charactyr-auth-postgres
+      KEYCLOAK_DATABASE_PORT: 5433
+      KEYCLOAK_DATABASE_USER: postgres
+      KEYCLOAK_DATABASE_PASSWORD: password
+      KEYCLOAK_DATABASE_NAME: charactyr-user-management
+      KEYCLOAK_EXTRA_ARGS: "--import-realm"
+    volumes:
+      - ./frontend/build/keycloak-config.json:/opt/bitnami/keycloak/data/import/keycloak-config.json:ro
 
   backend-db:
     container_name: charactyr-backend-postgres
