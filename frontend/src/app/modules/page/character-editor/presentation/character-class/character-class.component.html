@@ -12,12 +12,15 @@
            src="assets/images/character_frame_questionmark.jpeg"
            width="100px">
     </ng-template>
-    <div class="flex flex-col">
+    <form [formGroup]="characterForm" class="flex flex-col">
       <p class="pb-3 text-xl accent-font">Character name</p>
-      <input class="p-2 corner-rounding input-field border-2 border-black"
-             placeholder="Name your character..."
-             type="text" />
-    </div>
+      <input 
+        formControlName="characterName"
+        class="p-2 corner-rounding input-field border-2 border-black"
+        placeholder="Name your character..."
+        type="text" 
+      />
+    </form>
   </div>
 
   <form *ngIf="copyCharacterForm" [formGroup]="copyCharacterForm">

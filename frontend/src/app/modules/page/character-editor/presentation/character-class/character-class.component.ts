@@ -40,10 +40,19 @@ export class CharacterClassComponent {
     if (this.character != null) {
       this.visibility = this.character.visibility;
       this.copyCharacterForm.get('newCharacterVisibility')?.setValue(`character-visibility-${this.visibility}`);
+      this.characterForm.get('characterName')?.setValue(`${this.character.name}`);
     }
   }
 
   ngOnInit() {
+    this.characterForm.get('characterName')?.valueChanges.subscribe(name => {
+      if (this.character != null && name != null) {
+        this.character.name = name;
+        this.characterService.updateCurrentCharacter(this.character);
+      }
+      console.log('Name changed to:', name);
+    });
+
     this.copyCharacterForm.get('newCharacterVisibility')?.valueChanges.subscribe(value => {
       if (this.character != null && value != null) {
         if (value.includes('private')) {
@@ -59,6 +68,10 @@ export class CharacterClassComponent {
 
   protected readonly copyCharacterForm = new FormGroup({
     newCharacterVisibility: new FormControl('character-visibility-private', { updateOn: 'change' }),
+  });
+
+  protected readonly characterForm = new FormGroup({
+    characterName: new FormControl('', {updateOn : 'blur'}),
   });
 
   showImageChoice() {
