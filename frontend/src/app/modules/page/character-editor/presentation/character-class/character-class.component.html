@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <form [formGroup]="copyCharacterForm">
+  <form *ngIf="copyCharacterForm" [formGroup]="copyCharacterForm">
     <div class="flex flex-col px-10 mt-5">
       <h2 class="text-lg accent-font">Visibility:</h2>
       <div class="flex">

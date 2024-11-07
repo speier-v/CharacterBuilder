@@ -30,15 +30,35 @@ export class CharacterClassComponent {
   selectedClass: ModelCharacterClass | null = null;
   selectedLevel: number | null = null;
   images: Array<String>;
+  visibility: string | null = null;
 
   constructor(private characterService: CharacterGenService) {
     this.character = this.characterService.getCurrentCharacter();
     this.images = new IconImages().images;
     this.selectedImage = this.images[0];
+
+    if (this.character != null) {
+      this.visibility = this.character.visibility;
+      this.copyCharacterForm.get('newCharacterVisibility')?.setValue(`character-visibility-${this.visibility}`);
+    }
+  }
+
+  ngOnInit() {
+    this.copyCharacterForm.get('newCharacterVisibility')?.valueChanges.subscribe(value => {
+      if (this.character != null && value != null) {
+        if (value.includes('private')) {
+          this.character.visibility = 'private';
+        } else if (value.includes('public')) {
+          this.character.visibility = 'public';
+        }
+        this.characterService.updateCurrentCharacter(this.character);
+      }
+      console.log('Visibility changed to:', value);
+    });
   }
 
   protected readonly copyCharacterForm = new FormGroup({
-    newCharacterVisibility: new FormControl('character-visibility-private', { updateOn: 'blur' }),
+    newCharacterVisibility: new FormControl('character-visibility-private', { updateOn: 'change' }),
   });
 
   showImageChoice() {
@@ -49,7 +69,7 @@ export class CharacterClassComponent {
     this.isModalOpen = false;
   }
 
-  onImageSelected(image: string) {
+  onImageSelected(image: String) {
     this.selectedImage = image;
     if (this.character != null) {
       this.character.icon = image;

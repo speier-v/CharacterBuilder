@@ -66,7 +66,8 @@ export interface Character {
   level: number;
   characterClass: string;
   stats: CharacterStats;
-  icon: string;
+  icon: String;
+  visibility: string;
 }
 
 export class IconImages {
@@ -92,27 +93,25 @@ export class Character implements Character {
   level: number;
   characterClass: string;
   stats: CharacterStats;
-  icon: string;
+  icon: String;
+  visibility: string;
 
   constructor(
-    icon: string = '',
-    name: string = '',
-    level: number = 1,
-    characterClass: string = '',
-    stats: CharacterStats = { 
+    name: string,
+  ) {
+    this.name = name;
+    this.level = 1;
+    this.characterClass = '';
+    this.stats = { 
       dexterity: 0,
       strength: 0,
       wisdom: 0,
       intelligence: 0,
       charisma: 0,
       constitution: 0
-    }
-  ) {
-    this.name = name;
-    this.level = level;
-    this.characterClass = characterClass;
-    this.stats = stats;
-    this.icon = icon;
+    };
+    this.icon = '';
+    this.visibility = 'private';
     console.log(`Character created: ${JSON.stringify(this)}`);
   }
 
@@ -131,12 +130,21 @@ export class Character implements Character {
     console.log(`Stats updated for ${this.name}: ${JSON.stringify(this.stats)}`);
   }
 
-  setIcon(icon: string): void {
+  setIcon(icon: String): void {
     this.icon = icon;
     console.log(`Character changed icon to ${this.icon}`);
   }
 
   getIcon(): String {
     return this.icon;
+  }
+
+  setVisibility(visibility: string): void {
+    this.visibility = visibility;
+    console.log(`Character visibility set to ${this.visibility}`);
+  }
+
+  getVisibility(): string {
+    return this.visibility;
   }
 }
