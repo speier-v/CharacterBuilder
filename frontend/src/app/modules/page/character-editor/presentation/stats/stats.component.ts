@@ -27,6 +27,7 @@ export class StatsComponent {
   rolledValue: number | null = null;
   showScoreModifierTable: boolean = false;
   character: Character | null = null;
+  isFromSavedCharacter: boolean = false;
 
   availableValues = [15, 14, 13, 12, 10, 8, 'manual', 'random'] as (number | string)[];
   manualEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
@@ -73,6 +74,28 @@ export class StatsComponent {
 
   constructor(private router: Router, private characterService: CharacterGenService) {
     this.character = this.characterService.getCurrentCharacter();
+    if (this.character != null) {
+      this.stats = this.character.stats;
+      this.initializeStats();
+    }    
+  }
+
+  initializeStats() {
+    let allValuesAreNull = true;
+    for (const stat in this.stats) {
+      if (this.stats.hasOwnProperty(stat)) {
+        const statKey = stat as keyof CharacterStats;
+  
+        this.manualEntryStats[statKey] = true;
+        this.manualStatValues[statKey] = this.stats[statKey];
+
+        if (this.stats[statKey] !== null) {
+          allValuesAreNull = false;
+        }
+      }
+    }
+
+    this.isFromSavedCharacter = !allValuesAreNull;
   }
 
   isValueAssigned(value: string | number): boolean {
