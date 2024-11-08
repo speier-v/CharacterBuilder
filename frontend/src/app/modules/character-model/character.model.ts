@@ -27,6 +27,48 @@ export interface savingThrowProficiencies {
   charisma: boolean;
 };
 
+export interface skillProficiencies {
+  acrobatics: boolean;
+  animalHandling: boolean;
+  arcana: boolean;
+  athletics: boolean;
+  deception: boolean;
+  history: boolean;
+  insight: boolean;
+  intimidation: boolean;
+  investigation: boolean;
+  medicine: boolean;
+  nature: boolean;
+  perception: boolean;
+  performance: boolean;
+  persuasion: boolean;
+  religion: boolean;
+  sleightOfHand: boolean;
+  stealth: boolean;
+  survival: boolean;
+};
+
+export interface skills {
+  acrobatics: { ability: string; proficient: boolean; bonus: number; };
+  animalHandling: { ability: string; proficient: boolean; bonus: number; };
+  arcana: { ability: string; proficient: boolean; bonus: number; };
+  athletics: { ability: string; proficient: boolean; bonus: number; };
+  deception: { ability: string; proficient: boolean; bonus: number; };
+  history: { ability: string; proficient: boolean; bonus: number; };
+  insight: { ability: string; proficient: boolean; bonus: number; };
+  intimidation: { ability: string; proficient: boolean; bonus: number; };
+  investigation: { ability: string; proficient: boolean; bonus: number; };
+  medicine: { ability: string; proficient: boolean; bonus: number; };
+  nature: { ability: string; proficient: boolean; bonus: number; };
+  perception: { ability: string; proficient: boolean; bonus: number; };
+  performance: { ability: string; proficient: boolean; bonus: number; };
+  persuasion: { ability: string; proficient: boolean; bonus: number; };
+  religion: { ability: string; proficient: boolean; bonus: number; };
+  sleightOfHand: { ability: string; proficient: boolean; bonus: number; };
+  stealth: { ability: string; proficient: boolean; bonus: number; };
+  survival: { ability: string; proficient: boolean; bonus: number; };
+};
+
 export interface savingThrows {
   dexterity: number;
   strength: number;
@@ -101,6 +143,8 @@ export interface Character {
   additionalStats: additionalStats;
   savingThrowProficiencies: savingThrowProficiencies;
   savingThrows: savingThrows;
+  skillProficiencies: skillProficiencies;
+  skills: skills;
 }
 
 export class IconImages {
@@ -132,6 +176,8 @@ export class Character implements Character {
   additionalStats: additionalStats;
   savingThrowProficiencies: savingThrowProficiencies;
   savingThrows: savingThrows;
+  skillProficiencies: skillProficiencies;
+  skills: skills;
 
   constructor(
     name: string,
@@ -159,14 +205,28 @@ export class Character implements Character {
       wisdom: false,
       charisma: false,
     };
-    this.savingThrows = {
-      dexterity: 0,
-      strength: 0,
-      wisdom: 0,
-      intelligence: 0,
-      charisma: 0,
-      constitution: 0,
-    }
+    this.savingThrows = this.calculateSavingThrows(this.calculateProficiency(this.level));
+    this.skillProficiencies = {
+      acrobatics: false,
+      animalHandling: false,
+      arcana: false,
+      athletics: false,
+      deception: false,
+      history: false,
+      insight: false,
+      intimidation: false,
+      investigation: false,
+      medicine: false,
+      nature: false,
+      perception: false,
+      performance: false,
+      persuasion: false,
+      religion: false,
+      sleightOfHand: false,
+      stealth: false,
+      survival: false,
+    };
+    this.skills = this.calculateSkills();
     this.additionalStats = this.calculateAdditionalStats();
     
     console.log(`Character created: ${JSON.stringify(this)}`);
@@ -178,7 +238,7 @@ export class Character implements Character {
     const armorBase = 10;
     const hitDie = 10;
 
-    this.savingThrows = this.calculateSavingThrows(proficiencyBonus);
+    //this.savingThrows = this.calculateSavingThrows(proficiencyBonus);
     return this.additionalStats = {
       proficiency: proficiencyBonus,
       speed: speed,
@@ -233,6 +293,185 @@ export class Character implements Character {
   ): number {
     const abilityModifier = this.calculateModifier(abilityScore);
     return abilityModifier + (isProficient ? proficiencyBonus : 0);
+  }
+
+  calculateSkillBonus(
+    abilityScore: number | null,
+    proficiencyBonus: number,
+    isProficient: boolean
+  ): number {
+    const abilityModifier = this.calculateModifier(abilityScore ?? 0);
+    return abilityModifier + (isProficient ? proficiencyBonus : 0);
+  }
+  
+  calculateSkills(): skills {
+    const proficiencyBonus = this.calculateProficiency(this.level);
+    console.log('Re-calculating skills!');
+  
+    return this.skills = {
+      acrobatics: {
+        ability: 'dexterity',
+        proficient: this.skillProficiencies.acrobatics,
+        bonus: this.calculateSkillBonus(
+          this.stats.dexterity,
+          proficiencyBonus,
+          this.skillProficiencies.acrobatics
+        ),
+      },
+      animalHandling: {
+        ability: 'wisdom',
+        proficient: this.skillProficiencies.animalHandling,
+        bonus: this.calculateSkillBonus(
+          this.stats.wisdom,
+          proficiencyBonus,
+          this.skillProficiencies.animalHandling
+        ),
+      },
+      arcana: {
+        ability: 'intelligence',
+        proficient: this.skillProficiencies.arcana,
+        bonus: this.calculateSkillBonus(
+          this.stats.intelligence,
+          proficiencyBonus,
+          this.skillProficiencies.arcana
+        ),
+      },
+      athletics: {
+        ability: 'strength',
+        proficient: this.skillProficiencies.athletics,
+        bonus: this.calculateSkillBonus(
+          this.stats.strength,
+          proficiencyBonus,
+          this.skillProficiencies.athletics
+        ),
+      },
+      deception: {
+        ability: 'charisma',
+        proficient: this.skillProficiencies.deception,
+        bonus: this.calculateSkillBonus(
+          this.stats.charisma,
+          proficiencyBonus,
+          this.skillProficiencies.deception
+        ),
+      },
+      history: {
+        ability: 'intelligence',
+        proficient: this.skillProficiencies.history,
+        bonus: this.calculateSkillBonus(
+          this.stats.intelligence,
+          proficiencyBonus,
+          this.skillProficiencies.history
+        ),
+      },
+      insight: {
+        ability: 'wisdom',
+        proficient: this.skillProficiencies.insight,
+        bonus: this.calculateSkillBonus(
+          this.stats.wisdom,
+          proficiencyBonus,
+          this.skillProficiencies.insight
+        ),
+      },
+      intimidation: {
+        ability: 'charisma',
+        proficient: this.skillProficiencies.intimidation,
+        bonus: this.calculateSkillBonus(
+          this.stats.charisma,
+          proficiencyBonus,
+          this.skillProficiencies.intimidation
+        ),
+      },
+      investigation: {
+        ability: 'intelligence',
+        proficient: this.skillProficiencies.investigation,
+        bonus: this.calculateSkillBonus(
+          this.stats.intelligence,
+          proficiencyBonus,
+          this.skillProficiencies.investigation
+        ),
+      },
+      medicine: {
+        ability: 'wisdom',
+        proficient: this.skillProficiencies.medicine,
+        bonus: this.calculateSkillBonus(
+          this.stats.wisdom,
+          proficiencyBonus,
+          this.skillProficiencies.medicine
+        ),
+      },
+      nature: {
+        ability: 'intelligence',
+        proficient: this.skillProficiencies.nature,
+        bonus: this.calculateSkillBonus(
+          this.stats.intelligence,
+          proficiencyBonus,
+          this.skillProficiencies.nature
+        ),
+      },
+      perception: {
+        ability: 'wisdom',
+        proficient: this.skillProficiencies.perception,
+        bonus: this.calculateSkillBonus(
+          this.stats.wisdom,
+          proficiencyBonus,
+          this.skillProficiencies.perception
+        ),
+      },
+      performance: {
+        ability: 'charisma',
+        proficient: this.skillProficiencies.performance,
+        bonus: this.calculateSkillBonus(
+          this.stats.charisma,
+          proficiencyBonus,
+          this.skillProficiencies.performance
+        ),
+      },
+      persuasion: {
+        ability: 'charisma',
+        proficient: this.skillProficiencies.persuasion,
+        bonus: this.calculateSkillBonus(
+          this.stats.charisma,
+          proficiencyBonus,
+          this.skillProficiencies.persuasion
+        ),
+      },
+      religion: {
+        ability: 'intelligence',
+        proficient: this.skillProficiencies.religion,
+        bonus: this.calculateSkillBonus(
+          this.stats.intelligence,
+          proficiencyBonus,
+          this.skillProficiencies.religion
+        ),
+      },
+      sleightOfHand: {
+        ability: 'dexterity',
+        proficient: this.skillProficiencies.sleightOfHand,
+        bonus: this.calculateSkillBonus(
+          this.stats.dexterity,
+          proficiencyBonus,
+          this.skillProficiencies.sleightOfHand
+        ),
+      },
+      stealth: {
+        ability: 'dexterity',
+        proficient: this.skillProficiencies.stealth,
+        bonus: this.calculateSkillBonus(
+          this.stats.dexterity,
+          proficiencyBonus,
+          this.skillProficiencies.stealth
+        ),
+      },
+      survival: {
+        ability: 'wisdom',
+        proficient: this.skillProficiencies.survival,
+        bonus: this.calculateSkillBonus(
+          this.stats.wisdom,
+          proficiencyBonus,
+          this.skillProficiencies.survival
+        ),
+      },
+    };
   }
 
   calculateModifier(score: number | null): number {

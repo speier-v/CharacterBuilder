@@ -91,6 +91,8 @@ export class CharacterGenService {
       this.currentCharacter = Object.assign(this.currentCharacter, updatedData);
 
       this.currentCharacter.calculateAdditionalStats();
+      this.currentCharacter.calculateSavingThrows(this.currentCharacter.level);
+      this.currentCharacter.calculateSkills();
       if (index !== -1) {
         this.characters[index] = { ...this.currentCharacter } as Character;
       }
