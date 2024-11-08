@@ -12,13 +12,8 @@ import { CharacterGenService } from '../../../../character-model/character-gen.s
 })
 export class SkillsDisplayComponent {
   character : Character | null = null;
-  skills: skills | undefined = undefined;
 
   constructor(private characterService: CharacterGenService) {
     this.character = characterService.getCurrentCharacter();
-  }
-
-  ngOnInit() {
-    this.skills = this.character?.skills;
   }
 }

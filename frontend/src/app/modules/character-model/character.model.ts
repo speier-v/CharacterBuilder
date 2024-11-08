@@ -252,7 +252,7 @@ export class Character implements Character {
   }
 
   calculateSavingThrows(proficiencyBonus: number): savingThrows {
-    return {
+    return this.savingThrows = {
       strength: this.calculateSavingThrow(
         this.stats.strength ?? 0,
         proficiencyBonus,

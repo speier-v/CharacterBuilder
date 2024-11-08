@@ -81,14 +81,11 @@ export class CharacterGenService {
     if (this.currentCharacter) {
       const index = this.characters.findIndex(char => char.id === this.currentCharacter?.id);
       if (index !== -1) {
-        this.characters[index] = { ...updatedData } as Character;
+        //this.characters[index] = { ...updatedData } as Character;
+        Object.assign(this.characters[index], updatedData);
       }
 
-      /*this.currentCharacter = { 
-        ...(this.currentCharacter as Character), 
-        ...updatedData 
-      } as Character;*/
-      this.currentCharacter = Object.assign(this.currentCharacter, updatedData);
+      this.currentCharacter = Object.assign(this.currentCharacter, updatedData) as Character;
 
       this.currentCharacter.calculateAdditionalStats();
       this.currentCharacter.calculateSavingThrows(this.currentCharacter.level);

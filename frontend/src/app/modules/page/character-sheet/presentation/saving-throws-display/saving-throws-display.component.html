@@ -1,7 +1,7 @@
 <div class="flex flex-col pl-5">
-  <div
+  <div *ngIf="character"
     class="w-full h-full border-4 border-teal-700 corner-rounding px-5 pt-4 shadow-sm bg-gray-50 grid grid-cols-2 gap-5 text-center items-center">
-    <div *ngFor="let stat of savingThrows | keyvalue" class="flex flex-row relative pr-4">
+    <div *ngFor="let stat of character.savingThrows | keyvalue" class="flex flex-row relative pr-4">
             <span class="border-2 border-teal-700 corner-rounding py-2 flex-grow text-left font-xs pl-1 pr-4">
                 {{ stat.key | titlecase }}
             </span>
@@ -13,12 +13,12 @@
     <div class="col-span-2 opacity-50 text-lg">Saving throws</div>
   </div>
 
-  <div class="w-full h-full mt-5 border-4 border-teal-700 corner-rounding p-3 shadow-sm bg-gray-50">
-    <div *ngFor="let stat of senses | keyvalue" class="flex flex-col relative px-4">
-            <span class="border-2 border-teal-700 corner-rounding py-2 my-2 flex-grow text-right pr-2">
-                {{ stat.key | titlecase }}
-            </span>
-      <div
+  <div *ngIf="character" class="w-full h-full mt-5 border-4 border-teal-700 corner-rounding p-3 shadow-sm bg-gray-50">
+    <div *ngFor="let stat of character.additionalStats | keyvalue" class="flex flex-col relative px-4">
+        <span *ngIf="stat.key.includes('passive')" class="border-2 border-teal-700 corner-rounding py-2 my-2 flex-grow text-right pr-2">
+            {{ stat.key | titlecase }}
+        </span>
+      <div *ngIf="stat.key.includes('passive')"
         class="absolute -left-2 bottom-3 mt-1 flex items-center justify-center w-10 h-10 border-2 border-teal-700 rounded-full bg-white shadow-md hover:bg-gray-200 transition-colors duration-100 cursor-pointer">
         <span class="text-center text-gray-500 opacity-75">{{ stat.value }}</span>
       </div>

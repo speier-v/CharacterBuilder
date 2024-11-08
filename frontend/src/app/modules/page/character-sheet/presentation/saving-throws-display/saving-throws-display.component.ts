@@ -13,12 +13,14 @@ import { CharacterGenService } from '../../../../character-model/character-gen.s
 export class SavingThrowsDisplayComponent {
 
   character: Character | null = null;
-  savingThrows: {};
-  senses: {};
+  savingThrows: {} | null = null;
+  senses: {} | null = null;
 
   constructor(private characterService: CharacterGenService) {
     this.character = this.characterService.getCurrentCharacter();
+  }
 
+  ngOnInit() {
     this.savingThrows = {
       strength: this.character?.savingThrows.strength,
       charisma: this.character?.savingThrows.charisma,

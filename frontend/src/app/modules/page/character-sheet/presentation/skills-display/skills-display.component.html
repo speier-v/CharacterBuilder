@@ -1,5 +1,5 @@
 <div class="flex flex-col pl-5 pb-5">
-  <div
+  <div *ngIf="character"
     class="w-full h-full border-4 border-teal-700 corner-rounding px-4 pt-4 shadow-sm bg-gray-50 text-center items-center">
     <div class="flex items-center justify-center pr-2 grid grid-cols-5 gap-5 opacity-75">
       <span>Prof</span>
@@ -7,7 +7,7 @@
       <span class="col-span-2 text-left pl-2">Skill</span>
       <span>Bonus</span>
     </div>
-    <div *ngFor="let skill of skills | keyvalue" class="flex items-center justify-center grid grid-cols-5 gap-5">
+    <div *ngFor="let skill of character.skills | keyvalue" class="flex items-center justify-center grid grid-cols-5 gap-5">
       <input [checked]="skill.value.proficient" class="mr-2" type="checkbox">
       <span class="text-center text-gray-500 opacity-50">{{ skill.value.ability | titlecase }}</span>
       <span class="py-2 col-span-2 text-left pl-2">
