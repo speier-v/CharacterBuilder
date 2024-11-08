@@ -42,4 +42,11 @@ export class CharacterCardComponent {
     }    
     this.router.navigate(['/character-editor']);
   }
+
+  navigateToCharacterSheet() {
+    if (this.character != null) {
+      this.characterService.setCurrentCharacter(this.character.id);
+    } 
+    this.router.navigate(['/character-sheet']);
+  }
 }

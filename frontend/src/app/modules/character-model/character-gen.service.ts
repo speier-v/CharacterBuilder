@@ -84,10 +84,16 @@ export class CharacterGenService {
         this.characters[index] = { ...updatedData } as Character;
       }
 
-      this.currentCharacter = { 
+      /*this.currentCharacter = { 
         ...(this.currentCharacter as Character), 
         ...updatedData 
-      } as Character;
+      } as Character;*/
+      this.currentCharacter = Object.assign(this.currentCharacter, updatedData);
+
+      this.currentCharacter.calculateAdditionalStats();
+      if (index !== -1) {
+        this.characters[index] = { ...this.currentCharacter } as Character;
+      }
       
       console.log(`Current character updated: ${JSON.stringify(this.currentCharacter)}`);
       this.saveCharactersToStorage();

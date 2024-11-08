@@ -7,6 +7,35 @@ export interface CharacterStats {
   constitution: number | null;
 }
 
+export interface additionalStats {
+  proficiency: number;
+  speed: number;
+  armorClass: number;
+  maxHP: number;
+  passiveInsight: number;
+  passivePerception: number;
+  passiveInvestigation: number;
+  initiative: number;
+}
+
+export interface savingThrowProficiencies {
+  strength: boolean;
+  dexterity: boolean;
+  constitution: boolean;
+  intelligence: boolean;
+  wisdom: boolean;
+  charisma: boolean;
+};
+
+export interface savingThrows {
+  dexterity: number;
+  strength: number;
+  wisdom: number;
+  intelligence: number;
+  charisma: number;
+  constitution: number;
+}
+
 export interface Skill {
   name: string;
   description: string;
@@ -69,6 +98,9 @@ export interface Character {
   icon: String;
   visibility: string;
   id: number;
+  additionalStats: additionalStats;
+  savingThrowProficiencies: savingThrowProficiencies;
+  savingThrows: savingThrows;
 }
 
 export class IconImages {
@@ -97,6 +129,9 @@ export class Character implements Character {
   icon: String;
   visibility: string;
   id: number;
+  additionalStats: additionalStats;
+  savingThrowProficiencies: savingThrowProficiencies;
+  savingThrows: savingThrows;
 
   constructor(
     name: string,
@@ -116,8 +151,122 @@ export class Character implements Character {
     this.icon = new IconImages().images[0];
     this.visibility = 'private';
     this.id = id;
+    this.savingThrowProficiencies = {
+      strength: false,
+      dexterity: false,
+      constitution: false,
+      intelligence: false,
+      wisdom: false,
+      charisma: false,
+    };
+    this.savingThrows = {
+      dexterity: 0,
+      strength: 0,
+      wisdom: 0,
+      intelligence: 0,
+      charisma: 0,
+      constitution: 0,
+    }
+    this.additionalStats = this.calculateAdditionalStats();
+    
     console.log(`Character created: ${JSON.stringify(this)}`);
   }
+
+  calculateAdditionalStats(): additionalStats {
+    const proficiencyBonus = this.calculateProficiency(this.level);
+    const speed = 30;
+    const armorBase = 10;
+    const hitDie = 10;
+
+    this.savingThrows = this.calculateSavingThrows(proficiencyBonus);
+    return this.additionalStats = {
+      proficiency: proficiencyBonus,
+      speed: speed,
+      armorClass: this.calculateArmorClass(armorBase),
+      maxHP: this.calculateMaxHP(hitDie),
+      passiveInsight: this.calculatePassiveSkill(this.stats.wisdom, proficiencyBonus, false),
+      passivePerception: this.calculatePassiveSkill(this.stats.wisdom, proficiencyBonus, false),
+      passiveInvestigation: this.calculatePassiveSkill(this.stats.intelligence, proficiencyBonus, false),
+      initiative: this.calculateModifier(this.stats.dexterity),
+    };
+  }
+
+  calculateSavingThrows(proficiencyBonus: number): savingThrows {
+    return {
+      strength: this.calculateSavingThrow(
+        this.stats.strength ?? 0,
+        proficiencyBonus,
+        this.savingThrowProficiencies.strength
+      ),
+      dexterity: this.calculateSavingThrow(
+        this.stats.dexterity ?? 0,
+        proficiencyBonus,
+        this.savingThrowProficiencies.dexterity
+      ),
+      constitution: this.calculateSavingThrow(
+        this.stats.constitution ?? 0,
+        proficiencyBonus,
+        this.savingThrowProficiencies.constitution
+      ),
+      intelligence: this.calculateSavingThrow(
+        this.stats.intelligence ?? 0,
+        proficiencyBonus,
+        this.savingThrowProficiencies.intelligence
+      ),
+      wisdom: this.calculateSavingThrow(
+        this.stats.wisdom ?? 0,
+        proficiencyBonus,
+        this.savingThrowProficiencies.wisdom
+      ),
+      charisma: this.calculateSavingThrow(
+        this.stats.charisma ?? 0,
+        proficiencyBonus,
+        this.savingThrowProficiencies.charisma
+      ),
+    };
+  }
+
+  calculateSavingThrow(
+    abilityScore: number,
+    proficiencyBonus: number,
+    isProficient: boolean
+  ): number {
+    const abilityModifier = this.calculateModifier(abilityScore);
+    return abilityModifier + (isProficient ? proficiencyBonus : 0);
+  }
+
+  calculateModifier(score: number | null): number {
+    if (score != null) {
+      return Math.floor((score - 10) / 2);
+    }
+    return Math.floor((10 - 10) / 2);
+  }
+
+  calculateProficiency(level: number): number {
+    return Math.floor((level - 1) / 4) + 2;
+  }
+
+  calculateArmorClass(armorBase: number): number {
+    const dexModifier = this.calculateModifier(this.stats.dexterity);
+    return armorBase + dexModifier;
+  }
+
+  calculateMaxHP(hitDie: number): number {
+    const conModifier = this.calculateModifier(this.stats.constitution);
+    return hitDie + (this.level - 1) * (Math.floor(hitDie / 2) + 1 + conModifier);
+  }
+
+  calculatePassiveSkill(
+    abilityScore: number | null,
+    proficiencyBonus: number,
+    isProficient: boolean
+  ): number {
+    if (abilityScore != null) {
+      return 10 + this.calculateModifier(abilityScore) + (isProficient ? proficiencyBonus : 0);
+    }
+    return 0;
+  }
+
 
   setLevel(level: number): void {
     this.level = level;

@@ -1,12 +1,12 @@
 <div class="flex flex-row p-5 bg-white bg-opacity-50 w-full">
-  <div>
-    <img class="pr-5" height="100px" src="assets/images/character_frame_empty.jpeg"
+  <div *ngIf="character">
+    <img class="pr-5 h-20 w-20 object-contain" [src]="character.icon"
          width="100px">
   </div>
-  <div class="flex flex-col">
-    <p class="text-2xl">Character Name</p>
-    <p>Character Class</p>
-    <p class="opacity-50">Character Level</p>
+  <div *ngIf="character" class="flex flex-col">
+    <p class="text-2xl"> {{ character.name }} </p>
+    <p> {{ character.characterClass }} </p>
+    <p class="opacity-50"> Level {{ character.level }} </p>
   </div>
   <div class="flex ml-auto items-center">
     <button (click)="clickToNav('/character-editor')"

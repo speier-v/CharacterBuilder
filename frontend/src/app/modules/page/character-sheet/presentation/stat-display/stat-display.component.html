@@ -1,4 +1,4 @@
-<div class="flex flex-row w-full justify-between px-5">
+<div *ngIf="character" class="flex flex-row w-full justify-between px-5">
   <div class="w-1/2 pb-10 grid grid-cols-6 gap-2 bg-transparent py-5">
     <div *ngFor="let entry of stats | keyvalue"
          class="pb-5 flex flex-col items-center border-4 border-teal-700 corner-rounding p-3 shadow-sm bg-gray-50 relative">
@@ -15,24 +15,24 @@
     <div
       class="mt-5 mb-10 flex flex-col flex-grow justify-center border-4 border-teal-700 corner-rounding p-3 shadow-sm bg-gray-50 relative">
       <label class="text-gray-800 text-center">Proficiency</label>
-      <div class="font-bold text-center corner-rounding text-gray-700 border border-gray-300">+ {{ proficiencyModifier }}</div>
+      <div class="font-bold text-center corner-rounding text-gray-700 border border-gray-300">+ {{ character.additionalStats.proficiency }}</div>
       <div class="text-center text-gray-700">Bonus</div>
     </div>
     <div
       class="mt-5 mb-10 flex flex-col flex-grow justify-center items-center border-4 border-teal-700 corner-rounding p-3 shadow-sm bg-gray-50 relative">
       <label class="text-gray-800 text-center">Initiative</label>
-      <div class="font-bold text-center px-5 border border-gray-300 corner-rounding">+ {{ initiative }}</div>
+      <div class="font-bold text-center px-5 border border-gray-300 corner-rounding">+ {{ character.additionalStats.initiative }}</div>
     </div>
     <div
       class="mt-5 mb-10 flex flex-col flex-grow justify-center items-center border-4 border-teal-700 corner-rounding p-3 shadow-sm bg-gray-50 relative">
       <label class="text-gray-800 text-center">Speed</label>
-      <div class="font-bold text-center text-gray-700 px-3 border border-gray-300 corner-rounding">{{ speed }} ft</div>
+      <div class="font-bold text-center text-gray-700 px-3 border border-gray-300 corner-rounding">{{ character.additionalStats.speed }} ft</div>
     </div>
     <div
       class="mt-5 mb-10 flex flex-col flex-grow justify-center border-4 border-teal-700 corner-rounding p-3 shadow-sm bg-gray-50 relative">
       <label class="text-gray-800 text-center">Armor</label>
       <label class="text-gray-800 text-center">Class</label>
-      <div class="font-bold text-center text-gray-700 border border-gray-300 corner-rounding">{{ armorClass }}</div>
+      <div class="font-bold text-center text-gray-700 border border-gray-300 corner-rounding">{{ character.additionalStats.armorClass }}</div>
     </div>
     <div
       class="mt-5 mb-10 flex flex-col flex-grow border-4 border-teal-700 corner-rounding p-3 shadow-sm bg-gray-50 relative">
@@ -40,9 +40,9 @@
         <label class="text-gray-800 text-lg opacity-50">Current</label>
         <label></label>
         <label class="text-gray-800 text-right pr-2 text-lg opacity-50">Max</label>
-        <div class="text-center text-gray-700 text-xl border border-gray-300 corner-rounding"> {{ currentHP }}</div>
+        <div class="text-center text-gray-700 text-xl border border-gray-300 corner-rounding"> {{ character.additionalStats.maxHP }}</div>
         <div class="text-center text-gray-700 text-xl"> /</div>
-        <div class="text-center text-gray-700 text-xl border border-gray-300 corner-rounding"> {{ maxHP }}</div>
+        <div class="text-center text-gray-700 text-xl border border-gray-300 corner-rounding"> {{ character.additionalStats.maxHP }}</div>
       </div>
       <label class="text-gray-800 opacity-50 text-center">Hit Points</label>
     </div>
