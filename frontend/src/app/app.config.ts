@@ -3,29 +3,30 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { EnvironmentService } from './modules/core/environment.service';
 import { provideHttpClient } from '@angular/common/http';
+import keycloakConfig from './keycloak.config';
+import { KeycloakService } from 'keycloak-angular';
 
-export function loadEnvironment(envService: EnvironmentService) {
-  return () => envService.loadEnv().subscribe({
-      next: environment => {
-        envService.setEnv(environment);
-        console.info('Environment loaded: ');
-      },
-      error: error => {
-        console.error('Environment not loaded:', error);
-      },
-    },
-  );
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: keycloakConfig.config,
+      initOptions: keycloakConfig.initOptions,
+    });
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideAnimationsAsync(),
-    provideHttpClient(), EnvironmentService, {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideAnimationsAsync(),
+    provideHttpClient(),
+    KeycloakService,
+    {
       provide: APP_INITIALIZER,
-      useFactory: loadEnvironment,
-      deps: [EnvironmentService],
-      multi: true
+      useFactory: initializeKeycloak,
+      deps: [KeycloakService],
+      multi: true,
     },
   ],
 };
