@@ -49,4 +49,10 @@ export class CharacterCardComponent {
     } 
     this.router.navigate(['/character-sheet']);
   }
+
+  deleteCharacter() {
+    if (this.character) {
+      this.characterService.deleteCharacterById(this.character.id);
+    }    
+  }
 }

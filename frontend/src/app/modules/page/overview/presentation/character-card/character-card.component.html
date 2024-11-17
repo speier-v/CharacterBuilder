@@ -18,7 +18,7 @@
       <div *ngIf="showDeleteConfirmationDialog"
            class="accent-font flex justify-center bg-black text-white absolute w-36 top-8 corner-rounding">
         <span>Really delete?</span>
-        <button class="mx-2 text-green-500 hover:underline">Yes</button>
+        <button (click)="deleteCharacter()" class="mx-2 text-green-500 hover:underline">Yes</button>
         <button (click)="toggleShowDeleteConfirmationDialog()" class="text-red-500 hover:underline">No</button>
       </div>
     </div>

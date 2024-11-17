@@ -18,6 +18,15 @@ export class CharacterGenService {
     console.log(`Characters saved to storage: ${JSON.stringify(this.characters)}`);
   }
 
+  deleteCharacterById(id: number): void {
+    const index = this.characters.findIndex(char => char.id === this.currentCharacter?.id);
+    if (index !== -1) {
+      this.characters.splice(index, 1);
+    }
+    this.saveCharactersToStorage();
+    this.loadCharactersFromStorage();
+  }
+
   private loadCharactersFromStorage(): void {
     const data = localStorage.getItem('characters');
     this.characters = data ? JSON.parse(data) : [];
