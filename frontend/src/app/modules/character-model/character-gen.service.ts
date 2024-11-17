@@ -52,6 +52,21 @@ export class CharacterGenService {
     return newCharacter;
   }
 
+  createCopiedCharacter(name: string, character: Character): Character {
+    const newCharacter = new Character(name, (this.lastAssignedId+1));
+    this.lastAssignedId += 1;
+
+    Object.assign(newCharacter, character);
+    newCharacter.name = name;
+    newCharacter.id = this.lastAssignedId;
+
+    this.characters.push(newCharacter);
+    this.setCurrentCharacter(newCharacter.id);
+    this.saveCharactersToStorage();
+
+    return newCharacter;
+  }
+
   setCurrentCharacter(id: number): void {
     this.currentCharacter = this.getCharacterById(id) || null;
     if (this.currentCharacter) {

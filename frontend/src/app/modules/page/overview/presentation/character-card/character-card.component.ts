@@ -74,4 +74,8 @@ export class CharacterCardComponent {
       console.log("couldn't assign this.character for deletion??");
     }
   }
+
+  onCharacterCopied(characterId: number) {
+    this.characterDeleted.emit(characterId);
+  }
 }

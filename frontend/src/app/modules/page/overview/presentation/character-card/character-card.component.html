@@ -23,5 +23,5 @@
       </div>
     </div>
   </div>
-  <copy-character-modal (modalClosedEvent)="toggleModalVisibility()" [modalOpen]="modalOpen"></copy-character-modal>
+  <copy-character-modal (modalClosedEvent)="toggleModalVisibility()" (characterCopied)="onCharacterCopied($event)" [character]="character" [modalOpen]="modalOpen"></copy-character-modal>
 </div>
