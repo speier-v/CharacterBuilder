@@ -229,7 +229,7 @@ export class Character implements Character {
     this.skills = this.calculateSkills();
     this.additionalStats = this.calculateAdditionalStats();
     
-    console.log(`Character created: ${JSON.stringify(this)}`);
+    ////console.log(`Character created: ${JSON.stringify(this)}`);
   }
 
   calculateAdditionalStats(): additionalStats {
@@ -306,7 +306,7 @@ export class Character implements Character {
   
   calculateSkills(): skills {
     const proficiencyBonus = this.calculateProficiency(this.level);
-    console.log('Re-calculating skills!');
+    ////console.log('Re-calculating skills!');
   
     return this.skills = {
       acrobatics: {
@@ -509,22 +509,22 @@ export class Character implements Character {
 
   setLevel(level: number): void {
     this.level = level;
-    console.log(`Character changed level: ${this.name} is now level ${this.level}`);
+    ////console.log(`Character changed level: ${this.name} is now level ${this.level}`);
   }
 
   setClass(characterClass: string): void {
     this.characterClass = characterClass;
-    console.log(`Class updated: ${this.name} is now a ${this.characterClass}`);
+    ////console.log(`Class updated: ${this.name} is now a ${this.characterClass}`);
   }
 
   updateStats(newStats: Partial<CharacterStats>): void {
     this.stats = { ...this.stats, ...newStats };
-    console.log(`Stats updated for ${this.name}: ${JSON.stringify(this.stats)}`);
+    ////console.log(`Stats updated for ${this.name}: ${JSON.stringify(this.stats)}`);
   }
 
   setIcon(icon: String): void {
     this.icon = icon;
-    console.log(`Character changed icon to ${this.icon}`);
+    ////console.log(`Character changed icon to ${this.icon}`);
   }
 
   getIcon(): String {
@@ -533,7 +533,7 @@ export class Character implements Character {
 
   setVisibility(visibility: string): void {
     this.visibility = visibility;
-    console.log(`Character visibility set to ${this.visibility}`);
+    ////console.log(`Character visibility set to ${this.visibility}`);
   }
 
   getVisibility(): string {
