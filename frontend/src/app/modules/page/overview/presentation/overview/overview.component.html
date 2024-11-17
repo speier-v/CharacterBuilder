@@ -17,6 +17,7 @@
   </div>
   <div *ngIf="characters.length == 0" class="flex flex-col items-center text-center p-20 justify-center h-full">
     <i class="fa-solid fa-ghost fa-10x" style="color: #1ba97e;"></i>
-    <p class="p-5 text-3xl">We couldn't find any characters here! Try creating a character with the button in the top right!</p>
+    <p class="py-5 text-3xl">We couldn't find any characters here! Try creating a character!</p>
+    <button class="px-3 p-5 btn-color-scheme corner-rounding py-2 text-xl lg:text-2xl" (click)="createCharacter()">Create a character</button>
   </div>
 </div>
