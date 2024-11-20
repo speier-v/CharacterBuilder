@@ -1,3 +1,21 @@
+<#-- Copyright (c) 2024 Keycloak Authors
+#
+#    See the NOTICE.md file(s) distributed with this work for additional
+#    information regarding copyright ownership.
+#
+#    This program and the accompanying materials are made available under the
+#    terms of the Apache License, Version 2.0 which is available at
+#    https://www.apache.org/licenses/LICENSE-2.0.
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+#    SPDX-License-Identifier: Apache-2.0
+#    Modifications made by developers of Charactyr, 2024.-->
+
 <#import "field.ftl" as field>
 <#import "footer.ftl" as loginFooter>
 <#macro username>
@@ -37,7 +55,7 @@
                     <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}" />
                 </#list>
             </#if>
-            <title>${msg("loginTitle",(realm.displayName!''))}</title>
+            <title>Charactyr</title>
             <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
             <#if properties.stylesCommon?has_content>
                 <#list properties.stylesCommon?split(' ') as style>
@@ -110,53 +128,11 @@
 
         <body id="keycloak-bg" class="${properties.kcBodyClass!}">
         <div class="${properties.kcLogin!}">
-            <div class="${properties.kcLoginContainer!}">
-                <header id="kc-header" class="pf-v5-c-login__header">
-                    <div id="kc-header-wrapper"
-                         class="pf-v5-c-brand">${kcSanitize(msg("loginTitleHtml",(realm.displayNameHtml!'')))?no_esc}</div>
-                </header>
-                <main class="${properties.kcLoginMain!}">
-                    <div class="${properties.kcLoginMainHeader!}">
-                        <h1 class="${properties.kcLoginMainTitle!}" id="kc-page-title"><#nested "header"></h1>
-                        <#if realm.internationalizationEnabled  && locale.supported?size gt 1>
-                            <div class="${properties.kcLoginMainHeaderUtilities!}">
-                                <div class="${properties.kcInputClass!}">
-                                    <select
-                                            aria-label="${msg("languages")}"
-                                            id="login-select-toggle"
-                                            onchange="if (this.value) window.location.href=this.value"
-                                    >
-                                        <#list locale.supported?sort_by("label") as l>
-                                            <option
-                                                    value="${l.url}"
-                                                    ${(l.languageTag == locale.currentLanguageTag)?then('selected','')}
-                                            >
-                                                ${l.label}
-                                            </option>
-                                        </#list>
-                                    </select>
-                                    <span class="${properties.kcFormControlUtilClass}">
-                  <span class="${properties.kcFormControlToggleIcon!}">
-                    <svg
-                            class="pf-v5-svg"
-                            viewBox="0 0 320 512"
-                            fill="currentColor"
-                            aria-hidden="true"
-                            role="img"
-                            width="1em"
-                            height="1em"
-                    >
-                      <path
-                              d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-                      >
-                      </path>
-                    </svg>
-                  </span>
-                </span>
-                                </div>
-                            </div>
-                        </#if>
-                    </div>
+            <div id="kc-login-container" class="${properties.kcLoginContainer!} corner-rounding-all">
+                <main style="background-color: transparent; box-shadow: none" class="${properties.kcLoginMain!}">
+                  <div id="kc-header-wrapper"
+                       class="pf-v5-c-brand accent-font">Charactyr</div>
+                  <h1 class="${properties.kcLoginMainTitle!}" id="kc-page-title"><#nested "header"></h1>
                     <div class="${properties.kcLoginMainBody!}">
                         <#if !(auth?has_content && auth.showUsername() && !auth.showResetCredentials())>
                             <#if displayRequiredFields>

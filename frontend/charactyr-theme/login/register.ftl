@@ -1,8 +1,26 @@
+<#-- Copyright (c) 2024 Keycloak Authors
+#
+#    See the NOTICE.md file(s) distributed with this work for additional
+#    information regarding copyright ownership.
+#
+#    This program and the accompanying materials are made available under the
+#    terms of the Apache License, Version 2.0 which is available at
+#    https://www.apache.org/licenses/LICENSE-2.0.
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+#    SPDX-License-Identifier: Apache-2.0
+#    Modifications made by developers of Charactyr, 2024.-->
+
 <#import "template.ftl" as layout>
 <#import "field.ftl" as field>
 <#import "user-profile-commons.ftl" as userProfileCommons>
 <#import "register-commons.ftl" as registerCommons>
-<@layout.registrationLayout displayMessage=messagesPerField.exists('global') displayRequiredFields=true; section>
+<@layout.registrationLayout displayMessage=messagesPerField.exists('global') displayRequiredFields=false; section>
 <!-- template: register.ftl -->
 
     <#if section = "header">
@@ -34,12 +52,12 @@
             </#if>
 
             <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doRegister")}"/>
+                <input class="kc-submit-button corner-rounding-all ${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doRegister")}"/>
             </div>
             <div class="${properties.kcFormGroupClass!} pf-v5-c-login__main-footer-band">
                 <div id="kc-form-options" class="${properties.kcFormOptionsClass!} pf-v5-c-login__main-footer-band-item">
                     <div class="${properties.kcFormOptionsWrapperClass!}">
-                        <span><a href="${url.loginUrl}">${kcSanitize(msg("backToLogin"))?no_esc}</a></span>
+                        <span><a class="link" href="${url.loginUrl}">${kcSanitize(msg("backToLogin"))?no_esc}</a></span>
                     </div>
                 </div>
             </div>

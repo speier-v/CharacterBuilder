@@ -1,3 +1,21 @@
+<#-- Copyright (c) 2024 Keycloak Authors
+#
+#    See the NOTICE.md file(s) distributed with this work for additional
+#    information regarding copyright ownership.
+#
+#    This program and the accompanying materials are made available under the
+#    terms of the Apache License, Version 2.0 which is available at
+#    https://www.apache.org/licenses/LICENSE-2.0.
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+#    SPDX-License-Identifier: Apache-2.0
+#    Modifications made by developers of Charactyr, 2024.-->
+
 <#import "field.ftl" as field>
 <#macro userProfileFormFields>
 	<#assign currentGroup="">
@@ -81,8 +99,8 @@
 </#macro>
 
 <#macro inputTag attribute value>
-	<span class="${properties.kcInputClass} <#if error?has_content>${properties.kcError}</#if>">
-		<input type="<@inputTagType attribute=attribute/>" id="${attribute.name}" name="${attribute.name}" value="${(value!'')}" class="${properties.kcInputClass!}"
+	<span class="corner-rounding-all ${properties.kcInputClass} <#if error?has_content>${properties.kcError}</#if>">
+		<input type="<@inputTagType attribute=attribute/>" id="${attribute.name}" name="${attribute.name}" value="${(value!'')}" class="${properties.kcInputClass!} corner-rounding-all kc-input-field"
 			aria-invalid="<#if messagesPerField.existsError('${attribute.name}')>true</#if>"
 			<#if attribute.readOnly>disabled</#if>
 			<#if attribute.autocomplete??>autocomplete="${attribute.autocomplete}"</#if>
