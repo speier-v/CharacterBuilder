@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModelCharacterClass } from '../../../../../character-model/character.model';
+import { CharacterGenService } from '../../../../../character-model/character-gen.service';
+import { Character, skillProficiencies } from '../../../../../character-model/character.model';
 
 @Component({
   selector: 'class-description',
@@ -13,47 +15,92 @@ import { ModelCharacterClass } from '../../../../../character-model/character.mo
 export class ClassDescriptionComponent {
   @Input() selectedClass: ModelCharacterClass | null = null;
   @Input() selectedLevel: number | null = null;
-  selectedAbilities: (any | null)[] = [null, null, null];
+  @Input() character: Character | null = null;
 
-  abilities = [
-    [false, 'Dex', 'Acrobatics', '+3'],
-    [false, 'Wis', 'Animal Handling', '+9'],
-    [false, 'Int', 'Arcana', '+6'],
-    [false, 'Str', 'Athletics', '+0'],
-    [false, 'Cha', 'Deception', '+5'],
-    [false, 'Int', 'History', '+3'],
-    [false, 'Wis', 'Insight', '+5'],
-    [false, 'Cha', 'Intimidation', '+4'],
-    [false, 'Int', 'Investigation', '+9'],
-    [false, 'Wis', 'Medicine', '-1'],
-    [false, 'Int', 'Nature', '+5'],
-    [false, 'Wis', 'Perception', '+5'],
-    [false, 'Cha', 'Performance', '+0'],
-    [false, 'Cha', 'Persuasion', '+0'],
-    [false, 'Int', 'Religion', '+5'],
-    [false, 'Dex', 'Sleight of Hand', '+3'],
-    [false, 'Dex', 'Stealth', '+3'],
-    [false, 'Wis', 'Survival', '-1'],
-  ];
+  selectedAbilities: (keyof skillProficiencies | null)[] = [null, null, null];
+  abilities: skillProficiencies = {
+    acrobatics: false,
+    animalHandling: false,
+    arcana: false,
+    athletics: false,
+    deception: false,
+    history: false,
+    insight: false,
+    intimidation: false,
+    investigation: false,
+    medicine: false,
+    nature: false,
+    perception: false,
+    performance: false,
+    persuasion: false,
+    religion: false,
+    sleightOfHand: false,
+    stealth: false,
+    survival: false,
+  };
 
-  get availableAbilities() {
-    return this.abilities.filter(ability =>
-      !this.selectedAbilities.includes(ability) ||
-      this.selectedAbilities.some(selectedAbility => selectedAbility === ability),
-    );
+  constructor(private characterService: CharacterGenService) {}
+
+  ngOnInit() {
+    this.initializeAbilities();
+  }
+
+  ngOnChanges() {
+    this.initializeAbilities();
+  }
+
+  private initializeAbilities(): void {
+    if (this.character) {
+      this.abilities = this.character.skillProficiencies;
+    }
+
+    this.initializeSelectedAbilities();
+  }
+
+  get availableAbilities(): (keyof skillProficiencies)[] {
+    if (this.abilities) {
+      const abilityKeys = Object.keys(this.abilities) as (keyof skillProficiencies)[];
+      return abilityKeys.filter(
+        ability =>
+          !this.selectedAbilities.includes(ability) ||
+          this.selectedAbilities.some(selectedAbility => selectedAbility === ability)
+      );
+    }
+    return [];
+  }
+
+  initializeSelectedAbilities(): void {
+    if (this.abilities) {
+      this.selectedAbilities = Object.keys(this.abilities)
+        .filter(key => this.abilities[key as keyof skillProficiencies])
+        .slice(0, 3) as (keyof skillProficiencies)[];
+    } else {
+      this.selectedAbilities = [null, null, null];
+    }
   }
 
   onAbilityChange(index: number) {
     const selectedAbility = this.selectedAbilities[index];
 
-    this.abilities.forEach(abillity => {
-      if (abillity === selectedAbility) {
-        abillity[0] = true;
-      } else if (!this.selectedAbilities.includes(abillity)) {
-        abillity[0] = false;
-      }
-    });
+    if (this.abilities) {
+      Object.keys(this.abilities).forEach(abilityKey => {
+        const key = abilityKey as keyof skillProficiencies;
+
+        if (key === selectedAbility) {
+          this.abilities[key] = true;
+        } else if (!this.selectedAbilities.includes(key)) {
+          this.abilities[key] = false;
+        }
+      });
+    }
+
+    if (this.character && this.abilities) {
+      this.character.skillProficiencies = this.abilities;
+      this.character.calculateSkills();
+      this.characterService.updateCurrentCharacter(this.character);
+    }
   }
+  
 
   getSkills() {
     if (!this.selectedClass || !this.selectedLevel) {

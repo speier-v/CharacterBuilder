@@ -228,8 +228,6 @@ export class Character implements Character {
     };
     this.skills = this.calculateSkills();
     this.additionalStats = this.calculateAdditionalStats();
-    
-    ////console.log(`Character created: ${JSON.stringify(this)}`);
   }
 
   calculateAdditionalStats(): additionalStats {
