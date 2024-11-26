@@ -15,7 +15,6 @@ export class CharacterGenService {
 
   private saveCharactersToStorage(): void {
     localStorage.setItem('characters', JSON.stringify(this.characters));
-    ////console.log(`Characters saved to storage: ${JSON.stringify(this.characters)}`);
   }
 
   deleteCharacterById(id: number): void {
@@ -35,11 +34,9 @@ export class CharacterGenService {
     const parsedData = data ? JSON.parse(data) : [];
     this.characters = parsedData.map((item: any) => {
       const character = new Character(item.name, item.id);
-      Object.assign(character, item); // Copy over additional properties from the item
-      //////console.log(character instanceof Character);
+      Object.assign(character, item);
       return character;
     });
-    //////console.log(`Characters loaded from storage: ${JSON.stringify(this.characters)}`);
   }
 
   createCharacter(name: string): Character {
@@ -48,7 +45,7 @@ export class CharacterGenService {
     this.characters.push(newCharacter);
     this.setCurrentCharacter(newCharacter.id);
     this.saveCharactersToStorage();
-    //////console.log(`New character created: ${JSON.stringify(newCharacter)}`);
+    
     return newCharacter;
   }
 
@@ -77,8 +74,11 @@ export class CharacterGenService {
   }
 
   getCharacters(): Character[] {
-    //////console.log(`Getting all characters: ${JSON.stringify(this.characters)}`);
     return this.characters;
+  }
+
+  getPublicCharacters(): Character[] {
+    return this.characters.filter(character => character.visibility === 'public');
   }
 
   getCurrentCharacter(): Character | null {

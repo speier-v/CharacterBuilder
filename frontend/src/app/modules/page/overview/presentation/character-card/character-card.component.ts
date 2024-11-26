@@ -29,18 +29,6 @@ export class CharacterCardComponent {
 
   }
 
-  /*
-  ngOnInit() {
-    //console.log(this.character instanceof Character);
-  }
-  */
-
-  /*
-  ngOnChanges() {
-    //console.log(this.character instanceof Character);
-  }
-  */
-
   protected toggleModalVisibility() {
     this.modalOpen = !this.modalOpen;
   }

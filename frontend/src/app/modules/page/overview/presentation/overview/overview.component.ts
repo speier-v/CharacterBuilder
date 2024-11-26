@@ -37,6 +37,12 @@ export class OverviewComponent {
 
   protected toggleIsPublicCharactersOverview() {
     this.isPublicCharactersOverview = !this.isPublicCharactersOverview;
+
+    if (this.isPublicCharactersOverview) {
+      this.characters = this.characterService.getPublicCharacters();
+    } else {
+      this.characters = this.characterService.getCharacters();
+    }
   }
 
   createCharacter(): void {
