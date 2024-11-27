@@ -40,6 +40,10 @@ export class CharacterGenService {
   }
 
   createCharacter(name: string): Character {
+    while (this.characters.some(character => character.id === (this.lastAssignedId + 1))) {
+      this.lastAssignedId += 1;
+    }
+
     const newCharacter = new Character(name, (this.lastAssignedId+1));
     this.lastAssignedId += 1;
     this.characters.push(newCharacter);
