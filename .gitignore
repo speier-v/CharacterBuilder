@@ -3,6 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+deployment/charactyr-app-management
+deployment/charactyr-user-management
+
 ### STS ###
 .apt_generated
 .classpath
