@@ -34,6 +34,8 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: charactyr-app-management
+    volumes:
+      - ./deployment/charactyr-app-management:/var/lib/postgresql/data
 
   auth-db:
     container_name: charactyr-auth-postgres
@@ -45,4 +47,5 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: charactyr-user-management
       PGPORT: 5433
-
+    volumes:
+      - ./deployment/charactyr-user-management:/var/lib/postgresql/data
