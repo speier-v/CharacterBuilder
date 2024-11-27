@@ -23,6 +23,7 @@ services:
       KEYCLOAK_EXTRA_ARGS: "--import-realm"
     volumes:
       - ./frontend/build/keycloak-config.json:/opt/bitnami/keycloak/data/import/keycloak-config.json:ro
+      - ./frontend/charactyr-theme:/opt/bitnami/keycloak/themes/charactyr-theme:ro
 
   backend-db:
     container_name: charactyr-backend-postgres

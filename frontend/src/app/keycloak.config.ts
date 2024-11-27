@@ -6,7 +6,10 @@ export const keycloakConfig: KeycloakOptions = {
     url: environment.keycloakUrl,
     realm: environment.keycloakRealmName,
     clientId: environment.keycloakClientId,
-  }
+  },
+  initOptions: {
+    onLoad: 'login-required',
+  },
 };
 
 export default keycloakConfig;
