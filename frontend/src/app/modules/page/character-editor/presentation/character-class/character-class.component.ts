@@ -29,10 +29,15 @@ export class CharacterClassComponent {
   characterClasses = modelCharacterClasses;
   selectedClass: ModelCharacterClass | null = null;
   selectedLevel: number | null = null;
-  images: Array<String>;
+  images: Array<String> | null = null;
   visibility: string | null = null;
 
   constructor(private characterService: CharacterGenService) {
+    this.images = new IconImages().images;
+    this.selectedImage = this.images[0];
+  }
+
+  ngOnInit() {
     this.character = this.characterService.getCurrentCharacter();
     this.images = new IconImages().images;
     this.selectedImage = this.images[0];
@@ -42,15 +47,13 @@ export class CharacterClassComponent {
       this.copyCharacterForm.get('newCharacterVisibility')?.setValue(`character-visibility-${this.visibility}`);
       this.characterForm.get('characterName')?.setValue(`${this.character.name}`);
     }
-  }
 
-  ngOnInit() {
     this.characterForm.get('characterName')?.valueChanges.subscribe(name => {
       if (this.character != null && name != null) {
         this.character.name = name;
         this.characterService.updateCurrentCharacter(this.character);
       }
-      console.log('Name changed to:', name);
+      //console.log('Name changed to:', name);
     });
 
     this.copyCharacterForm.get('newCharacterVisibility')?.valueChanges.subscribe(value => {
@@ -62,8 +65,24 @@ export class CharacterClassComponent {
         }
         this.characterService.updateCurrentCharacter(this.character);
       }
-      console.log('Visibility changed to:', value);
+      //console.log('Visibility changed to:', value);
     });
+
+    //console.log(this.character instanceof Character);
+  }
+
+  ngOnChanges() {
+    this.character = this.characterService.getCurrentCharacter();
+    this.images = new IconImages().images;
+    this.selectedImage = this.images[0];
+
+    if (this.character != null) {
+      this.visibility = this.character.visibility;
+      this.copyCharacterForm.get('newCharacterVisibility')?.setValue(`character-visibility-${this.visibility}`);
+      this.characterForm.get('characterName')?.setValue(`${this.character.name}`);
+    }
+
+    //console.log(this.character instanceof Character);
   }
 
   protected readonly copyCharacterForm = new FormGroup({

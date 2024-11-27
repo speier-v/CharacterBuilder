@@ -10,9 +10,14 @@
     </div>
   </div>
   <hr class="border-black opacity-20 my-5">
-  <div class="grid auto-cols-auto md:grid-cols-2 lg:grid-cols-2 gap-4">
+  <div *ngIf="characters.length > 0" class="grid auto-cols-auto md:grid-cols-2 lg:grid-cols-2 gap-4">
     <div div *ngFor="let character of characters">
-      <character-card [character]="character" [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
+      <character-card [character]="character" (characterDeleted)="onCharacterDeleted($event)" [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
     </div>
+  </div>
+  <div *ngIf="characters.length == 0" class="flex flex-col items-center text-center p-20 justify-center h-full">
+    <i class="fa-solid fa-ghost fa-10x" style="color: #1ba97e;"></i>
+    <p class="py-5 text-3xl">We couldn't find any characters here! Try creating a character!</p>
+    <button class="px-3 p-5 btn-color-scheme corner-rounding py-2 text-xl lg:text-2xl" (click)="createCharacter()">Create a character</button>
   </div>
 </div>

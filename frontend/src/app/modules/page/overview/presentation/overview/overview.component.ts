@@ -27,12 +27,30 @@ export class OverviewComponent {
     this.characters = characterService.getCharacters();
   }
 
+  ngOnChanges() {
+    this.characters = this.characterService.getCharacters();
+  }
+
+  ngOnInit() {
+    this.characters = this.characterService.getCharacters();
+  }
+
   protected toggleIsPublicCharactersOverview() {
     this.isPublicCharactersOverview = !this.isPublicCharactersOverview;
+
+    if (this.isPublicCharactersOverview) {
+      this.characters = this.characterService.getPublicCharacters();
+    } else {
+      this.characters = this.characterService.getCharacters();
+    }
   }
 
   createCharacter(): void {
     this.characterService.createCharacter('unnamed');
     this.router.navigate(['/character-editor']);
+  }
+
+  onCharacterDeleted(characterId: number) {
+    this.characters = this.characterService.getCharacters();
   }
 }

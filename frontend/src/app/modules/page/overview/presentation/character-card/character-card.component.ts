@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { CopyCharacterModalComponent } from '../copy-character-modal/copy-character-modal.component';
@@ -20,6 +20,7 @@ import { CharacterGenService } from '../../../../character-model/character-gen.s
 export class CharacterCardComponent {
   @Input() isPublicCharacterCard = false;
   @Input() character : Character | null = null;
+  @Output() characterDeleted = new EventEmitter<number>();
 
   protected modalOpen = false;
   protected showDeleteConfirmationDialog = false;
@@ -48,5 +49,21 @@ export class CharacterCardComponent {
       this.characterService.setCurrentCharacter(this.character.id);
     } 
     this.router.navigate(['/character-sheet']);
+  }
+
+  deleteCharacter() {
+    console.log("in deleteCharacter!");
+    if (this.character) {
+      console.log("Deleting character...");
+      this.characterService.deleteCharacterById(this.character.id);
+      console.log("Deleted character!");
+      this.characterDeleted.emit(this.character.id);
+    } else {
+      console.log("couldn't assign this.character for deletion??");
+    }
+  }
+
+  onCharacterCopied(characterId: number) {
+    this.characterDeleted.emit(characterId);
   }
 }

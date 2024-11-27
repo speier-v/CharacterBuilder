@@ -13,8 +13,9 @@ SPDX-License-Identifier: Apache-2.0
 
 ## Used software
 
-This project includes software originally developed by Contributors to the Eclipse Foundation
-and modified by the Charactyr developers in 2024.
+This project includes following software:
 
-The GitHub repository containing this software can be
-found [here](https://github.com/eclipse-tractusx/traceability-foss).
+- Software developed by **Contributors to the Eclipse Foundation** and modified by the Charactyr developers in 2024. The
+  GitHub repository containing this software can be found [here](https://github.com/eclipse-tractusx/traceability-foss).
+- Software developed by **Keycloak Authors** and modified by the Charactyr developers in 2024. The
+  GitHub repository containing this software can be found [here](https://github.com/keycloak/keycloak).
