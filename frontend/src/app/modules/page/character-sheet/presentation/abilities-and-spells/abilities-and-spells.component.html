@@ -1,5 +1,5 @@
 <div
-  class="actions-container ml-5 space-y-5 max-w-3xl border-4 border-orange-700 rounded-md px-4 py-4 shadow-sm bg-gray-50 text-center items-center max-h-[820px] overflow-y-auto">
+  class="actions-container ml-5 space-y-5 max-w-3xl border-4 border-teal-700 rounded-md px-4 py-4 shadow-sm bg-gray-50 text-center items-center max-h-[820px] overflow-y-auto">
   <div class="flex justify-around mb-5 bg-gray-200 p-2 rounded-md shadow-inner">
     <button
       (click)="setTab('all')"
@@ -48,7 +48,7 @@
     <div class="flex justify-between items-center mb-3">
       <h2 class="text-xl font-bold text-gray-700">Spells</h2>
       <button (click)="toggleModal()"
-              class="bg-orange-500 text-white px-3 py-1 corner-rounding accent-font hover:bg-orange-600">Edit
+              class="bg-teal-500 text-white px-3 py-1 corner-rounding accent-font hover:bg-teal-600">Edit
       </button>
     </div>
     <ul class="space-y-3">
@@ -74,7 +74,7 @@
         <li *ngFor="let spell of activeSpells"
             class="p-3 bg-gray-100 border border-purple-400 rounded-md flex justify-between items-center">
           <span>{{ spell.name }} (Level {{ spell.level }})</span>
-          <button (click)="deactivateSpell(spell)" class="text-red-500 font-semibold">Remove</button>
+          <button (click)="deactivateSpell(spell)" class="text-red-700 font-semibold">Remove</button>
         </li>
       </ul>
     </div>
@@ -89,7 +89,7 @@
             (click)="activateSpell(spell)"
             [class.opacity-50]="isSpellLimitReached()"
             [disabled]="isSpellLimitReached()"
-            class="text-green-500 font-semibold"
+            class="text-teal-500 font-semibold"
           >
             Add
           </button>

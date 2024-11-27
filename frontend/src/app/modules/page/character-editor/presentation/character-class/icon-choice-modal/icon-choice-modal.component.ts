@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IconImages } from '../../../../../character-model/character.model';
 
 @Component({
   selector: 'icon-choice-modal',
@@ -11,23 +12,16 @@ import { CommonModule } from '@angular/common';
 export class IconChoiceModalComponent {
   @Input() isOpen: boolean = false;
   @Output() close = new EventEmitter<void>();
-  @Output() imageSelected = new EventEmitter<{ src: string; caption: string } | null>();
+  @Output() imageSelected = new EventEmitter<String>();
 
-  images = [
-    { src: 'assets/images/character_frame_questionmark.jpeg', caption: 'Caption 1' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 2' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 3' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 4' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 5' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 6' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 7' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 8' },
-    { src: 'assets/images/character_frame_empty.jpeg', caption: 'Caption 9' },
-  ];
+  selectedImage: String | null = null;
+  images: Array<String>;
 
-  selectedImage: { src: string; caption: string } | null = null;
+  constructor() {
+    this.images = new IconImages().images;
+  }
 
-  selectImage(image: { src: string; caption: string }) {
+  selectImage(image: String) {
     this.selectedImage = image;
     this.imageSelected.emit(this.selectedImage);
   }

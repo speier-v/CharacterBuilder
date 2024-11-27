@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { CharacterStats } from '../../../../character-model/character.model';
+import { CharacterStats, Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 
 @Component({
@@ -26,6 +26,9 @@ export class StatsComponent {
   selectedStat: string | null = null;
   rolledValue: number | null = null;
   showScoreModifierTable: boolean = false;
+  character: Character | null = null;
+  isFromSavedCharacter: boolean = false;
+
   availableValues = [15, 14, 13, 12, 10, 8, 'manual', 'random'] as (number | string)[];
   manualEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
   manualStatValues: { [key in keyof CharacterStats]?: number | null } = {};
@@ -70,6 +73,29 @@ export class StatsComponent {
   ];
 
   constructor(private router: Router, private characterService: CharacterGenService) {
+    this.character = this.characterService.getCurrentCharacter();
+    if (this.character != null) {
+      this.stats = this.character.stats;
+      this.initializeStats();
+    }    
+  }
+
+  initializeStats() {
+    let allValuesAreNull = true;
+    for (const stat in this.stats) {
+      if (this.stats.hasOwnProperty(stat)) {
+        const statKey = stat as keyof CharacterStats;
+  
+        this.manualEntryStats[statKey] = true;
+        this.manualStatValues[statKey] = this.stats[statKey];
+
+        if (this.stats[statKey] !== null) {
+          allValuesAreNull = false;
+        }
+      }
+    }
+
+    this.isFromSavedCharacter = !allValuesAreNull;
   }
 
   isValueAssigned(value: string | number): boolean {
@@ -98,6 +124,7 @@ export class StatsComponent {
       this.stats[stat] = value ? parseInt(value, 10) : null;
     }
     this.statsChange.emit(this.stats);
+    this.setStatsToCharacter();
   }
 
 
@@ -116,8 +143,16 @@ export class StatsComponent {
     this.manualStatValues[stat] = value;
     this.stats[stat] = value;
     this.statsChange.emit(this.stats);
+    this.setStatsToCharacter();
   }
 
+  setStatsToCharacter() {
+    if (this.character != null) {
+      this.character.stats = this.stats;
+      this.characterService.updateCurrentCharacter(this.character);
+    }    
+    console.log('Stats: ', this.stats);
+  }
 
   unassignValue(stat: keyof CharacterStats) {
     this.stats[stat] = null;

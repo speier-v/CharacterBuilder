@@ -1,10 +1,9 @@
 <div>
   <div class="px-10 relative flex flex-row justify-left h-full text-black pt-5">
-    <div *ngIf="selectedImage; else placeholder">
-      <img (click)="showImageChoice()" [alt]="selectedImage.caption" [src]="selectedImage.src"
-           class="pr-5 cursor-pointer hover:opacity-50 transition-opacity duration-300"
-           height="100px"
-           width="100px">
+    <div *ngIf="character; else placeholder">
+      <img (click)="showImageChoice()" [src]="character.icon"
+           class="pr-5 cursor-pointer hover:opacity-50 transition-opacity duration-300 h-32 w-32 object-contain"
+           >
     </div>
     <ng-template #placeholder>
       <img (click)="showImageChoice()" class="pr-5 cursor-pointer hover:opacity-50 transition-opacity duration-300"
@@ -12,15 +11,18 @@
            src="assets/images/character_frame_questionmark.jpeg"
            width="100px">
     </ng-template>
-    <div class="flex flex-col">
+    <form [formGroup]="characterForm" class="flex flex-col">
       <p class="pb-3 text-xl accent-font">Character name</p>
-      <input class="p-2 corner-rounding input-field border-2 border-black"
-             placeholder="Name your character..."
-             type="text" />
-    </div>
+      <input 
+        formControlName="characterName"
+        class="p-2 corner-rounding input-field border-2 border-black"
+        placeholder="Name your character..."
+        type="text" 
+      />
+    </form>
   </div>
 
-  <form [formGroup]="copyCharacterForm">
+  <form *ngIf="copyCharacterForm" [formGroup]="copyCharacterForm">
     <div class="flex flex-col px-10 mt-5">
       <h2 class="text-lg accent-font">Visibility:</h2>
       <div class="flex">
@@ -55,13 +57,13 @@
     <div class="flex flex-row justify-between items-center pb-5">
       <class-choice-dropdown (itemSelected)="onClassChosen($event)"></class-choice-dropdown>
       <level-choice-dropdown (levelChange)="onLevelSelection($event)"
-                             [selectedClass]="selectedClass"></level-choice-dropdown>
+                             [selectedClass]="selectedClass" [selectedLevel]="selectedLevel"></level-choice-dropdown>
     </div>
-    <class-description [selectedClass]="selectedClass" [selectedLevel]="selectedLevel"></class-description>
+    <class-description [character]="character" [selectedClass]="selectedClass" [selectedLevel]="selectedLevel"></class-description>
   </div>
 
   <div class="flex justify-end px-10">
-    <button (click)="onNavigate()" class="px-5 py-2 bg-orange-500 text-white corner-rounding accent-font hover:bg-orange-600">
+    <button (click)="onNavigate()" class="px-5 py-2 bg-teal-500 text-white corner-rounding accent-font hover:bg-teal-600">
       Continue
     </button>
   </div>

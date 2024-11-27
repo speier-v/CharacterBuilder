@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Character, skills } from '../../../../character-model/character.model';
+import { CharacterGenService } from '../../../../character-model/character-gen.service';
 
 @Component({
   selector: 'skills-display',
@@ -9,24 +11,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './skills-display.component.css',
 })
 export class SkillsDisplayComponent {
-  skills = [
-    [false, 'Dex', 'Acrobatics', '+3'],
-    [true, 'Wis', 'Animal Handling', '+9'],
-    [true, 'Int', 'Arcana', '+6'],
-    [false, 'Str', 'Athletics', '+0'],
-    [false, 'Cha', 'Deception', '+5'],
-    [false, 'Int', 'History', '+3'],
-    [true, 'Wis', 'Insight', '+5'],
-    [true, 'Cha', 'Intimidation', '+4'],
-    [true, 'Int', 'Investigation', '+9'],
-    [false, 'Wis', 'Medicine', '-1'],
-    [false, 'Int', 'Nature', '+5'],
-    [true, 'Wis', 'Perception', '+5'],
-    [false, 'Cha', 'Performance', '+0'],
-    [false, 'Cha', 'Persuasion', '+0'],
-    [false, 'Int', 'Religion', '+5'],
-    [false, 'Dex', 'Sleight of Hand', '+3'],
-    [false, 'Dex', 'Stealth', '+3'],
-    [false, 'Wis', 'Survival', '-1'],
-  ];
+  character : Character | null = null;
+
+  constructor(private characterService: CharacterGenService) {
+    this.character = characterService.getCurrentCharacter();
+  }
 }

@@ -5,6 +5,9 @@
 <div class="stat-assignment grid grid-cols-3 gap-4 px-5 pt-3">
   <div *ngFor="let stat of statsList" class="flex flex-col items-start">
     <label class="text-lg">{{ stat | titlecase }}:</label>
+    <div *ngIf="manualEntryStats[stat] && isFromSavedCharacter" class="mt-2 text-green-600">
+      Gespeicherter Wert: {{ manualStatValues[stat] }}
+    </div>
     <select (change)="assignValue(stat, $event)" [value]="stats[stat] || ''"
             class="w-full px-4 py-2 bg-white border corner-rounding input-field shadow-sm text-left hover:bg-gray-100">
       <option value="">-- Select Value --</option>
@@ -30,7 +33,7 @@
       Modifier: {{ calculateModifier(stats[stat]) }}
     </span>
     <button (click)="unassignValue(stat)" *ngIf="stats[stat] !== null || manualEntryStats[stat]"
-            class="mt-2 text-sm text-orange-600 underline hover:text-orange-800">
+            class="mt-2 text-teal-600 cursor-pointer underline hover:text-teal-800">
       Clear
     </button>
   </div>

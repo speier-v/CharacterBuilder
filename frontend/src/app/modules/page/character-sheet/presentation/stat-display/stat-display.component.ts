@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
-import { CharacterStats } from '../../../../character-model/character.model';
+import { CharacterStats, Character } from '../../../../character-model/character.model';
+import { CharacterGenService } from '../../../../character-model/character-gen.service';
 
 @Component({
   selector: 'stat-display',
@@ -10,21 +11,19 @@ import { CharacterStats } from '../../../../character-model/character.model';
   styleUrl: './stat-display.component.css',
 })
 export class StatDisplayComponent {
-  stats: CharacterStats = {
-    dexterity: 10,
-    strength: 12,
-    wisdom: 14,
-    intelligence: 17,
-    charisma: 9,
-    constitution: 20,
-  };
-  statEntries = Object.entries(this.stats);
-  proficiencyModifier: number = 4;
-  currentHP: number = 40;
-  maxHP: number = 80;
-  initiative: number = 4;
-  armorClass: number = 17;
-  speed: number = 30;
+
+  character: Character | null = null;
+  statEntries: [string, any][] | null = null;
+  stats: CharacterStats | null = null;
+
+  constructor(private characterService: CharacterGenService) {
+    this.character = this.characterService.getCurrentCharacter();
+
+    if (this.character) {
+      this.stats = this.character?.stats;
+      this.statEntries = Object.entries(this.stats);
+    }    
+  }
 
   calculateModifier(value: number | null): number {
     if (value === null) return 0;

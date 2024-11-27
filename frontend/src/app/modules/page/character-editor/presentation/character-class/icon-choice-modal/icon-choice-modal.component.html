@@ -7,16 +7,15 @@
 
     <div class="grid grid-cols-3 gap-2 pb-3">
       <div *ngFor="let image of images"
-           class="border p-4 text-center pl-5 cursor-pointer hover:opacity-50 transition-opacity duration-300">
-        <img (click)="selectImage(image)" [alt]="image.caption" [src]="image.src" class="w-full h-auto">
-        <p>{{ image.caption }}</p>
+           class="border text-centercursor-pointer hover:opacity-50 transition-opacity duration-300">
+        <img (click)="selectImage(image)" [src]="image" class="w-full h-32 w-32 object-contain">
       </div>
     </div>
 
     <div class="flex justify-end">
       <button
         (click)="onClose()"
-        class="px-4 py-2 bg-orange-500 text-white corner-rounding accent-font hover:bg-orange-600"
+        class="px-4 py-2 bg-teal-500 text-white corner-rounding accent-font hover:bg-teal-600"
       >
         Close
       </button>

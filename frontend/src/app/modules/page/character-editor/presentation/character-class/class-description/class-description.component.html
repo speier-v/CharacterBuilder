@@ -19,14 +19,14 @@
       <div class="mb-2">Choose 3 skills that you will gain <strong>Proficiency</strong> in. Being proficient in a skill
         gives you a bonus to your rolls with that skill equal to your <strong>proficiency modifier</strong>.
       </div>
-      <div class="space-y-3" class="flex flex-col items-start">
+      <div class="space-y-3" class="flex flex-col items-start" *ngIf="abilities">
         <ng-container *ngFor="let dropdown of [0, 1, 2]; let i = index" class="flex flex-col items-start">
           <select (change)="onAbilityChange(i)" [(ngModel)]="selectedAbilities[i]" class="px-4">
-            <option *ngFor="let ability of availableAbilities" [disabled]="ability[0]" [ngValue]="ability">
-              {{ ability[2] }}
+            <option *ngFor="let abilityKey of availableAbilities" [disabled]="abilities[abilityKey]" [ngValue]="abilityKey">
+              {{ abilityKey | titlecase }}
             </option>
           </select>
-        </ng-container>
+        </ng-container>        
       </div>
     </li>
   </ul>

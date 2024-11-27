@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { Character } from '../../../../character-model/character.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'copy-character-modal',
@@ -15,7 +18,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class CopyCharacterModalComponent {
   @Input() modalOpen: boolean = false;
+  @Input() character : Character | null = null;
   @Output() modalClosedEvent = new EventEmitter<void>();
+  @Output() characterCopied = new EventEmitter<number>();
+
+  constructor(private router: Router, private characterService: CharacterGenService) {
+  }
 
   protected readonly copyCharacterForm = new FormGroup({
     newCharacterName: new FormControl('', {
@@ -27,5 +35,14 @@ export class CopyCharacterModalComponent {
 
   protected modalClosed() {
     this.modalClosedEvent.emit();
+  }
+
+  createCopiedCharacter() {
+    const characterName = this.copyCharacterForm.get('newCharacterName')?.value;
+    if (this.character && characterName) {
+      this.characterService.createCopiedCharacter(characterName, this.character);
+      this.characterCopied.emit(this.character.id);
+      this.modalClosedEvent.emit();
+    }
   }
 }
