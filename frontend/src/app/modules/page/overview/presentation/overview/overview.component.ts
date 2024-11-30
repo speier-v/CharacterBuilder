@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CharacterCardComponent } from '../character-card/character-card.component';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { Character } from '../../../../character-model/character.model';
 import { Router } from '@angular/router';
+import { OverviewHeaderComponent } from '../overview-header/overview-header.component';
 
 @Component({
   selector: 'character-cards-overview',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   imports: [
     CharacterCardComponent,
     CommonModule,
-    NgOptimizedImage,
+    OverviewHeaderComponent,
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
