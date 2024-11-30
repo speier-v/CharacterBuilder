@@ -43,3 +43,7 @@ body {
 .radio-btn-size {
   @apply scale-125
 }
+
+.header-action-button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}

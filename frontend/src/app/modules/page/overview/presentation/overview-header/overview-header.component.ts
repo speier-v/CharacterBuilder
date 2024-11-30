@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
+import { UsernameAndLogoutComponent } from '../../../shared/username-and-logout/username-and-logout.component';
 
 @Component({
   selector: 'overview-header',
@@ -7,6 +8,7 @@ import { NgClass, NgOptimizedImage } from '@angular/common';
   imports: [
     NgOptimizedImage,
     NgClass,
+    UsernameAndLogoutComponent,
   ],
   templateUrl: './overview-header.component.html',
   styleUrl: './overview-header.component.css',
