@@ -1,23 +1,32 @@
 <div class="flex flex-col p-5">
-  <div class="flex justify-between accent-font ">
-    <h1
-      class="text-3xl md:text-4xl lg:text-5xl">{{ isPublicCharactersOverview ? 'Public characters' : 'My characters' }}</h1>
-    <div class="flex btn-color-scheme corner-rounding py-2 text-xl lg:text-2xl">
-      <button (click)="toggleIsPublicCharactersOverview()"
-              class="px-3 border-r-white border-r-4">{{ isPublicCharactersOverview ? 'My' : 'Public' }} characters
-      </button>
-      <button class="px-3" (click)="createCharacter()">Create a character</button>
-    </div>
+  <div class="flex items-center">
+    <h1 class="text-3xl md:text-4xl lg:text-4xl accent-font flex-grow">
+      {{ isPublicCharactersOverview ? 'Public characters' : 'My characters' }}
+    </h1>
+    <button class="corner-rounding py-1 px-2 header-action-button"
+            (click)="toggleIsPublicCharactersOverview()"
+            [title]="isPublicCharactersOverview ? 'My characters' : 'Public characters'">
+      <i class="fa-solid"
+         [ngClass]="{'fa-house':isPublicCharactersOverview, 'fa-earth-americas':!isPublicCharactersOverview}"></i>
+    </button>
+    <button class="flex items-center corner-rounding p-1 ml-4 header-action-button" (click)="createCharacter()"
+            title="Create a character">
+      <img ngSrc="/assets/images/character_avatar.svg" height="24" width="24" alt="Create character">
+      <i class="fa-solid fa-plus"></i>
+    </button>
   </div>
   <hr class="border-black opacity-20 my-5">
   <div *ngIf="characters.length > 0" class="grid auto-cols-auto md:grid-cols-2 lg:grid-cols-2 gap-4">
-    <div div *ngFor="let character of characters">
-      <character-card [character]="character" (characterDeleted)="onCharacterDeleted($event)" [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
+    <div *ngFor="let character of characters">
+      <character-card [character]="character" (characterDeleted)="onCharacterDeleted($event)"
+                      [isPublicCharacterCard]="isPublicCharactersOverview"></character-card>
     </div>
   </div>
   <div *ngIf="characters.length == 0" class="flex flex-col items-center text-center p-20 justify-center h-full">
     <i class="fa-solid fa-ghost fa-10x" style="color: #1ba97e;"></i>
     <p class="py-5 text-3xl">We couldn't find any characters here! Try creating a character!</p>
-    <button class="px-3 p-5 btn-color-scheme corner-rounding py-2 text-xl lg:text-2xl" (click)="createCharacter()">Create a character</button>
+    <button class="px-3 p-5 btn-color-scheme corner-rounding py-2 text-xl lg:text-2xl" (click)="createCharacter()">
+      Create a character
+    </button>
   </div>
 </div>
