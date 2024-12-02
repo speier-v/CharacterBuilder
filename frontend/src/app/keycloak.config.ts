@@ -7,6 +7,7 @@ export const keycloakConfig: KeycloakOptions = {
     realm: environment.keycloakRealmName,
     clientId: environment.keycloakClientId,
   },
+  loadUserProfileAtStartUp: true,
   initOptions: {
     onLoad: 'login-required',
   },

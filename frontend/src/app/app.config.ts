@@ -9,10 +9,7 @@ import { KeycloakService } from 'keycloak-angular';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
-    keycloak.init({
-      config: keycloakConfig.config,
-      initOptions: keycloakConfig.initOptions,
-    });
+    keycloak.init(keycloakConfig);
 }
 
 export const appConfig: ApplicationConfig = {
