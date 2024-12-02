@@ -5,10 +5,10 @@
   <button class="corner-rounding py-1 px-2 header-action-button"
           (click)="toggleOverviewType()"
           [title]="isPublicCharactersOverview ? 'My characters' : 'Public characters'">
-    <i class="fa-solid"
+    <i class="fa-solid fa-lg"
        [ngClass]="{'fa-house':isPublicCharactersOverview, 'fa-earth-americas':!isPublicCharactersOverview}"></i>
   </button>
-  <button class="flex items-center corner-rounding p-1 ml-4 header-action-button" (click)="createCharacterButtonClicked()"
+  <button class="flex corner-rounding p-1 ml-4 header-action-button" (click)="createCharacterButtonClicked()"
           title="Create a character">
     <img ngSrc="/assets/images/character_avatar.svg" height="24" width="24" alt="Create character">
     <i class="fa-solid fa-plus"></i>
