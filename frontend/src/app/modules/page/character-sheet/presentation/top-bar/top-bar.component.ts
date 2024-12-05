@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Character } from '../../../../character-model/character.model';
@@ -12,7 +12,7 @@ import { CharacterGenService } from '../../../../character-model/character-gen.s
   styleUrl: './top-bar.component.css',
 })
 export class TopBarComponent {
-
+  @Input() isEditable: boolean = false;
   @Output() navigate = new EventEmitter<string>();
 
   character: Character | null = null;

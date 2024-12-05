@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './abilities-and-spells.component.css',
 })
 export class AbilitiesAndSpellsComponent {
+  @Input() isEditable = false;
   selectedTab: string = 'all';
   isModalOpen: boolean = false;
   spellLimit: number = 3;

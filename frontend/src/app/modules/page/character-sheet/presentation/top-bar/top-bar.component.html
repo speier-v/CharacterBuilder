@@ -9,7 +9,7 @@
     <p class="opacity-50"> Level {{ character.level }} </p>
   </div>
   <div class="flex ml-auto items-center">
-    <button (click)="clickToNav('/character-editor')"
+    <button *ngIf="isEditable" (click)="clickToNav('/character-editor')"
             class="action-button px-5 py-3 bg-teal-500 text-white corner-rounding accent-font hover:bg-teal-600 mr-5">Edit
     </button>
     <button (click)="clickToNav('/overview')"
