@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CopyCharacterModalComponent } from '../copy-character-modal/copy-character-modal.component';
 import { Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 
 @Component({
   selector: 'character-card',
@@ -39,7 +40,7 @@ export class CharacterCardComponent {
     if (this.character != null) {
       this.characterService.setCurrentCharacter(this.character.id);
     }
-    this.router.navigate(['/character-editor']);
+    this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
   }
 
   navigateToCharacterSheet() {
@@ -48,9 +49,9 @@ export class CharacterCardComponent {
     }
 
     if (this.isPublicCharacterCard) {
-      this.router.navigate(['/public-character-sheet']);
+      this.router.navigate([`/${RoutePaths.PUBLIC_CHARACTER_SHEET}`]);
     } else {
-      this.router.navigate(['/private-character-sheet']);
+      this.router.navigate([`/${RoutePaths.PRIVATE_CHARACTER_SHEET}`]);
     }
   }
 
