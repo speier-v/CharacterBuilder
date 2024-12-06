@@ -7,7 +7,7 @@ import { AbilitiesAndSpellsComponent } from './abilities-and-spells/abilities-an
 import { Character } from '../../../character-model/character.model';
 import { CharacterGenService } from '../../../character-model/character-gen.service';
 import { ActivatedRoute } from '@angular/router';
-import { CharacterSheetRouteData } from '../../overview/model/character-sheet-route-data.model';
+import { CharacterSheetRouteData } from '../../../core/routing/character-sheet-route-data.model';
 
 @Component({
   selector: 'character-sheet',
