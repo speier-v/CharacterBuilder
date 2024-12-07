@@ -15,6 +15,6 @@ import { CharactyrBannerComponent } from '../charactyr-banner/charactyr-banner.c
   styleUrl: './dynamic-header.component.css',
 })
 export class DynamicHeaderComponent {
-  @Input() pageTitle: string = '';
+  @Input() pageTitle: TemplateRef<any> | undefined;
   @Input() headerEndActions: TemplateRef<any> | undefined;
 }

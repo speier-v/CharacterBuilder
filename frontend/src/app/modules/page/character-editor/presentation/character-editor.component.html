@@ -1,11 +1,17 @@
+<ng-template #characterEditorPageTitle>
+  <h1 class="heading-font-size accent-font text-center">Character Editor</h1>
+</ng-template>
+
 <ng-template #characterEditorHeaderEndActions>
-  <button (click)="clickToNav()" class="corner-rounding p-2 header-action-button flex items-center" title="Go to Character Sheet">
+  <button (click)="clickToNav()" class="corner-rounding p-2 header-action-button flex items-center"
+          title="Go to Character Sheet">
     <i class="fa-solid fa-sheet-plastic"></i>
   </button>
 </ng-template>
 
 <div class="flex flex-col pt-3">
-  <dynamic-header class="px-3" pageTitle="Character Editor" [headerEndActions]="characterEditorHeaderEndActions"></dynamic-header>
+  <dynamic-header class="px-3" [pageTitle]="characterEditorPageTitle"
+                  [headerEndActions]="characterEditorHeaderEndActions"></dynamic-header>
   <hr class="border-black opacity-80 mt-3">
   <div class="flex flex-row justify-around h-[10vh]">
     <button (click)="selectComponent('character-class')"

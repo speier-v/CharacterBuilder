@@ -1,10 +1,11 @@
+<ng-template #emptyPageTitle></ng-template>
+<ng-template #emptyHeaderEndActions></ng-template>
+
 <div class="flex justify-between">
   <charactyr-banner></charactyr-banner>
-  <h1 class="heading-font-size accent-font text-center">{{ this.pageTitle }}</h1>
+  <ng-container [ngTemplateOutlet]="pageTitle || emptyPageTitle"></ng-container>
   <div class="flex items-center">
     <ng-container [ngTemplateOutlet]="headerEndActions || emptyHeaderEndActions"></ng-container>
     <username-and-logout class="ml-2"></username-and-logout>
   </div>
 </div>
-
-<ng-template #emptyHeaderEndActions></ng-template>
