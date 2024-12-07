@@ -47,3 +47,7 @@ body {
 .header-action-button:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+.heading-font-size {
+  @apply text-2xl lg:text-3xl;
+}
