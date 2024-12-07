@@ -5,6 +5,7 @@ import { CharacterGenService } from '../../../../character-model/character-gen.s
 import { Character } from '../../../../character-model/character.model';
 import { Router } from '@angular/router';
 import { DynamicHeaderComponent } from '../../../shared/dynamic-header/dynamic-header.component';
+import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 
 @Component({
   selector: 'character-cards-overview',
@@ -49,7 +50,7 @@ export class OverviewComponent {
 
   createCharacter(): void {
     this.characterService.createCharacter('unnamed');
-    this.router.navigate(['/character-editor']);
+    this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
   }
 
   onCharacterDeleted(characterId: number) {

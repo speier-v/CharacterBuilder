@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { StatsComponent } from './stats/stats.component';
 import { CharacterClassComponent } from './character-class/character-class.component';
+import { RoutePaths } from '../../../core/routing/route-paths.enum';
 
 @Component({
   selector: 'character-editor',
@@ -25,6 +26,6 @@ export class CharacterEditorComponent {
   }
 
   clickToNav() {
-    this.router.navigate(['/character-sheet']);
+    this.router.navigate([`/${RoutePaths.PRIVATE_CHARACTER_SHEET}`]);
   }
 }
