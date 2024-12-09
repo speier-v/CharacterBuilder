@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { DynamicHeaderComponent } from '../../../shared/dynamic-header/dynamic-header.component';
+import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 
 @Component({
   selector: 'top-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DynamicHeaderComponent, NgOptimizedImage],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.css',
 })
@@ -21,7 +23,11 @@ export class TopBarComponent {
     this.character = this.characterService.getCurrentCharacter();
   }
 
-  clickToNav(path: string) {
-    this.router.navigate([path]);
+  editButtonClicked() {
+    this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
+  }
+
+  myCharactersButtonClicked() {
+    this.router.navigate([`/${RoutePaths.OVERVIEW}`]);
   }
 }

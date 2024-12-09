@@ -41,7 +41,11 @@ body {
 }
 
 .radio-btn-size {
-  @apply scale-125
+  @apply scale-125;
+}
+
+.header-action-button {
+  @apply p-2;
 }
 
 .header-action-button:hover {
