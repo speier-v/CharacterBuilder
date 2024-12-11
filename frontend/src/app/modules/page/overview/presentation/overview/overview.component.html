@@ -1,7 +1,7 @@
 <ng-template #overviewHeaderEndActions>
   <div class="corner-rounding header-action-button">
     <button class="flex items-center" (click)="toggleIsPublicCharactersOverview()"
-            [title]="isPublicCharactersOverview ? 'Public characters' : 'My characters'">
+            [title]="isPublicCharactersOverview ? 'My characters' : 'Public characters'">
       <i class="fa-solid fa-earth-americas"
          [ngClass]="{'fa-house':isPublicCharactersOverview, 'fa-earth-americas':!isPublicCharactersOverview}"></i>
     </button>
