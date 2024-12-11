@@ -1,14 +1,23 @@
 import { Component } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'username-and-logout',
   standalone: true,
-  imports: [],
+  imports: [
+    NgClass,
+  ],
   templateUrl: './username-and-logout.component.html',
   styleUrl: './username-and-logout.component.css',
 })
 export class UsernameAndLogoutComponent {
+  profileActionsVisible = false;
+
+  toggleProfileActionsVisible() {
+    this.profileActionsVisible = !this.profileActionsVisible;
+  }
+
   constructor(private readonly keycloakService: KeycloakService) {
   }
 

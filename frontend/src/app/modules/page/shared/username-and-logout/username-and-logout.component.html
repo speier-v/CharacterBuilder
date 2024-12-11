@@ -1,6 +1,15 @@
-<div class="flex items-center">
-  <span class="whitespace-nowrap overflow-hidden text-ellipsis max-w-40">{{ username }}</span>
-  <button class="corner-rounding header-action-button ml-1" title="Sign out" (click)="logout()">
-    <i class="fa-solid fa-right-from-bracket"></i>
+<div class="relative inline">
+  <button
+    class="header-action-button corner-rounding whitespace-nowrap overflow-hidden text-ellipsis max-w-40 p-2 corner-rounding ml-1"
+    title="Profile actions" (click)="toggleProfileActionsVisible()">
+    {{ this.username }}
   </button>
+  <div
+    class="corner-rounding flex flex-col invisible absolute min-w-fit right-0 top-10 text-nowrap p-2 shadow-2xl bg-gray-300 z-10"
+    [ngClass]="{'visible': this.profileActionsVisible, 'invisible': !this.profileActionsVisible}">
+    <div class="flex items-center cursor-pointer" (click)="logout()" title="Sign out of your account">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      <span class="ml-2">Sign out</span>
+    </div>
+  </div>
 </div>

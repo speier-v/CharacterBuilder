@@ -12,6 +12,10 @@
   src: url("assets/fonts/bokor-regular.ttf") format("truetype");
 }
 
+:root {
+  --light-gray-btn-bg-color: rgba(0, 0, 0, 0.2);
+}
+
 body {
   font-family: "Bokor", sans-serif;
 }
@@ -49,7 +53,7 @@ body {
 }
 
 .header-action-button:hover {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--light-gray-btn-bg-color);
 }
 
 .heading-font-size {
