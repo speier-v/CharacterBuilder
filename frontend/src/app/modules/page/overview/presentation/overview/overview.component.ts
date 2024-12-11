@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { CharacterCardComponent } from '../character-card/character-card.component';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
@@ -19,7 +19,7 @@ import { RoutePaths } from '../../../../core/routing/route-paths.enum';
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnInit, OnChanges {
   protected isPublicCharactersOverview = false;
   characters: Character[] = [];
 
