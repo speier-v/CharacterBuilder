@@ -13,24 +13,22 @@
   <dynamic-header class="px-3" [pageTitle]="characterEditorPageTitle"
                   [headerEndActions]="characterEditorHeaderEndActions"></dynamic-header>
   <hr class="border-black opacity-80 mt-3">
-  <div class="flex flex-row justify-around h-[10vh]">
+  <div class="flex flex-row justify-around">
     <button (click)="selectComponent('character-class')"
             [ngClass]="{ 'bg-teal-500 hover:bg-teal-600 hover:opacity-75 text-white': selectedComponent === 'character-class' }"
-            class="w-1/3 hover:bg-gray-300 hover:opacity-75 text-lg flex flew-row items-center justify-center">
-      <p class="pr-5 text-2xl">Class</p>
-      <i class="fa-solid fa-user fa-xl"></i>
+            class="w-1/2 py-3 hover:bg-gray-300 hover:opacity-75 text-lg flex flew-row items-center justify-center">
+      <div class="flex items-center justify-center mt-1">
+        <div class="pr-5 text-2xl">Class</div>
+        <i class="fa-solid fa-user fa-xl pb-2"></i>
+      </div>
     </button>
     <button (click)="selectComponent('stats')"
             [ngClass]="{ 'bg-teal-500 hover:bg-teal-600 hover:opacity-75 text-white': selectedComponent === 'stats' }"
-            class="w-1/3 hover:bg-gray-300 hover:opacity-75 height=100% text-lg flex flex-row items-center justify-center">
-      <p class="pr-5 text-2xl">Stats</p>
-      <i class="fa-solid fa-chart-simple fa-xl"></i>
-    </button>
-    <button (click)="clickToNav()"
-            class="w-1/3 height=100% action-button text-lg flex flex-row items-center justify-center">
-      <p class="pr-5 text-2xl">Character Sheet</p>
-      <i class="fa-solid fa-sheet-plastic fa-xl pr-3"></i>
-      <i class="fa-solid fa-arrow-right fa-xl"></i>
+            class="w-1/2 hover:bg-gray-300 hover:opacity-75 height=100% text-lg flex flex-row items-center justify-center">
+      <div class="flex items-center justify-center mt-1">
+        <div class="pr-5 text-2xl">Stats</div>
+        <i class="fa-solid fa-chart-simple fa-xl pb-2"></i>
+      </div>
     </button>
   </div>
   <hr class="border-black opacity-50">
