@@ -11,10 +11,14 @@ services:
     container_name: charactyr-auth-keycloak
     image: bitnami/keycloak
     ports:
-      - "9090:8080"
+      - "8443:8443"
     depends_on:
       - auth-db
     environment:
+      KEYCLOAK_ENABLE_HTTPS: true
+      KEYCLOAK_HTTPS_USE_PEM: true
+      KEYCLOAK_HTTPS_CERTIFICATE_FILE: /opt/bitnami/keycloak/certs/charactyr-auth-keycloak.pem
+      KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE: /run/secrets/charactyr_auth_keycloak_cert_key
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KEYCLOAK_DATABASE_HOST: charactyr-auth-postgres
@@ -24,8 +28,11 @@ services:
       KEYCLOAK_DATABASE_NAME: charactyr-user-management
       KEYCLOAK_EXTRA_ARGS: "--import-realm"
     volumes:
+      - ./deployment/certs/charactyr-auth-keycloak.pem:/opt/bitnami/keycloak/certs/charactyr-auth-keycloak.pem
       - ./deployment/keycloak-config.json:/opt/bitnami/keycloak/data/import/keycloak-config.json
       - ./frontend/charactyr-theme:/opt/bitnami/keycloak/themes/charactyr-theme
+    secrets:
+      - charactyr_auth_keycloak_cert_key
 
   backend-db:
     container_name: charactyr-backend-postgres
@@ -55,3 +62,5 @@ services:
 secrets:
   charactyr_frontend_cert_key:
     file: ./deployment/certs/charactyr-frontend.key
+  charactyr_auth_keycloak_cert_key:
+    file: ./deployment/certs/charactyr-auth-keycloak-key.pem
