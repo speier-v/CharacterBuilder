@@ -17,6 +17,7 @@ import { environment } from '../../../../../../environments/environment';
 export class TopBarComponent {
   @Input() isEditable: boolean = false;
   @Output() navigate = new EventEmitter<string>();
+  @Output() characterImageIconClicked = new EventEmitter<void>();
 
   character: Character | null = null;
 
