@@ -6,6 +6,7 @@ import { Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 import { environment } from '../../../../../../environments/environment';
+import { DetectClicksOutsideDirective } from '../../../shared/detect-clicks-outside.directive';
 
 @Component({
   selector: 'character-card',
@@ -14,6 +15,7 @@ import { environment } from '../../../../../../environments/environment';
     CopyCharacterModalComponent,
     NgIf,
     NgOptimizedImage,
+    DetectClicksOutsideDirective,
   ],
   templateUrl: './character-card.component.html',
   styleUrl: './character-card.component.css',

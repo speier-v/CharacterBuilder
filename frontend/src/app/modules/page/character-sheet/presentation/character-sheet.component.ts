@@ -10,11 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CharacterSheetRouteData } from '../../../core/routing/character-sheet-route-data.model';
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
+import { DetectClicksOutsideDirective } from '../../shared/detect-clicks-outside.directive';
 
 @Component({
   selector: 'character-sheet',
   standalone: true,
-  imports: [TopBarComponent, StatDisplayComponent, SavingThrowsDisplayComponent, SkillsDisplayComponent, AbilitiesAndSpellsComponent, NgOptimizedImage, NgIf],
+  imports: [TopBarComponent, StatDisplayComponent, SavingThrowsDisplayComponent, SkillsDisplayComponent, AbilitiesAndSpellsComponent, NgOptimizedImage, NgIf, DetectClicksOutsideDirective],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
