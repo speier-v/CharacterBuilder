@@ -1,8 +1,8 @@
 <ng-template #characterSheetPageTitle>
-  <div *ngIf="character" class="flex py-1">
-    <img class="object-contain" ngSrc="{{ character.icon }}"
-         width="100" height="100" alt="Character icon">
-    <div *ngIf="character" class="flex flex-col justify-center">
+  <div *ngIf="character" class="flex py-2">
+    <img class="rounded-full" ngSrc="{{ character.icon }}"
+         width="75" height="75" alt="Character icon">
+    <div *ngIf="character" class="ml-4 flex flex-col justify-center">
       <p class="text-2xl"> {{ character.name }} </p>
       <p> {{ character.characterClass }} </p>
       <p class="opacity-50"> Level {{ character.level }} </p>
