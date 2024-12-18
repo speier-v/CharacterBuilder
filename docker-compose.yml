@@ -1,9 +1,9 @@
 services:
-  frontend:
-    container_name: charactyr-frontend
-    image: charactyr/frontend
-    ports:
-      - "8080:8080"
+  #frontend:
+    #container_name: charactyr-frontend
+    #image: charactyr/frontend
+    #ports:
+      #- "8080:8080"
 
   keycloak:
     container_name: charactyr-auth-keycloak

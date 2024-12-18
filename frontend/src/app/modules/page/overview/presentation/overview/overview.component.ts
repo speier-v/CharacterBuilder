@@ -4,6 +4,7 @@ import { CharacterCardComponent } from '../character-card/character-card.compone
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { Character } from '../../../../character-model/character.model';
 import { RouterLink, Router } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'character-cards-overview',
