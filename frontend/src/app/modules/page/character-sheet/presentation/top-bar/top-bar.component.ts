@@ -5,6 +5,7 @@ import { Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { DynamicHeaderComponent } from '../../../shared/dynamic-header/dynamic-header.component';
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'top-bar',
@@ -30,4 +31,10 @@ export class TopBarComponent {
   myCharactersButtonClicked() {
     this.router.navigate([`/${RoutePaths.OVERVIEW}`]);
   }
+
+  getMiniCharacterFrameImageName(imageName: String): string {
+    return 'mini_'.concat(imageName.replace('.jpeg', '.png'));
+  }
+
+  protected readonly environment = environment;
 }

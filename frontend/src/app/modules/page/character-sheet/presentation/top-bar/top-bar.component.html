@@ -1,16 +1,14 @@
 <ng-template #characterSheetPageTitle>
-  <div *ngIf="character" class="flex py-2">
-    <img class="rounded-full" ngSrc="{{ character.icon }}"
-         width="75" height="75" alt="Character icon">
-    <div *ngIf="character" class="ml-4 flex flex-col justify-center">
-      <p class="text-2xl"> {{ character.name }} </p>
-      <p> {{ character.characterClass }} </p>
-      <p class="opacity-50"> Level {{ character.level }} </p>
-    </div>
+  <div *ngIf="character" class="flex items-center">
+    <img class="rounded-full h-8 w-8"
+         ngSrc="{{ environment.resourceRoots.images.characterFrames.mini }}/{{getMiniCharacterFrameImageName(character.icon)}}"
+         width="32" height="32" alt="Character icon">
+    <p class="ml-1"> {{ character.name }} • Level {{ character.level }} {{ character.characterClass }} •
+      P{{ character.getVisibility().slice(1) }} character</p>
   </div>
 </ng-template>
 <ng-template #characterSheetHeaderEndActions>
-  <div class="flex ml-1 items-center">
+  <div class="flex items-center">
     <button *ngIf="isEditable" class="corner-rounding flex items-center header-action-button"
             (click)="editButtonClicked()" title="Edit this character">
       <i class="fa-solid fa-pen"></i>

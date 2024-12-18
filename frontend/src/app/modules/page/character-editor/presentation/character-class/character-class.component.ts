@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { IconChoiceModalComponent } from './icon-choice-modal/icon-choice-modal.component';
@@ -9,11 +9,12 @@ import { LevelChoiceDropdownComponent } from './level-choice-dropdown/level-choi
 import { ModelCharacterClass, modelCharacterClasses } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { Character, IconImages } from '../../../../character-model/character.model';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'character-class',
   standalone: true,
-  imports: [IconChoiceModalComponent, CommonModule, ClassChoiceDropdownComponent, ClassDescriptionComponent, LevelChoiceDropdownComponent, ReactiveFormsModule],
+  imports: [IconChoiceModalComponent, CommonModule, ClassChoiceDropdownComponent, ClassDescriptionComponent, LevelChoiceDropdownComponent, ReactiveFormsModule, NgOptimizedImage],
   templateUrl: './character-class.component.html',
   styleUrl: './character-class.component.css',
 })
@@ -137,4 +138,6 @@ export class CharacterClassComponent {
       this.characterService.updateCurrentCharacter(this.character);
     }
   }
+
+  protected readonly environment = environment;
 }

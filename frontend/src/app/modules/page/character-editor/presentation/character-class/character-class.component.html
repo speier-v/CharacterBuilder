@@ -1,23 +1,26 @@
 <div>
   <div class="px-10 relative flex flex-row justify-left h-full text-black pt-5">
     <div *ngIf="character; else placeholder">
-      <img (click)="showImageChoice()" [src]="character.icon"
+      <img (click)="showImageChoice()"
+           ngSrc="{{ environment.resourceRoots.images.characterFrames.default }}/{{ character.icon }}" width="128"
+           height="128"
            class="pr-5 cursor-pointer hover:opacity-50 transition-opacity duration-300 h-32 w-32 object-contain"
-           >
+           alt="Character icon"
+      >
     </div>
     <ng-template #placeholder>
       <img (click)="showImageChoice()" class="pr-5 cursor-pointer hover:opacity-50 transition-opacity duration-300"
            height="100px"
-           src="assets/images/character_frame_questionmark.jpeg"
-           width="100px">
+           ngSrc="{{ environment.resourceRoots.images.characterFrames.default }}/character_frame_questionmark.jpeg"
+           width="100px" alt="Character icon placeholder">
     </ng-template>
     <form [formGroup]="characterForm" class="flex flex-col">
       <p class="pb-3 text-xl accent-font">Character name</p>
-      <input 
+      <input
         formControlName="characterName"
         class="p-2 corner-rounding input-field border-2 border-black"
         placeholder="Name your character..."
-        type="text" 
+        type="text"
       />
     </form>
   </div>
@@ -59,11 +62,13 @@
       <level-choice-dropdown (levelChange)="onLevelSelection($event)"
                              [selectedClass]="selectedClass" [selectedLevel]="selectedLevel"></level-choice-dropdown>
     </div>
-    <class-description [character]="character" [selectedClass]="selectedClass" [selectedLevel]="selectedLevel"></class-description>
+    <class-description [character]="character" [selectedClass]="selectedClass"
+                       [selectedLevel]="selectedLevel"></class-description>
   </div>
 
   <div class="flex justify-end px-10">
-    <button (click)="onNavigate()" class="px-5 py-2 bg-teal-500 text-white corner-rounding accent-font hover:bg-teal-600">
+    <button (click)="onNavigate()"
+            class="px-5 py-2 bg-teal-500 text-white corner-rounding accent-font hover:bg-teal-600">
       Continue
     </button>
   </div>

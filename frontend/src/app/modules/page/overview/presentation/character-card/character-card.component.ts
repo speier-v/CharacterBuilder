@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { CopyCharacterModalComponent } from '../copy-character-modal/copy-character-modal.component';
 import { Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'character-card',
@@ -12,6 +13,7 @@ import { RoutePaths } from '../../../../core/routing/route-paths.enum';
   imports: [
     CopyCharacterModalComponent,
     NgIf,
+    NgOptimizedImage,
   ],
   templateUrl: './character-card.component.html',
   styleUrl: './character-card.component.css',
@@ -70,4 +72,6 @@ export class CharacterCardComponent {
   onCharacterCopied(characterId: number) {
     this.characterDeleted.emit(characterId);
   }
+
+  protected readonly environment = environment;
 }
