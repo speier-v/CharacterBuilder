@@ -30,4 +30,6 @@ export class UsernameAndLogoutComponent {
   logout() {
     this.keycloakService.logout();
   }
+
+  protected readonly console = console;
 }
