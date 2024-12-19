@@ -55,11 +55,11 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 
 
 # Copy TLS certificate
-COPY ./deployment/certs/charactyr-frontend.crt /etc/nginx/ssl/charactyr-frontend.crt
+COPY ./deployment/certs/localhost.crt /etc/nginx/ssl/localhost.crt
 # Copy NGINX server configuration
 COPY ./frontend/build/nginx.conf /etc/nginx/
 
 USER root
-RUN chown nginx:nginx /etc/nginx/nginx.conf /etc/nginx/ssl/charactyr-frontend.crt
+RUN chown nginx:nginx /etc/nginx/nginx.conf /etc/nginx/ssl/localhost.crt
 
 USER nginx
