@@ -33,9 +33,5 @@ export class TopBarComponent {
     this.router.navigate([`/${RoutePaths.OVERVIEW}`]);
   }
 
-  getMiniCharacterFrameImageName(imageName: String): string {
-    return 'mini_'.concat(imageName.replace('.jpeg', '.png'));
-  }
-
   protected readonly environment = environment;
 }

@@ -1,7 +1,7 @@
 <ng-template #characterSheetPageTitle>
   <div *ngIf="character" class="flex items-center">
     <img class="rounded-full h-10 w-10 cursor-pointer"
-         ngSrc="{{ environment.resourceRoots.images.characterFrames.mini }}/{{getMiniCharacterFrameImageName(character.icon)}}"
+         ngSrc="{{ environment.resourceRoots.images.characterFrames.mini }}/{{ character.icon.replace('.jpeg','.png') }}"
          (click)="this.characterImageIconClicked.emit()" width="40" height="40" alt="Character icon">
     <p class="ml-1"> {{ character.name }} • Level {{ character.level }} {{ character.characterClass }} •
       P{{ character.getVisibility().slice(1) }} character</p>
