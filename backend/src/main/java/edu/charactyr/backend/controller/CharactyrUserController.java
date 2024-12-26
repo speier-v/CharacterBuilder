@@ -8,25 +8,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.charactyr.backend.Users;
-import edu.charactyr.backend.UserRepository;
+import edu.charactyr.backend.CharactyrUser;
+import edu.charactyr.backend.CharactyrUserRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-public class UserController {    
-    private final UserRepository userRepository;
+public class CharactyrUserController {    
+    private final CharactyrUserRepository userRepository;
 
-    UserController(UserRepository userRepository) {
+    CharactyrUserController(CharactyrUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @GetMapping("/users")
-    public List<Users> getUsers() {
-        return (List<Users>) userRepository.findAll();
+    public List<CharactyrUser> getUsers() {
+        return (List<CharactyrUser>) userRepository.findAll();
     }
 
     @PostMapping("/users")
-    void addUser(@RequestBody Users user) {
+    void addUser(@RequestBody CharactyrUser user) {
         userRepository.save(user);
     }
 }

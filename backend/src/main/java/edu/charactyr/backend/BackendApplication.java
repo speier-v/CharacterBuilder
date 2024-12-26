@@ -15,7 +15,7 @@ public class BackendApplication {
   }
 
   @Bean
-  CommandLineRunner init(UserRepository userRepository) {
+  CommandLineRunner init(CharactyrUserRepository userRepository) {
       return args -> {
         /*  
         String[] names = {"John", "Julie", "Jennifer", "Helen", "Rachel"};

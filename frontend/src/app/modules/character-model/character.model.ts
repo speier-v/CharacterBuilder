@@ -145,6 +145,8 @@ export interface Character {
   savingThrows: savingThrows;
   skillProficiencies: skillProficiencies;
   skills: skills;
+  // spells
+  // canCastSpells: boolean
 }
 
 export class IconImages {
