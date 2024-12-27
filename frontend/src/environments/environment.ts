@@ -10,6 +10,7 @@ export const environment = {
       characterFrames: {
         default: 'assets/images/character-frames/default',
         mini: 'assets/images/character-frames/mini',
+        medium: 'assets/images/character-frames/medium',
       },
       icons: 'assets/images/icons',
     },

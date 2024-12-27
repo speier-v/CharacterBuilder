@@ -3,12 +3,13 @@
   border border-gray-500 corner-rounding">
   <div class="flex cursor-pointer" (click)="navigateToCharacterSheet()">
     <img *ngIf="character" alt="Character card background image"
-         class="rounded-full h-32 w-32 object-cover"
-         ngSrc="{{ environment.resourceRoots.images.characterFrames.default }}/{{ character.icon }}" width="128"
+         class="rounded-full"
+         ngSrc="{{ environment.resourceRoots.images.characterFrames.medium }}/{{ character.icon.replace('.jpeg', '.png') }}"
+         width="128"
          height="128" priority>
     <div *ngIf="character" class="flex flex-col w-2/3 mr-2 text-center">
       <p class="text-3xl accent-font"> {{ character.name }}</p>
-      <p class="text-2xl my-4">Level {{ character.level }} {{ character.characterClass }}</p>
+      <p class="text-2xl my-4 accent-font">Level {{ character.level }} {{ character.characterClass }}</p>
       <div class="flex justify-around">
         <div class="flex items-center">
           <i class="fa-solid fa-gauge-simple-high scale-105"></i>
