@@ -1,21 +1,13 @@
 <div>
   <div class="px-10 relative flex flex-row justify-left h-full text-black pt-5">
-    <div *ngIf="character; else placeholder">
-      <img (click)="showImageChoice()"
-           ngSrc="{{ environment.resourceRoots.images.characterFrames.default }}/{{ character.icon }}" width="128"
-           height="128"
-           class="pr-5 cursor-pointer hover:opacity-50 transition-opacity duration-300 h-32 w-32 object-contain"
-           alt="Character icon"
-      >
-    </div>
-    <ng-template #placeholder>
-      <img (click)="showImageChoice()" class="pr-5 cursor-pointer hover:opacity-50 transition-opacity duration-300"
-           height="100px"
-           ngSrc="{{ environment.resourceRoots.images.characterFrames.default }}/character_frame_questionmark.jpeg"
-           width="100px" alt="Character icon placeholder">
-    </ng-template>
+    <img (click)="showImageChoice()"
+         ngSrc="{{ environment.resourceRoots.images.characterFrames.medium }}/{{ character ? character.icon : 'character_frame_questionmark.jpeg' }}"
+         width="128" height="128"
+         class="rounded-full cursor-pointer hover:opacity-50 transition-opacity duration-300 h-32 w-32 mr-5 object-contain"
+         alt="Character icon"
+    >
     <form [formGroup]="characterForm" class="flex flex-col">
-      <p class="pb-3 text-xl accent-font">Character name</p>
+      <p class="pb-3 text-2xl accent-font">Character name</p>
       <input
         formControlName="characterName"
         class="p-2 corner-rounding input-field border-2 border-black"
@@ -26,8 +18,8 @@
   </div>
 
   <form *ngIf="copyCharacterForm" [formGroup]="copyCharacterForm">
-    <div class="flex flex-col px-10 mt-5">
-      <h2 class="text-lg accent-font">Visibility:</h2>
+    <div class="flex px-10 mt-5">
+      <h2 class="text-lg accent-font mr-3">Visibility:</h2>
       <div class="flex">
         <div class="flex input-field">
           <input class="mr-2 radio-btn-size"

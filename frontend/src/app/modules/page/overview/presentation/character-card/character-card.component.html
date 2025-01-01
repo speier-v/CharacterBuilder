@@ -4,7 +4,7 @@
   <div class="flex cursor-pointer" (click)="navigateToCharacterSheet()">
     <img *ngIf="character" alt="Character card background image"
          class="rounded-full"
-         ngSrc="{{ environment.resourceRoots.images.characterFrames.medium }}/{{ character.icon.replace('.jpeg', '.png') }}"
+         ngSrc="{{ environment.resourceRoots.images.characterFrames.medium }}/{{ character.icon }}"
          width="128"
          height="128" priority>
     <div *ngIf="character" class="flex flex-col w-2/3 mr-2 text-center">
