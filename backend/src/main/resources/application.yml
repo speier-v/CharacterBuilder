@@ -12,6 +12,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+  jackson:
+    serializiation:
+      FAIL_ON_EMPTY_BEANS: false
 
 server:
   port: 8090
