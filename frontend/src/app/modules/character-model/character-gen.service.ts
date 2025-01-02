@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Character, CharacterStats } from './character.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,9 +10,11 @@ export class CharacterGenService {
   private characters: Character[] = [];
   private currentCharacter: Character | null = null;
   private lastAssignedId: number = 0;
+  private apiUrl = 'http://localhost:8080/api/characters';
   
-  constructor() {
-    this.loadCharactersFromStorage();
+  constructor(private http: HttpClient) {
+    //this.loadCharactersFromStorage();
+    this.fetchCharacters();
   }
 
   private saveCharactersToStorage(): void {
@@ -142,5 +146,70 @@ export class CharacterGenService {
     } else {
       ////console.warn(`No current character to update.`);
     }
+  }
+
+
+  // API calls
+  fetchCharacters(): Observable<Character[]> {
+    return new Observable((subscriber) => {
+      this.http.get<Character[]>(this.apiUrl).subscribe(
+        (data: Character[]) => {
+          this.characters = data;
+          subscriber.next(this.characters);
+          subscriber.complete();
+        },
+        (error) => {
+          subscriber.error(error);
+        }
+      );
+    });
+  }
+
+  addCharacter(character: Character): Observable<Character> {
+    return new Observable((subscriber) => {
+      this.http.post<Character>(this.apiUrl, character).subscribe(
+        (newCharacter) => {
+          this.characters.push(newCharacter);
+          subscriber.next(newCharacter);
+          subscriber.complete();
+        },
+        (error) => {
+          subscriber.error(error);
+        }
+      );
+    });
+  }
+
+  updateCharacter(character: Character): Observable<Character> {
+    return new Observable((subscriber) => {
+      this.http.put<Character>(`${this.apiUrl}/${character.id}`, character).subscribe(
+        (updatedCharacter) => {
+          const index = this.characters.findIndex((c) => c.id === character.id);
+          if (index !== -1) {
+            this.characters[index] = updatedCharacter;
+          }
+          subscriber.next(updatedCharacter);
+          subscriber.complete();
+        },
+        (error) => {
+          subscriber.error(error);
+        }
+      );
+    });
+  }
+
+  deleteCharacter(characterId: number): Observable<void> {
+    return new Observable((subscriber) => {
+      this.http.delete<void>(`${this.apiUrl}/${characterId}`).subscribe(
+        () => {
+          this.characters = this.characters.filter((c) => c.id !== characterId);
+          subscriber.next();
+          subscriber.complete();
+        },
+        (error) => {
+          subscriber.error(error);
+        }
+      );
+    });
   }
 }

@@ -71,19 +71,23 @@ public class BackendApplication {
           skillsProficiencies.setAcrobatics(true);
           skillsProficiencies.setCharacter(character);
 
+          /*
           Feature f1 = new Feature();
           f1.setDescription("example f1");
           f1.setFeatureLevel(1);
           f1.setName("Ex f1");
+          f1.setAssociatedClass("Rogue");
           Feature f2 = new Feature();
           f2.setDescription("example f2");
           f2.setFeatureLevel(2);
           f2.setName("Ex f2");
+          f2.setAssociatedClass("General");
           List<Feature> features = new ArrayList<Feature>();
           f1.setCharacter(character);
           f2.setCharacter(character);
           features.add(f1);
           features.add(f2);
+          */
 
           Spell s1 = new Spell();
           s1.setLevel(1);
@@ -102,7 +106,7 @@ public class BackendApplication {
           character.setAbilities(abilities);
           character.setSavingThrows(savingThrows);
           character.setSkills(skills);
-          character.setFeatures(features);
+          //character.setFeatures(features);
           character.setSpells(spells);
           character.setSkillsProficiencies(skillsProficiencies);
           character.setSavingThrowsProficiencies(savingThrowsProficiencies);

@@ -24,9 +24,12 @@ public class Feature {
     private String name;
     private int featureLevel;
     private String description;
+    private String associatedClass;
 
+    /*
     @ManyToOne
     @JoinColumn(name = "character_id", nullable = false)
     @JsonBackReference
     private Character character;
+    */
 }

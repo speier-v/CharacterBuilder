@@ -1,3 +1,5 @@
+import { UsernameAndLogoutComponent } from "../page/shared/username-and-logout/username-and-logout.component";
+
 export interface Skill {
   name: string;
   description: string;
@@ -60,6 +62,13 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
     ],
   },
 ];
+
+export interface FeatureCollection {
+  general: Feature[]; // Features available to all classes
+  rogue: Feature[];   // Features specific to the Rogue class
+  fighter: Feature[]; // Features specific to the Fighter class
+  wizard: Feature[];  // Features specific to the Wizard class
+}
 
 export class IconImages {
   images: Array<String>;
@@ -153,6 +162,7 @@ export interface Feature {
   name: string;
   featureLevel: number;
   description: string;
+  associatedClass: string;
 }
 
 export interface Spell {
@@ -162,6 +172,7 @@ export interface Spell {
 }
 
 export interface Character {
+  id?: number;
   name: string;
   playerName: string;
   characterClass: string;
@@ -182,7 +193,7 @@ export interface Character {
 }
 
 export class Character implements Character {
-  id: number;
+  id?: number;
   name: string;
   playerName: string;
   characterClass: string;
@@ -209,7 +220,7 @@ export class Character implements Character {
   ) {
     this.id = id;
     this.name = name;
-    this.playerName = 'playerName';
+    this.playerName = UsernameAndLogoutComponent.userName;
     this.characterClass = '';
     this.level = 1;
     this.hitPoints = 0; // calculated later
@@ -290,7 +301,8 @@ export class Character implements Character {
       {
         name: "example",
         featureLevel: 0,
-        description: "Example description"
+        description: "Example description",
+        associatedClass: "General"
       }
     ];
     // spells - depends on class and level

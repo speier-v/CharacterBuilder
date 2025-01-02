@@ -65,9 +65,11 @@ public class Character {
     @JsonManagedReference
     private SkillsProficiencies skillsProficiencies;
 
+    /*
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Feature> features;
+    */
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
