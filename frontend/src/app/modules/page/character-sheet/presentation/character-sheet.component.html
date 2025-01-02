@@ -1,16 +1,21 @@
-<div class="component-display">
-  <div class="relative min-h-screen bg-cover bg-center bg-no-repeat w-full h-full"
-       style="background-image: url('assets/images/bg_character_editor_teal3.png'); background-size: cover;">
-    <div class="flex flex-col text-black">
-      <top-bar [isEditable]="isEditable"></top-bar>
-      <stat-display></stat-display>
-      <div class="flex flex-row">
-        <saving-throws-display></saving-throws-display>
-        <skills-display></skills-display>
-        <div class="w-1/2 mr-5">
-          <abilities-and-spells class="h-full" [isEditable]="isEditable"></abilities-and-spells>
-        </div>
-      </div>
+<div class="min-h-screen w-full bg-cover bg-center bg-no-repeat relative"
+     style="background-image: url('assets/images/background/bg_character_editor_teal3.png'); background-size: cover;">
+  <top-bar [isEditable]="isEditable" (characterImageIconClicked)="toggleOverlayOpen()"></top-bar>
+  <div *ngIf="character && this.characterImageOverlayIsOpen"
+       class="absolute z-10 top-40 flex w-full h-3/5 justify-center items-center">
+    <div detectClicksOutside (clickedOutside)="toggleOverlayOpen()"
+         class="flex flex-col justify-center items-center bg-gray-900 bg-opacity-90 w-3/5 h-4/5 corner-rounding relative">
+      <button (click)="toggleOverlayOpen()" class="self-end absolute top-2 right-2 text-white">✕</button>
+      <img ngSrc="{{ environment.resourceRoots.images.characterFrames.default }}/{{ character.icon }}" width="200"
+           height="200" alt="Character image in overlay">
+    </div>
+  </div>
+  <stat-display></stat-display>
+  <div class="flex flex-row">
+    <saving-throws-display></saving-throws-display>
+    <skills-display></skills-display>
+    <div class="w-1/2 mr-5">
+      <abilities-and-spells class="h-full" [isEditable]="isEditable"></abilities-and-spells>
     </div>
   </div>
 </div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { RoutePaths } from '../../../core/routing/route-paths.enum';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'charactyr-banner',
@@ -19,4 +20,6 @@ export class CharactyrBannerComponent {
   goToOverview(): void {
     this.router.navigate([`/${RoutePaths.OVERVIEW}`]);
   }
+
+  protected readonly environment = environment;
 }

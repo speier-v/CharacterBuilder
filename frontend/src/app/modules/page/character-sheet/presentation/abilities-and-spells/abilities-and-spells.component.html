@@ -47,7 +47,8 @@
   <div *ngIf="selectedTab === 'all' || selectedTab === 'spells'">
     <div class="flex justify-between items-center mb-3">
       <h2 class="text-xl font-bold text-gray-700">Spells</h2>
-      <button class="corner-rounding flex items-center header-action-button" (click)="toggleModal()" title="Edit this character's spells">
+      <button class="corner-rounding flex items-center header-action-button" (click)="toggleModal()"
+              title="Edit this character's spells">
         <i class="fa-solid fa-pen"></i>
       </button>
     </div>
@@ -59,8 +60,10 @@
     </ul>
   </div>
 </div>
-<div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
-  <div class="bg-white w-3/4 md:w-1/2 p-6 rounded-lg shadow-lg relative">
+<div *ngIf="isModalOpen"
+     class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+  <div detectClicksOutside (clickedOutside)="toggleModal()"
+       class="bg-white w-3/4 md:w-1/2 p-6 rounded-lg shadow-lg relative">
     <button (click)="toggleModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">✕</button>
     <h2 class="text-2xl font-bold mb-5 text-gray-700">Manage Spells</h2>
 

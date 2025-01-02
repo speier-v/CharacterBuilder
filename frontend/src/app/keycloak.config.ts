@@ -3,9 +3,9 @@ import { environment } from '../environments/environment';
 
 export const keycloakConfig: KeycloakOptions = {
   config: {
-    url: environment.keycloakUrl,
-    realm: environment.keycloakRealmName,
-    clientId: environment.keycloakClientId,
+    url: environment.keycloak.url,
+    realm: environment.keycloak.realmName,
+    clientId: environment.keycloak.clientId,
   },
   loadUserProfileAtStartUp: true,
   initOptions: {

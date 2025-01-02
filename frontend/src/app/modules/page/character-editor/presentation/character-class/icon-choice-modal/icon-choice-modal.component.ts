@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { IconImages } from '../../../../../character-model/character.model';
+import { environment } from '../../../../../../../environments/environment';
 
 @Component({
   selector: 'icon-choice-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   templateUrl: './icon-choice-modal.component.html',
   styleUrl: './icon-choice-modal.component.css',
 })
@@ -30,4 +31,6 @@ export class IconChoiceModalComponent {
     this.isOpen = false;
     this.close.emit();
   }
+
+  protected readonly environment = environment;
 }

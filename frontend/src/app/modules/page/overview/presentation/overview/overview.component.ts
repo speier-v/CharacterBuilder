@@ -6,6 +6,7 @@ import { Character } from '../../../../character-model/character.model';
 import { Router } from '@angular/router';
 import { DynamicHeaderComponent } from '../../../shared/dynamic-header/dynamic-header.component';
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'character-cards-overview',
@@ -56,4 +57,6 @@ export class OverviewComponent implements OnInit, OnChanges {
   onCharacterDeleted(characterId: number) {
     this.characters = this.characterService.getCharacters();
   }
+
+  protected readonly environment = environment;
 }

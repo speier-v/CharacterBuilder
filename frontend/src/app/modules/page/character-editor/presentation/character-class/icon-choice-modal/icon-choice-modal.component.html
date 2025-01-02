@@ -7,8 +7,11 @@
 
     <div class="grid grid-cols-3 gap-2 pb-3">
       <div *ngFor="let image of images"
-           class="border text-centercursor-pointer hover:opacity-50 transition-opacity duration-300">
-        <img (click)="selectImage(image)" [src]="image" class="w-full h-32 w-32 object-contain">
+           class="border text-center cursor-pointer hover:opacity-50 transition-opacity duration-300">
+        <img (click)="selectImage(image)"
+             ngSrc="{{ environment.resourceRoots.images.characterFrames.default }}/{{image}}"
+             width="128" height="128"
+             class="h-32 w-32 object-contain" alt="Character image">
       </div>
     </div>
 
