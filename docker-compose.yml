@@ -20,7 +20,7 @@ services:
     environment:
       KEYCLOAK_ENABLE_HTTPS: true
       KEYCLOAK_HTTPS_USE_PEM: true
-      KEYCLOAK_HTTPS_CERTIFICATE_FILE: /opt/bitnami/keycloak/certs/charactyr-auth-keycloak.pem
+      KEYCLOAK_HTTPS_CERTIFICATE_FILE: /opt/bitnami/keycloak/certs/localhost.pem
       KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE: /run/secrets/charactyr_auth_keycloak_cert_key
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
@@ -31,7 +31,7 @@ services:
       KEYCLOAK_DATABASE_NAME: charactyr-user-management
       KEYCLOAK_EXTRA_ARGS: "--import-realm"
     volumes:
-      - ./deployment/certs/charactyr-auth-keycloak.pem:/opt/bitnami/keycloak/certs/charactyr-auth-keycloak.pem
+      - ./deployment/certs/localhost.pem:/opt/bitnami/keycloak/certs/localhost.pem
       - ./deployment/keycloak-config.json:/opt/bitnami/keycloak/data/import/keycloak-config.json
       - ./frontend/charactyr-theme:/opt/bitnami/keycloak/themes/charactyr-theme
     secrets:
@@ -64,6 +64,6 @@ services:
 
 secrets:
   charactyr_frontend_cert_key:
-    file: ./deployment/certs/charactyr-frontend.key
+    file: deployment/certs/localhost.key
   charactyr_auth_keycloak_cert_key:
-    file: ./deployment/certs/charactyr-auth-keycloak-key.pem
+    file: ./deployment/certs/localhost.key.pem

@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DetectClicksOutsideDirective } from '../../../shared/detect-clicks-outside.directive';
 
 @Component({
   selector: 'abilities-and-spells',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DetectClicksOutsideDirective],
   templateUrl: './abilities-and-spells.component.html',
   styleUrl: './abilities-and-spells.component.css',
 })

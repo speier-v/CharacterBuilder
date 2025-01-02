@@ -66,15 +66,15 @@ export class IconImages {
 
   constructor() {
     this.images = [
-      'assets/images/character-avatar.png',
-      'assets/images/character_frame_1.jpeg',
-      'assets/images/character_frame_2.jpeg',
-      'assets/images/character_frame_3.jpeg',
-      'assets/images/character_frame_4.jpeg',
-      'assets/images/character_frame_5.jpeg',
-      'assets/images/character_frame_6.jpeg',
-      'assets/images/character_frame_7.jpeg',
-      'assets/images/character_frame_8.jpeg'
+      'character_frame_0.png',
+      'character_frame_1.jpeg',
+      'character_frame_2.jpeg',
+      'character_frame_3.jpeg',
+      'character_frame_4.jpeg',
+      'character_frame_5.jpeg',
+      'character_frame_6.jpeg',
+      'character_frame_7.jpeg',
+      'character_frame_8.jpeg'
     ];
   }
 }

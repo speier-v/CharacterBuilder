@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
-import { NgClass } from '@angular/common';
+import { NgIf } from '@angular/common';
+import { DetectClicksOutsideDirective } from '../detect-clicks-outside.directive';
 
 @Component({
   selector: 'username-and-logout',
   standalone: true,
   imports: [
-    NgClass,
+    DetectClicksOutsideDirective,
+    NgIf,
   ],
   templateUrl: './username-and-logout.component.html',
   styleUrl: './username-and-logout.component.css',
