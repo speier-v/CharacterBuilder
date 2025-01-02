@@ -1,16 +1,15 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgIf, NgOptimizedImage } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 import { CopyCharacterModalComponent } from '../copy-character-modal/copy-character-modal.component';
 import { Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 
 @Component({
   selector: 'character-card',
   standalone: true,
   imports: [
-    NgOptimizedImage,
-    RouterLink,
     CopyCharacterModalComponent,
     NgIf,
   ],
@@ -19,7 +18,7 @@ import { CharacterGenService } from '../../../../character-model/character-gen.s
 })
 export class CharacterCardComponent {
   @Input() isPublicCharacterCard = false;
-  @Input() character : Character | null = null;
+  @Input() character: Character | null = null;
   @Output() characterDeleted = new EventEmitter<number>();
 
   protected modalOpen = false;
@@ -40,26 +39,31 @@ export class CharacterCardComponent {
   navigateToEditor() {
     if (this.character != null) {
       this.characterService.setCurrentCharacter(this.character.id);
-    }    
-    this.router.navigate(['/character-editor']);
+    }
+    this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
   }
 
   navigateToCharacterSheet() {
     if (this.character != null) {
       this.characterService.setCurrentCharacter(this.character.id);
-    } 
-    this.router.navigate(['/character-sheet']);
+    }
+
+    if (this.isPublicCharacterCard) {
+      this.router.navigate([`/${RoutePaths.PUBLIC_CHARACTER_SHEET}`]);
+    } else {
+      this.router.navigate([`/${RoutePaths.PRIVATE_CHARACTER_SHEET}`]);
+    }
   }
 
   deleteCharacter() {
-    console.log("in deleteCharacter!");
+    console.log('in deleteCharacter!');
     if (this.character) {
-      console.log("Deleting character...");
+      console.log('Deleting character...');
       this.characterService.deleteCharacterById(this.character.id);
-      console.log("Deleted character!");
+      console.log('Deleted character!');
       this.characterDeleted.emit(this.character.id);
     } else {
-      console.log("couldn't assign this.character for deletion??");
+      console.log('couldn\'t assign this.character for deletion??');
     }
   }
 

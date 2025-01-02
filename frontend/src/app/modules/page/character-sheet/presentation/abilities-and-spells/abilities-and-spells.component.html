@@ -47,8 +47,8 @@
   <div *ngIf="selectedTab === 'all' || selectedTab === 'spells'">
     <div class="flex justify-between items-center mb-3">
       <h2 class="text-xl font-bold text-gray-700">Spells</h2>
-      <button (click)="toggleModal()"
-              class="bg-teal-500 text-white px-3 py-1 corner-rounding accent-font hover:bg-teal-600">Edit
+      <button class="corner-rounding flex items-center header-action-button" (click)="toggleModal()" title="Edit this character's spells">
+        <i class="fa-solid fa-pen"></i>
       </button>
     </div>
     <ul class="space-y-3">

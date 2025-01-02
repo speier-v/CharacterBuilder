@@ -1,29 +1,31 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnChanges, OnInit } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { CharacterCardComponent } from '../character-card/character-card.component';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { Character } from '../../../../character-model/character.model';
-import { RouterLink, Router } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { DynamicHeaderComponent } from '../../../shared/dynamic-header/dynamic-header.component';
+import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 
 @Component({
   selector: 'character-cards-overview',
   standalone: true,
   imports: [
     CharacterCardComponent,
-    RouterLink,
-    CommonModule
+    CommonModule,
+    DynamicHeaderComponent,
+    NgOptimizedImage,
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnInit, OnChanges {
   protected isPublicCharactersOverview = false;
   characters: Character[] = [];
 
   constructor(
     private characterService: CharacterGenService,
-    private router: Router
+    private router: Router,
   ) {
     this.characters = characterService.getCharacters();
   }
@@ -48,7 +50,7 @@ export class OverviewComponent {
 
   createCharacter(): void {
     this.characterService.createCharacter('unnamed');
-    this.router.navigate(['/character-editor']);
+    this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
   }
 
   onCharacterDeleted(characterId: number) {

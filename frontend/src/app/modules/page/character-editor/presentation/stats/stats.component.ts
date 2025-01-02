@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CharacterStats, Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 
 @Component({
   selector: 'stats',
@@ -77,7 +78,7 @@ export class StatsComponent {
     if (this.character != null) {
       this.stats = this.character.stats;
       this.initializeStats();
-    }    
+    }
   }
 
   initializeStats() {
@@ -85,7 +86,7 @@ export class StatsComponent {
     for (const stat in this.stats) {
       if (this.stats.hasOwnProperty(stat)) {
         const statKey = stat as keyof CharacterStats;
-  
+
         this.manualEntryStats[statKey] = true;
         this.manualStatValues[statKey] = this.stats[statKey];
 
@@ -150,7 +151,7 @@ export class StatsComponent {
     if (this.character != null) {
       this.character.stats = this.stats;
       this.characterService.updateCurrentCharacter(this.character);
-    }    
+    }
     console.log('Stats: ', this.stats);
   }
 
@@ -166,7 +167,7 @@ export class StatsComponent {
   }
 
   clickToNav() {
-    this.router.navigate(['/character-sheet']);
+    this.router.navigate([`/${RoutePaths.PRIVATE_CHARACTER_SHEET}`]);
   }
 
   calculateModifier(value: number | null): number {

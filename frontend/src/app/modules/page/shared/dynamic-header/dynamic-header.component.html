@@ -1,0 +1,11 @@
+<ng-template #emptyPageTitle></ng-template>
+<ng-template #emptyHeaderEndActions></ng-template>
+
+<div class="flex items-center justify-between bg-white">
+  <charactyr-banner></charactyr-banner>
+  <ng-container [ngTemplateOutlet]="pageTitle || emptyPageTitle"></ng-container>
+  <div class="flex items-center">
+    <ng-container [ngTemplateOutlet]="headerEndActions || emptyHeaderEndActions"></ng-container>
+    <username-and-logout class="ml-2"></username-and-logout>
+  </div>
+</div>

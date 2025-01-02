@@ -10,11 +10,8 @@ import {ApiService} from "./modules/core/api/api.service";
 import {environment} from "../environments/environment";
 
 function initializeKeycloak(keycloak: KeycloakService) {
-    return () =>
-        keycloak.init({
-            config: keycloakConfig.config,
-            initOptions: keycloakConfig.initOptions,
-        });
+  return () =>
+    keycloak.init(keycloakConfig);
 }
 
 function testApiConnection(apiService: ApiService) {

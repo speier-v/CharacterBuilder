@@ -35,9 +35,6 @@ RUN npm run build --omit=dev
 # STAGE 2: Serve
 # Non-root user is not needed because we are using the "nginx-unprivileged" image
 FROM nginxinc/nginx-unprivileged:alpine
-HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=10s \
-    CMD curl -fSs 127.0.0.1:8080/ || exit 1
-
 USER root
 
 RUN rm /usr/share/nginx/html/index.html && rm /etc/nginx/conf.d/default.conf
@@ -56,10 +53,13 @@ COPY --from=builder /usr/lib /usr/lib
 COPY --from=builder /usr/local/include /usr/local/include
 COPY --from=builder /usr/local/bin /usr/local/bin
 
+
+# Copy TLS certificate
+COPY ./deployment/certs/charactyr-frontend.crt /etc/nginx/ssl/charactyr-frontend.crt
 # Copy NGINX server configuration
 COPY ./frontend/build/nginx.conf /etc/nginx/
 
 USER root
-RUN chown nginx:nginx /etc/nginx/nginx.conf
+RUN chown nginx:nginx /etc/nginx/nginx.conf /etc/nginx/ssl/charactyr-frontend.crt
 
 USER nginx

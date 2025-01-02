@@ -1,5 +1,5 @@
 export const environment = {
-  keycloakUrl: 'http://localhost:9090',
+  keycloakUrl: 'https://localhost:8443',
   keycloakRealmName: 'charactyr-users',
   keycloakClientId: 'charactyr-frontend',
   backendUrl: 'http://localhost:8090/api',

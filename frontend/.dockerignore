@@ -1,3 +1,5 @@
 node_modules
 .angular
 charactyr-theme
+../deployment/charactyr-app-management
+../deployment/charactyr-user-management

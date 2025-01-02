@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 
 import { StatsComponent } from './stats/stats.component';
 import { CharacterClassComponent } from './character-class/character-class.component';
+import { RoutePaths } from '../../../core/routing/route-paths.enum';
+import { DynamicHeaderComponent } from '../../shared/dynamic-header/dynamic-header.component';
 
 @Component({
   selector: 'character-editor',
   standalone: true,
-  imports: [CommonModule, StatsComponent, CharacterClassComponent],
+  imports: [CommonModule, StatsComponent, CharacterClassComponent, DynamicHeaderComponent],
   templateUrl: './character-editor.component.html',
   styleUrl: './character-editor.component.css',
 })
@@ -25,6 +27,6 @@ export class CharacterEditorComponent {
   }
 
   clickToNav() {
-    this.router.navigate(['/character-sheet']);
+    this.router.navigate([`/${RoutePaths.PRIVATE_CHARACTER_SHEET}`]);
   }
 }
