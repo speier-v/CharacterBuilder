@@ -37,6 +37,8 @@ public class Character {
     private int initiative;
     private int proficiencyBonus;
     private int passivePerception;
+    private String icon;
+    private String visibility;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="abilities_id", referencedColumnName = "id")
@@ -49,9 +51,19 @@ public class Character {
     private SavingThrows savingThrows;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="saving_throws_proficiencies_id", referencedColumnName = "id")
+    @JsonManagedReference
+    private SavingThrowsProficiencies savingThrowsProficiencies;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="skills_id", referencedColumnName = "id")
     @JsonManagedReference
     private Skills skills;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="skills_proficiencies_id", referencedColumnName = "id")
+    @JsonManagedReference
+    private SkillsProficiencies skillsProficiencies;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference

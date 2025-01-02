@@ -39,6 +39,8 @@ public class BackendApplication {
           character.setPassivePerception(14);
           character.setProficiencyBonus(3);
           character.setPlayerName("John Doe");
+          character.setIcon("assets/images/character-avatar.png");
+          character.setVisibility("visible");
 
           Abilities abilities = new Abilities();
           abilities.setStrength(16);
@@ -58,7 +60,16 @@ public class BackendApplication {
           savingThrows.setWisdomSave(0);
           savingThrows.setCharacter(character);
 
+          SavingThrowsProficiencies savingThrowsProficiencies = new SavingThrowsProficiencies();
+          savingThrowsProficiencies.setDexteritySave(true);
+          savingThrowsProficiencies.setCharacter(character);
+
           Skills skills = new Skills();
+          skills.setCharacter(character);
+
+          SkillsProficiencies skillsProficiencies = new SkillsProficiencies();
+          skillsProficiencies.setAcrobatics(true);
+          skillsProficiencies.setCharacter(character);
 
           Feature f1 = new Feature();
           f1.setDescription("example f1");
@@ -88,12 +99,13 @@ public class BackendApplication {
           spells.add(s1);
           spells.add(s2);
 
-          skills.setCharacter(character);
           character.setAbilities(abilities);
           character.setSavingThrows(savingThrows);
           character.setSkills(skills);
           character.setFeatures(features);
           character.setSpells(spells);
+          character.setSkillsProficiencies(skillsProficiencies);
+          character.setSavingThrowsProficiencies(savingThrowsProficiencies);
 
           repository.save(character);
 
