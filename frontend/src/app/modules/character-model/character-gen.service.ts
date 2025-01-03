@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Character, CharacterStats } from './character.model';
-import { HttpClient } from '@angular/common/http';
+import { Character } from './character.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UsernameAndLogoutComponent } from '../page/shared/username-and-logout/username-and-logout.component';
 
 @Injectable({
   providedIn: 'root',
@@ -9,12 +10,16 @@ import { Observable } from 'rxjs';
 export class CharacterGenService {
   private characters: Character[] = [];
   private currentCharacter: Character | null = null;
-  private lastAssignedId: number = 0;
+  private userName: string;
+
   private apiUrl = 'http://localhost:8080/api/characters';
+  private searchUrl = `${this.apiUrl}/search/by-visibility`;
   
   constructor(private http: HttpClient) {
     //this.loadCharactersFromStorage();
-    this.fetchCharacters();
+    //this.fetchCharacters();
+    this.userName = UsernameAndLogoutComponent.userName;
+    this.fetchPrivateCharacters('private', this.userName);
   }
 
   private saveCharactersToStorage(): void {
@@ -44,40 +49,34 @@ export class CharacterGenService {
   }
 
   createCharacter(name: string): Character {
-    while (this.characters.some(character => character.id === (this.lastAssignedId + 1))) {
-      this.lastAssignedId += 1;
-    }
-
-    const newCharacter = new Character(name, (this.lastAssignedId+1));
-    this.lastAssignedId += 1;
+    const newCharacter = new Character(name);
     this.characters.push(newCharacter);
-    this.setCurrentCharacter(newCharacter.id);
+    this.setCurrentCharacter(newCharacter);
     this.saveCharactersToStorage();
     
     return newCharacter;
   }
 
   createCopiedCharacter(name: string, character: Character): Character {
-    const newCharacter = new Character(name, (this.lastAssignedId+1));
-    this.lastAssignedId += 1;
+    const newCharacter = new Character(name);
 
     Object.assign(newCharacter, character);
     newCharacter.name = name;
-    newCharacter.id = this.lastAssignedId;
+    newCharacter.id = undefined;
 
     this.characters.push(newCharacter);
-    this.setCurrentCharacter(newCharacter.id);
+    this.setCurrentCharacter(newCharacter);
     this.saveCharactersToStorage();
 
     return newCharacter;
   }
 
-  setCurrentCharacter(id: number): void {
-    this.currentCharacter = this.getCharacterById(id) || null;
+  setCurrentCharacter(character: Character): void {
+    this.currentCharacter = character;
     if (this.currentCharacter) {
-      //////console.log(`Current character set to: ${this.currentCharacter.name}, ${this.currentCharacter.id}`);
+      console.log(`Current character set to: ${this.currentCharacter.name}, ${this.currentCharacter.id}`);
     } else {
-      //////console.warn(`Character with id ${id} not found.`);
+      console.warn(`Character not assigned.`);
     }
   }
 
@@ -134,9 +133,9 @@ export class CharacterGenService {
 
       this.currentCharacter = Object.assign(this.currentCharacter, updatedData) as Character;
 
-      this.currentCharacter.calculateAdditionalStats();
-      this.currentCharacter.calculateSavingThrows(this.currentCharacter.level);
-      this.currentCharacter.calculateSkills();
+      this.currentCharacter.calculateStats();
+      //this.currentCharacter.calculateSavingThrows(this.currentCharacter.level);
+      //this.currentCharacter.calculateSkills();
       if (index !== -1) {
         this.characters[index] = { ...this.currentCharacter } as Character;
       }
@@ -204,6 +203,40 @@ export class CharacterGenService {
         () => {
           this.characters = this.characters.filter((c) => c.id !== characterId);
           subscriber.next();
+          subscriber.complete();
+        },
+        (error) => {
+          subscriber.error(error);
+        }
+      );
+    });
+  }
+
+  fetchPrivateCharacters(visibility: string, playerName: string): Observable<Character[]> {
+    const params = new HttpParams().set('visibility', visibility).set('playerName', playerName);
+
+    return new Observable((subscriber) => {
+      this.http.get<Character[]>(this.searchUrl, { params }).subscribe(
+        (data: Character[]) => {
+          this.characters = data;
+          subscriber.next(this.characters);
+          subscriber.complete();
+        },
+        (error) => {
+          subscriber.error(error);
+        }
+      );
+    });
+  }
+
+  fetchPublicCharacters(): Observable<Character[]> {
+    const params = new HttpParams().set('visibility', 'public');
+
+    return new Observable((subscriber) => {
+      this.http.get<Character[]>(this.searchUrl, { params }).subscribe(
+        (data: Character[]) => {
+          this.characters = data;
+          subscriber.next(this.characters);
           subscriber.complete();
         },
         (error) => {

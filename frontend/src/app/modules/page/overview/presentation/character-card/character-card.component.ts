@@ -42,14 +42,14 @@ export class CharacterCardComponent {
 
   navigateToEditor() {
     if (this.character != null) {
-      this.characterService.setCurrentCharacter(this.character.id);
+      this.characterService.setCurrentCharacter(this.character);
     }
     this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
   }
 
   navigateToCharacterSheet() {
     if (this.character != null) {
-      this.characterService.setCurrentCharacter(this.character.id);
+      this.characterService.setCurrentCharacter(this.character);
     }
 
     if (this.isPublicCharacterCard) {
@@ -63,7 +63,7 @@ export class CharacterCardComponent {
     console.log('in deleteCharacter!');
     if (this.character) {
       console.log('Deleting character...');
-      this.characterService.deleteCharacterById(this.character.id);
+      //this.characterService.deleteCharacterById(this.character.id);
       console.log('Deleted character!');
       this.characterDeleted.emit(this.character.id);
     } else {

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModelCharacterClass } from '../../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../../character-model/character-gen.service';
-import { Character, skillProficiencies } from '../../../../../character-model/character.model';
+import { Character, SkillsProficiencies } from '../../../../../character-model/character.model';
 
 @Component({
   selector: 'class-description',
@@ -17,8 +17,8 @@ export class ClassDescriptionComponent {
   @Input() selectedLevel: number | null = null;
   @Input() character: Character | null = null;
 
-  selectedAbilities: (keyof skillProficiencies | null)[] = [null, null, null];
-  abilities: skillProficiencies = {
+  selectedAbilities: (keyof SkillsProficiencies | null)[] = [null, null, null];
+  abilities: SkillsProficiencies = {
     acrobatics: false,
     animalHandling: false,
     arcana: false,
@@ -51,15 +51,15 @@ export class ClassDescriptionComponent {
 
   private initializeAbilities(): void {
     if (this.character) {
-      this.abilities = this.character.skillProficiencies;
+      this.abilities = this.character.skillsProficiencies;
     }
 
     this.initializeSelectedAbilities();
   }
 
-  get availableAbilities(): (keyof skillProficiencies)[] {
+  get availableAbilities(): (keyof SkillsProficiencies)[] {
     if (this.abilities) {
-      const abilityKeys = Object.keys(this.abilities) as (keyof skillProficiencies)[];
+      const abilityKeys = Object.keys(this.abilities) as (keyof SkillsProficiencies)[];
       return abilityKeys.filter(
         ability =>
           !this.selectedAbilities.includes(ability) ||
@@ -72,8 +72,8 @@ export class ClassDescriptionComponent {
   initializeSelectedAbilities(): void {
     if (this.abilities) {
       this.selectedAbilities = Object.keys(this.abilities)
-        .filter(key => this.abilities[key as keyof skillProficiencies])
-        .slice(0, 3) as (keyof skillProficiencies)[];
+        .filter(key => this.abilities[key as keyof SkillsProficiencies])
+        .slice(0, 3) as (keyof SkillsProficiencies)[];
     } else {
       this.selectedAbilities = [null, null, null];
     }
@@ -84,7 +84,7 @@ export class ClassDescriptionComponent {
 
     if (this.abilities) {
       Object.keys(this.abilities).forEach(abilityKey => {
-        const key = abilityKey as keyof skillProficiencies;
+        const key = abilityKey as keyof SkillsProficiencies;
 
         if (key === selectedAbility) {
           this.abilities[key] = true;
@@ -95,7 +95,7 @@ export class ClassDescriptionComponent {
     }
 
     if (this.character && this.abilities) {
-      this.character.skillProficiencies = this.abilities;
+      this.character.skillsProficiencies = this.abilities;
       this.character.calculateSkills();
       this.characterService.updateCurrentCharacter(this.character);
     }

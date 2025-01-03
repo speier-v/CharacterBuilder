@@ -22,17 +22,17 @@ export class SavingThrowsDisplayComponent {
 
   ngOnInit() {
     this.savingThrows = {
-      strength: this.character?.savingThrows.strength,
-      charisma: this.character?.savingThrows.charisma,
-      dexterity: this.character?.savingThrows.dexterity,
-      constitution: this.character?.savingThrows.constitution,
-      wisdom: this.character?.savingThrows.wisdom,
-      intelligence: this.character?.savingThrows.intelligence,
+      strength: this.character?.savingThrows.strengthSave,
+      charisma: this.character?.savingThrows.charismaSave,
+      dexterity: this.character?.savingThrows.dexteritySave,
+      constitution: this.character?.savingThrows.constitutionSave,
+      wisdom: this.character?.savingThrows.wisdomSave,
+      intelligence: this.character?.savingThrows.intelligenceSave,
     };
     this.senses = {
-      'passive perception': this.character?.additionalStats.passivePerception,
-      'passive investigation': this.character?.additionalStats.passiveInvestigation,
-      'passive insight': this.character?.additionalStats.passiveInsight,
+      'passive perception': this.character?.passivePerception,
+      'passive investigation': this.character?.passivePerception,
+      'passive insight': this.character?.passivePerception,
     };
   }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
-import { CharacterStats, Character } from '../../../../character-model/character.model';
+import { Abilities, Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class StatDisplayComponent {
 
   character: Character | null = null;
   statEntries: [string, any][] | null = null;
-  stats: CharacterStats | null = null;
+  stats: Abilities | null = null;
 
   constructor(private characterService: CharacterGenService) {
     this.character = this.characterService.getCurrentCharacter();
