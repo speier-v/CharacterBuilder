@@ -33,10 +33,12 @@ export class OverviewComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.characters = [];
     this.getCharactersBasedOnView();   
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.characters = [];
     this.getCharactersBasedOnView();
   }
 

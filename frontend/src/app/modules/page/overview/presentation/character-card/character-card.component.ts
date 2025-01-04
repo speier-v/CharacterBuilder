@@ -29,7 +29,6 @@ export class CharacterCardComponent {
   protected showDeleteConfirmationDialog = false;
 
   constructor(private router: Router, private characterService: CharacterGenService) {
-
   }
 
   protected toggleModalVisibility() {
@@ -61,7 +60,6 @@ export class CharacterCardComponent {
 
   deleteCharacter() {
     if (this.character && this.character.id) {
-      //this.characterService.deleteCharacterById(this.character.id);
       this.characterDeleted.emit(this.character.id);
     } else {
       console.log('couldn\'t assign this.character for deletion??');

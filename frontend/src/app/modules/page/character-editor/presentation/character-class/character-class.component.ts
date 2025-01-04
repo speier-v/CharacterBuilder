@@ -52,7 +52,7 @@ export class CharacterClassComponent {
     this.characterForm.get('characterName')?.valueChanges.subscribe(name => {
       if (this.character != null && name != null) {
         this.character.name = name;
-        this.characterService.updateCurrentCharacter(this.character);
+        this.character = this.characterService.updateCurrentCharacter(this.character);
       }
       //console.log('Name changed to:', name);
     });

@@ -26,7 +26,7 @@ export class CharacterGenService {
       this.characters = data;
     });
   }
-  
+
   createCharacter(name: string): Character {
     const newCharacter = new Character(name);
     this.addCharacter(newCharacter).subscribe({
@@ -52,6 +52,16 @@ export class CharacterGenService {
     newCharacter.name = name;
     newCharacter.id = undefined;
 
+    this.addCharacter(newCharacter).subscribe({
+      next: (character) => {
+        console.log('Character added:', character);
+        //alert(`Character ${character.name} added successfully!`);
+      },
+      error: (err) => {
+        console.error('Error adding character:', err);
+        alert('Failed to add character. Please try again.');
+      },
+    });
     this.characters.push(newCharacter);
     this.setCurrentCharacter(newCharacter);
     //this.saveCharactersToStorage();
@@ -76,23 +86,7 @@ export class CharacterGenService {
     return this.currentCharacter;
   }
 
-  private getCharacterByName(name: string): Character | undefined {
-    const character = this.characters.find(character => character.name === name);
-    return character;
-  }
-
-  private getCharacterById(id: number): Character | undefined {
-    var foundCharacter = this.characters.find(character => character.id === id);
-    if (foundCharacter) {
-      var character = new Character(foundCharacter.name, foundCharacter.id);
-      Object.assign(character, foundCharacter);
-      return character;
-    } else {
-      return undefined;
-    }
-  }
-
-  updateCurrentCharacter(updatedData: Partial<Character>): void {
+  updateCurrentCharacter(updatedData: Partial<Character>): Character {
     if (this.currentCharacter) {
       const index = this.characters.findIndex(char => char.id === this.currentCharacter?.id);
       if (index !== -1) {
@@ -106,10 +100,31 @@ export class CharacterGenService {
         this.characters[index] = { ...this.currentCharacter } as Character;
       }
       
-      //this.saveCharactersToStorage();
+      // #################### //
+      if (this.currentCharacter && this.currentCharacter.id) {
+        this.updateCharacter(this.currentCharacter.id, this.currentCharacter).pipe(
+          catchError((err) => {
+            console.error('Error updating character:', err);
+            return of(null);
+          })
+        ).subscribe({
+          next: (updatedCharacter) => {
+            return updatedCharacter;
+          },
+          error: (err) => {
+            console.error('Error updating character:', err);
+          }
+        });
+      }
     } else {
       console.warn(`No current character to update.`);
     }
+
+    if (this.currentCharacter) {
+      return this.currentCharacter;
+    } else {
+      return new Character('unnamed');
+    }    
   }
 
 
@@ -134,39 +149,11 @@ export class CharacterGenService {
   }
 
   addCharacter(character: Character): Observable<Character> {
-    /*
-    return new Observable((subscriber) => {
-      this.http.post<Character>(this.apiUrl, character).subscribe(
-        (newCharacter) => {
-          this.characters.push(newCharacter);
-          subscriber.next(newCharacter);
-          subscriber.complete();
-        },
-        (error) => {
-          subscriber.error(error);
-        }
-      );
-    });
-    */
     return this.http.post<Character>(this.apiUrl, character);
   }
 
-  updateCharacter(character: Character): Observable<Character> {
-    return new Observable((subscriber) => {
-      this.http.put<Character>(`${this.apiUrl}/${character.id}`, character).subscribe(
-        (updatedCharacter) => {
-          const index = this.characters.findIndex((c) => c.id === character.id);
-          if (index !== -1) {
-            this.characters[index] = updatedCharacter;
-          }
-          subscriber.next(updatedCharacter);
-          subscriber.complete();
-        },
-        (error) => {
-          subscriber.error(error);
-        }
-      );
-    });
+  updateCharacter(id: number, updatedCharacter: Character): Observable<Character> {
+    return this.http.put<Character>(`${this.apiUrl}/${id}`, updatedCharacter);
   }
 
   deleteCharacter(characterId: number): Observable<void> {
