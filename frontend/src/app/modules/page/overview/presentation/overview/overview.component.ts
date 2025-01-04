@@ -43,9 +43,17 @@ export class OverviewComponent implements OnInit, OnChanges {
     this.isPublicCharactersOverview = !this.isPublicCharactersOverview;
 
     if (this.isPublicCharactersOverview) {
-      this.characters = this.characterService.getPublicCharacters();
+      this.characterService.fetchPublicCharacters()
+      .subscribe(data => {
+        this.characters = data;
+      });
     } else {
-      this.characters = this.characterService.getCharacters();
+      var visibility = 'private';
+      var playerName = this.characterService.userName;
+      this.characterService.fetchPrivateCharacters({ visibility, playerName })
+      .subscribe(data => {
+        this.characters = data;
+      });
     }
   }
 

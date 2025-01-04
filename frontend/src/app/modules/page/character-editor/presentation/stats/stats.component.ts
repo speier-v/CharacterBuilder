@@ -76,7 +76,7 @@ export class StatsComponent {
   constructor(private router: Router, private characterService: CharacterGenService) {
     this.character = this.characterService.getCurrentCharacter();
     if (this.character != null) {
-      this.stats = this.character.stats;
+      this.stats = this.character.abilities;
       this.initializeStats();
     }
   }
@@ -149,7 +149,7 @@ export class StatsComponent {
 
   setStatsToCharacter() {
     if (this.character != null) {
-      this.character.stats = this.stats;
+      this.character.abilities = this.stats;
       this.characterService.updateCurrentCharacter(this.character);
     }
     console.log('Stats: ', this.stats);

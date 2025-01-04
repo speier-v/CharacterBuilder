@@ -225,7 +225,7 @@ export class Character implements Character {
   initiative: number;
   proficiencyBonus: number;
   passivePerception: number;
-  stats: Abilities;
+  abilities: Abilities;
   savingThrows: SavingThrows;
   savingThrowsProficiencies: SavingThrowsProficiencies;
   skills: Skills;
@@ -250,7 +250,7 @@ export class Character implements Character {
     this.initiative = 0; // calculated later
     this.proficiencyBonus = 0; // calculated later
     this.passivePerception = 0; // calculated later
-    this.stats = { 
+    this.abilities = { 
       dexterity: 10,
       strength: 10,
       wisdom: 10,
@@ -342,50 +342,50 @@ export class Character implements Character {
 
   calculateArmorClass(): void {
     const baseArmor = 10;
-    const dexModifier = this.calculateModifier(this.stats.dexterity);
+    const dexModifier = this.calculateModifier(this.abilities.dexterity);
     this.armorClass = baseArmor + dexModifier;
   }
 
   calculateMaxHP(): void {
     // TODO: change hitDie depending on class, Fighter > Rogue > Wizard
     const hitDie = 10;
-    const conModifier = this.calculateModifier(this.stats.constitution);
+    const conModifier = this.calculateModifier(this.abilities.constitution);
     this.hitPoints = hitDie + (this.level - 1) * (Math.floor(hitDie / 2) + 1 + conModifier);
   }
 
   calculateInitiative(): void {
-    this.initiative = this.calculateModifier(this.stats.dexterity);
+    this.initiative = this.calculateModifier(this.abilities.dexterity);
   }
 
   calculateSavingThrows(proficiencyBonus: number): void {
     this.savingThrows = {
       strengthSave: this.calculateSavingThrow(
-        this.stats.strength ?? 0,
+        this.abilities.strength ?? 0,
         proficiencyBonus,
         this.savingThrowsProficiencies.strengthSave
       ),
       dexteritySave: this.calculateSavingThrow(
-        this.stats.dexterity ?? 0,
+        this.abilities.dexterity ?? 0,
         proficiencyBonus,
         this.savingThrowsProficiencies.dexteritySave
       ),
       constitutionSave: this.calculateSavingThrow(
-        this.stats.constitution ?? 0,
+        this.abilities.constitution ?? 0,
         proficiencyBonus,
         this.savingThrowsProficiencies.constitutionSave
       ),
       intelligenceSave: this.calculateSavingThrow(
-        this.stats.intelligence ?? 0,
+        this.abilities.intelligence ?? 0,
         proficiencyBonus,
         this.savingThrowsProficiencies.intelligenceSave
       ),
       wisdomSave: this.calculateSavingThrow(
-        this.stats.wisdom ?? 0,
+        this.abilities.wisdom ?? 0,
         proficiencyBonus,
         this.savingThrowsProficiencies.wisdomSave
       ),
       charismaSave: this.calculateSavingThrow(
-        this.stats.charisma ?? 0,
+        this.abilities.charisma ?? 0,
         proficiencyBonus,
         this.savingThrowsProficiencies.charismaSave
       ),
@@ -414,92 +414,92 @@ export class Character implements Character {
   calculateSkills(): void {  
     this.skills = {
       acrobatics: this.calculateSkillBonus(
-          this.stats.dexterity,
+          this.abilities.dexterity,
           this.proficiencyBonus,
           this.skillsProficiencies.acrobatics
         ),
       animalHandling: this.calculateSkillBonus(
-          this.stats.wisdom,
+          this.abilities.wisdom,
           this.proficiencyBonus,
           this.skillsProficiencies.animalHandling
         ),
       arcana: this.calculateSkillBonus(
-          this.stats.intelligence,
+          this.abilities.intelligence,
           this.proficiencyBonus,
           this.skillsProficiencies.arcana
         ),
       athletics: this.calculateSkillBonus(
-          this.stats.strength,
+          this.abilities.strength,
           this.proficiencyBonus,
           this.skillsProficiencies.athletics
         ),
       deception: this.calculateSkillBonus(
-          this.stats.charisma,
+          this.abilities.charisma,
           this.proficiencyBonus,
           this.skillsProficiencies.deception
         ),
       history: this.calculateSkillBonus(
-          this.stats.intelligence,
+          this.abilities.intelligence,
           this.proficiencyBonus,
           this.skillsProficiencies.history
         ),
       insight: this.calculateSkillBonus(
-          this.stats.wisdom,
+          this.abilities.wisdom,
           this.proficiencyBonus,
           this.skillsProficiencies.insight
         ),
       intimidation: this.calculateSkillBonus(
-          this.stats.charisma,
+          this.abilities.charisma,
           this.proficiencyBonus,
           this.skillsProficiencies.intimidation
         ),
       investigation: this.calculateSkillBonus(
-          this.stats.intelligence,
+          this.abilities.intelligence,
           this.proficiencyBonus,
           this.skillsProficiencies.investigation
         ),
       medicine: this.calculateSkillBonus(
-          this.stats.wisdom,
+          this.abilities.wisdom,
           this.proficiencyBonus,
           this.skillsProficiencies.medicine
         ),
       nature: this.calculateSkillBonus(
-          this.stats.intelligence,
+          this.abilities.intelligence,
           this.proficiencyBonus,
           this.skillsProficiencies.nature
         ),
       perception: this.calculateSkillBonus(
-          this.stats.wisdom,
+          this.abilities.wisdom,
           this.proficiencyBonus,
           this.skillsProficiencies.perception
         ),
       performance: this.calculateSkillBonus(
-          this.stats.charisma,
+          this.abilities.charisma,
           this.proficiencyBonus,
           this.skillsProficiencies.performance
         ),
       persuasion: this.calculateSkillBonus(
-          this.stats.charisma,
+          this.abilities.charisma,
           this.proficiencyBonus,
           this.skillsProficiencies.persuasion
         ),
       religion: this.calculateSkillBonus(
-          this.stats.intelligence,
+          this.abilities.intelligence,
           this.proficiencyBonus,
           this.skillsProficiencies.religion
         ),
       sleightOfHand: this.calculateSkillBonus(
-          this.stats.dexterity,
+          this.abilities.dexterity,
           this.proficiencyBonus,
           this.skillsProficiencies.sleightOfHand
         ),
       stealth: this.calculateSkillBonus(
-          this.stats.dexterity,
+          this.abilities.dexterity,
           this.proficiencyBonus,
           this.skillsProficiencies.stealth
         ),
       survival: this.calculateSkillBonus(
-          this.stats.wisdom,
+          this.abilities.wisdom,
           this.proficiencyBonus,
           this.skillsProficiencies.survival
         ),

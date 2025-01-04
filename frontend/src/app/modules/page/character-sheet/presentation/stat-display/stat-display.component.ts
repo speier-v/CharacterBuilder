@@ -20,7 +20,7 @@ export class StatDisplayComponent {
     this.character = this.characterService.getCurrentCharacter();
 
     if (this.character) {
-      this.stats = this.character?.stats;
+      this.stats = this.character?.abilities;
       this.statEntries = Object.entries(this.stats);
     }    
   }

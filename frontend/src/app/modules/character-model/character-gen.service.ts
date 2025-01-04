@@ -3,6 +3,7 @@ import { Character } from './character.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UsernameAndLogoutComponent } from '../page/shared/username-and-logout/username-and-logout.component';
+import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +11,24 @@ import { UsernameAndLogoutComponent } from '../page/shared/username-and-logout/u
 export class CharacterGenService {
   private characters: Character[] = [];
   private currentCharacter: Character | null = null;
-  private userName: string;
+  public userName: string;
 
-  private apiUrl = 'http://localhost:8080/api/characters';
+  private apiUrl = 'http://localhost:8090/characters';
   private searchUrl = `${this.apiUrl}/search/by-visibility`;
   
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private readonly keycloakService: KeycloakService) {
     //this.loadCharactersFromStorage();
     //this.fetchCharacters();
-    this.userName = UsernameAndLogoutComponent.userName;
-    this.fetchPrivateCharacters('private', this.userName);
+    this.userName = keycloakService.getUsername();
+    console.log(`Fetching private characters with username ${this.userName}`);
+
+    var visibility = 'private';
+    var playerName = this.userName;
+    this.fetchPrivateCharacters({ visibility, playerName })
+    .subscribe(data => {
+      this.characters = data;
+    });
+    console.log(`Fetched characters: ${this.characters}`);
   }
 
   private saveCharactersToStorage(): void {
@@ -212,37 +221,18 @@ export class CharacterGenService {
     });
   }
 
-  fetchPrivateCharacters(visibility: string, playerName: string): Observable<Character[]> {
-    const params = new HttpParams().set('visibility', visibility).set('playerName', playerName);
+  fetchPrivateCharacters(params: { visibility: string; playerName: string }): Observable<any> {
+    const httpParams = new HttpParams()
+      .set('visibility', params.visibility)
+      .set('playerName', params.playerName);
 
-    return new Observable((subscriber) => {
-      this.http.get<Character[]>(this.searchUrl, { params }).subscribe(
-        (data: Character[]) => {
-          this.characters = data;
-          subscriber.next(this.characters);
-          subscriber.complete();
-        },
-        (error) => {
-          subscriber.error(error);
-        }
-      );
-    });
+    return this.http.get(this.apiUrl, { params: httpParams });
   }
 
-  fetchPublicCharacters(): Observable<Character[]> {
-    const params = new HttpParams().set('visibility', 'public');
+  fetchPublicCharacters(): Observable<any> {
+    const httpParams = new HttpParams()
+      .set('visibility', 'public');
 
-    return new Observable((subscriber) => {
-      this.http.get<Character[]>(this.searchUrl, { params }).subscribe(
-        (data: Character[]) => {
-          this.characters = data;
-          subscriber.next(this.characters);
-          subscriber.complete();
-        },
-        (error) => {
-          subscriber.error(error);
-        }
-      );
-    });
+    return this.http.get(this.apiUrl, { params: httpParams });
   }
 }

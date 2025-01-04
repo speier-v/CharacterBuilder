@@ -30,7 +30,7 @@ public class BackendApplication {
 
           Character character = new Character();
           character.setName("Aragorn");
-          character.setCharacterClass("Ranger");
+          character.setCharacterClass("Fighter");
           character.setLevel(5);
           character.setArmorClass(16);
           character.setHitPoints(45);
@@ -38,8 +38,8 @@ public class BackendApplication {
           character.setSpeed(30);
           character.setPassivePerception(14);
           character.setProficiencyBonus(3);
-          character.setPlayerName("John Doe");
-          character.setIcon("assets/images/character-avatar.png");
+          character.setPlayerName("test");
+          character.setIcon("character_frame_0.png");
           character.setVisibility("visible");
 
           Abilities abilities = new Abilities();

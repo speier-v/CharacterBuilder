@@ -18,7 +18,7 @@ import edu.charactyr.backend.CharactyrRepository;
 import edu.charactyr.backend.Character;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"https://localhost:4200", "http://localhost:4200", "https://localhost:8080", "http://localhost:8080", "http://localhost:8090", "https://localhost:8090"})
 @RequestMapping("/characters")
 public class CharactyrController {    
     private final CharactyrRepository repository;
