@@ -80,6 +80,7 @@ export class ClassDescriptionComponent {
   }
 
   onAbilityChange(index: number) {
+    this.character = this.characterService.getCurrentCharacter();
     const selectedAbility = this.selectedAbilities[index];
 
     if (this.abilities) {

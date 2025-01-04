@@ -32,7 +32,7 @@ export class CharacterGenService {
     this.addCharacter(newCharacter).subscribe({
       next: (character) => {
         console.log('Character added:', character);
-        //alert(`Character ${character.name} added successfully!`);
+        //alert(`Character ${character.id} added successfully!`);
       },
       error: (err) => {
         console.error('Error adding character:', err);
@@ -101,6 +101,7 @@ export class CharacterGenService {
       }
       
       // #################### //
+      /*
       if (this.currentCharacter && this.currentCharacter.id) {
         this.updateCharacter(this.currentCharacter.id, this.currentCharacter).pipe(
           catchError((err) => {
@@ -116,6 +117,7 @@ export class CharacterGenService {
           }
         });
       }
+      */
     } else {
       console.warn(`No current character to update.`);
     }
@@ -124,7 +126,7 @@ export class CharacterGenService {
       return this.currentCharacter;
     } else {
       return new Character('unnamed');
-    }    
+    }
   }
 
 

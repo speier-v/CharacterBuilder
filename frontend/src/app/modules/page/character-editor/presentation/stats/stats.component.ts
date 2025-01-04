@@ -148,6 +148,7 @@ export class StatsComponent {
   }
 
   setStatsToCharacter() {
+    this.character = this.characterService.getCurrentCharacter();
     if (this.character != null) {
       this.character.abilities = this.stats;
       this.characterService.updateCurrentCharacter(this.character);
@@ -167,6 +168,7 @@ export class StatsComponent {
   }
 
   clickToNav() {
+    this.character = this.characterService.getCurrentCharacter();
     this.router.navigate([`/${RoutePaths.PRIVATE_CHARACTER_SHEET}`]);
   }
 
@@ -191,6 +193,7 @@ export class StatsComponent {
   }
 
   onNavigate() {
+    this.character = this.characterService.getCurrentCharacter();
     this.navigate.emit('character-class');
   }
 }

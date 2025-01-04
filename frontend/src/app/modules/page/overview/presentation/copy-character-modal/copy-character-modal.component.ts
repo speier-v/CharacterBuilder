@@ -43,7 +43,7 @@ export class CopyCharacterModalComponent {
     if (this.character && characterName && visibility) {
       this.character = this.characterService.createCopiedCharacter(characterName, this.character);
       this.character.visibility = visibility;
-      this.characterService.updateCurrentCharacter(this.character);
+      this.character = this.characterService.updateCurrentCharacter(this.character);
       this.characterCopied.emit(this.character.id);
       this.modalClosedEvent.emit();
     }
