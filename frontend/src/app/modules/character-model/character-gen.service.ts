@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Character } from './character.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UsernameAndLogoutComponent } from '../page/shared/username-and-logout/username-and-logout.component';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -17,10 +17,7 @@ export class CharacterGenService {
   private searchUrl = `${this.apiUrl}/search/by-visibility`;
   
   constructor(private http: HttpClient, private readonly keycloakService: KeycloakService) {
-    //this.loadCharactersFromStorage();
-    //this.fetchCharacters();
     this.userName = keycloakService.getUsername();
-    console.log(`Fetching private characters with username ${this.userName}`);
 
     var visibility = 'private';
     var playerName = this.userName;
@@ -28,11 +25,6 @@ export class CharacterGenService {
     .subscribe(data => {
       this.characters = data;
     });
-    console.log(`Fetched characters: ${this.characters}`);
-  }
-
-  private saveCharactersToStorage(): void {
-    localStorage.setItem('characters', JSON.stringify(this.characters));
   }
 
   deleteCharacterById(id: number): void {
@@ -43,8 +35,8 @@ export class CharacterGenService {
       console.log(`Splicing characters at index ${index}!`);
       this.characters.splice(index, 1);
     }
-    this.saveCharactersToStorage();
-    this.loadCharactersFromStorage();
+    
+    
   }
 
   private loadCharactersFromStorage(): void {
@@ -83,7 +75,7 @@ export class CharacterGenService {
   setCurrentCharacter(character: Character): void {
     this.currentCharacter = character;
     if (this.currentCharacter) {
-      console.log(`Current character set to: ${this.currentCharacter.name}, ${this.currentCharacter.id}`);
+      console.log(`Current character set to: ${this.currentCharacter.name}, ${this.currentCharacter.id}, ${typeof character}`);
     } else {
       console.warn(`Character not assigned.`);
     }
@@ -221,18 +213,22 @@ export class CharacterGenService {
     });
   }
 
-  fetchPrivateCharacters(params: { visibility: string; playerName: string }): Observable<any> {
+  fetchPrivateCharacters(params: { visibility: string; playerName: string }): Observable<Character[]> {
     const httpParams = new HttpParams()
       .set('visibility', params.visibility)
       .set('playerName', params.playerName);
 
-    return this.http.get(this.apiUrl, { params: httpParams });
+    return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
+      map((data: any[]) => data.map(item => new Character(item.name, item.id)))
+    );
   }
 
-  fetchPublicCharacters(): Observable<any> {
+  fetchPublicCharacters(): Observable<Character[]> {
     const httpParams = new HttpParams()
       .set('visibility', 'public');
 
-    return this.http.get(this.apiUrl, { params: httpParams });
+    return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
+      map((data: any[]) => data.map(item => new Character(item.name, item.id)))
+    );
   }
 }

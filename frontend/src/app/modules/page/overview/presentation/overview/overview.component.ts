@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { CharacterCardComponent } from '../character-card/character-card.component';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
@@ -28,33 +28,21 @@ export class OverviewComponent implements OnInit, OnChanges {
     private characterService: CharacterGenService,
     private router: Router,
   ) {
-    this.characters = characterService.getCharacters();
+    this.getCharactersBasedOnView();
   }
 
-  ngOnChanges() {
-    this.characters = this.characterService.getCharacters();
+  ngOnInit(): void {
+    this.getCharactersBasedOnView();   
   }
 
-  ngOnInit() {
-    this.characters = this.characterService.getCharacters();
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getCharactersBasedOnView();
   }
 
   protected toggleIsPublicCharactersOverview() {
     this.isPublicCharactersOverview = !this.isPublicCharactersOverview;
 
-    if (this.isPublicCharactersOverview) {
-      this.characterService.fetchPublicCharacters()
-      .subscribe(data => {
-        this.characters = data;
-      });
-    } else {
-      var visibility = 'private';
-      var playerName = this.characterService.userName;
-      this.characterService.fetchPrivateCharacters({ visibility, playerName })
-      .subscribe(data => {
-        this.characters = data;
-      });
-    }
+    this.getCharactersBasedOnView();
   }
 
   createCharacter(): void {
@@ -63,7 +51,23 @@ export class OverviewComponent implements OnInit, OnChanges {
   }
 
   onCharacterDeleted(characterId: number) {
-    this.characters = this.characterService.getCharacters();
+    this.getCharactersBasedOnView();
+  }
+
+  public getCharactersBasedOnView() {
+    if (this.isPublicCharactersOverview) {
+      this.characterService.fetchPublicCharacters()
+      .subscribe((data: Character[]) => {
+        this.characters = data;
+      });
+    } else {
+      var visibility = 'private';
+      var playerName = this.characterService.userName;
+      this.characterService.fetchPrivateCharacters({ visibility, playerName })
+      .subscribe((data: Character[]) => {
+        this.characters = data;
+      });
+    }
   }
 
   protected readonly environment = environment;
