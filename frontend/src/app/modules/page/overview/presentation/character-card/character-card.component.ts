@@ -60,11 +60,8 @@ export class CharacterCardComponent {
   }
 
   deleteCharacter() {
-    console.log('in deleteCharacter!');
-    if (this.character) {
-      console.log('Deleting character...');
+    if (this.character && this.character.id) {
       //this.characterService.deleteCharacterById(this.character.id);
-      console.log('Deleted character!');
       this.characterDeleted.emit(this.character.id);
     } else {
       console.log('couldn\'t assign this.character for deletion??');

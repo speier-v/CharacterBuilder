@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { DynamicHeaderComponent } from '../../../shared/dynamic-header/dynamic-header.component';
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 import { environment } from '../../../../../../environments/environment';
+import { catchError, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'character-cards-overview',
@@ -50,8 +51,21 @@ export class OverviewComponent implements OnInit, OnChanges {
     this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
   }
 
-  onCharacterDeleted(characterId: number) {
-    this.getCharactersBasedOnView();
+  onCharacterDeleted(id: number): void {
+    this.characterService.deleteCharacter(id).pipe(
+      switchMap(() => this.characterService.fetchPrivateCharacters({visibility: 'private', playerName: this.characterService.userName})),
+      catchError((err) => {
+        console.error('Error deleting or fetching characters:', err);
+        return of([]);
+      })
+    ).subscribe({
+      next: (updatedCharacters) => {
+        this.characters = updatedCharacters;
+      },
+      error: (err) => {
+        console.error('Error fetching characters after delete:', err);
+      }
+    });
   }
 
   public getCharactersBasedOnView() {

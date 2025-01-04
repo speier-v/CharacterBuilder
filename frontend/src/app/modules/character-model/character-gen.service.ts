@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Character } from './character.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { UsernameAndLogoutComponent } from '../page/shared/username-and-logout/username-and-logout.component';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -26,35 +26,22 @@ export class CharacterGenService {
       this.characters = data;
     });
   }
-
-  deleteCharacterById(id: number): void {
-    console.log("in deleteCharacterById");
-    const index = this.characters.findIndex(char => char.id === id);
-    console.log(`Found index ${index}!`);
-    if (index !== -1) {
-      console.log(`Splicing characters at index ${index}!`);
-      this.characters.splice(index, 1);
-    }
-    
-    
-  }
-
-  private loadCharactersFromStorage(): void {
-    const data = localStorage.getItem('characters');
-    const parsedData = data ? JSON.parse(data) : [];
-    this.characters = parsedData.map((item: any) => {
-      const character = new Character(item.name, item.id);
-      Object.assign(character, item);
-      return character;
-    });
-  }
-
+  
   createCharacter(name: string): Character {
     const newCharacter = new Character(name);
+    this.addCharacter(newCharacter).subscribe({
+      next: (character) => {
+        console.log('Character added:', character);
+        //alert(`Character ${character.name} added successfully!`);
+      },
+      error: (err) => {
+        console.error('Error adding character:', err);
+        alert('Failed to add character. Please try again.');
+      },
+    });
     this.characters.push(newCharacter);
     this.setCurrentCharacter(newCharacter);
-    this.saveCharactersToStorage();
-    
+
     return newCharacter;
   }
 
@@ -67,7 +54,7 @@ export class CharacterGenService {
 
     this.characters.push(newCharacter);
     this.setCurrentCharacter(newCharacter);
-    this.saveCharactersToStorage();
+    //this.saveCharactersToStorage();
 
     return newCharacter;
   }
@@ -85,27 +72,12 @@ export class CharacterGenService {
     return this.characters;
   }
 
-  getPublicCharacters(): Character[] {
-    return this.characters.filter(character => character.visibility === 'public');
-  }
-
   getCurrentCharacter(): Character | null {
-    if (this.currentCharacter) {
-      ////console.log(`Current character retrieved: ${JSON.stringify(this.currentCharacter)}`);
-      //console.log(this.currentCharacter instanceof Character);
-    } else {
-      //console.warn(`No current character is set.`);
-    }
     return this.currentCharacter;
   }
 
   private getCharacterByName(name: string): Character | undefined {
     const character = this.characters.find(character => character.name === name);
-    if (character) {
-      ////console.log(`Character found by name ${name}: ${JSON.stringify(character)}`);
-    } else {
-      ////console.warn(`Character not found by name: ${name}`);
-    }
     return character;
   }
 
@@ -114,13 +86,9 @@ export class CharacterGenService {
     if (foundCharacter) {
       var character = new Character(foundCharacter.name, foundCharacter.id);
       Object.assign(character, foundCharacter);
-      ////console.log("getCharacterById");
-      ////console.log(character instanceof Character);
       return character;
-      ////console.log(`Character found by id ${id}: ${JSON.stringify(character)}`);
     } else {
       return undefined;
-      ////console.warn(`Character not found by id: ${id}`);
     }
   }
 
@@ -128,44 +96,45 @@ export class CharacterGenService {
     if (this.currentCharacter) {
       const index = this.characters.findIndex(char => char.id === this.currentCharacter?.id);
       if (index !== -1) {
-        //this.characters[index] = { ...updatedData } as Character;
         Object.assign(this.characters[index], updatedData);
       }
 
       this.currentCharacter = Object.assign(this.currentCharacter, updatedData) as Character;
 
       this.currentCharacter.calculateStats();
-      //this.currentCharacter.calculateSavingThrows(this.currentCharacter.level);
-      //this.currentCharacter.calculateSkills();
       if (index !== -1) {
         this.characters[index] = { ...this.currentCharacter } as Character;
       }
       
-      ////console.log(`Current character updated: ${JSON.stringify(this.currentCharacter)}`);
-      this.saveCharactersToStorage();
+      //this.saveCharactersToStorage();
     } else {
-      ////console.warn(`No current character to update.`);
+      console.warn(`No current character to update.`);
     }
   }
 
 
   // API calls
-  fetchCharacters(): Observable<Character[]> {
-    return new Observable((subscriber) => {
-      this.http.get<Character[]>(this.apiUrl).subscribe(
-        (data: Character[]) => {
-          this.characters = data;
-          subscriber.next(this.characters);
-          subscriber.complete();
-        },
-        (error) => {
-          subscriber.error(error);
-        }
-      );
-    });
+  fetchPrivateCharacters(params: { visibility: string; playerName: string }): Observable<Character[]> {
+    const httpParams = new HttpParams()
+      .set('visibility', params.visibility)
+      .set('playerName', params.playerName);
+
+    return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
+      map((data: any[]) => data.map(item => new Character(item.name, item.id)))
+    );
+  }
+
+  fetchPublicCharacters(): Observable<Character[]> {
+    const httpParams = new HttpParams()
+      .set('visibility', 'public');
+
+    return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
+      map((data: any[]) => data.map(item => new Character(item.name, item.id)))
+    );
   }
 
   addCharacter(character: Character): Observable<Character> {
+    /*
     return new Observable((subscriber) => {
       this.http.post<Character>(this.apiUrl, character).subscribe(
         (newCharacter) => {
@@ -178,6 +147,8 @@ export class CharacterGenService {
         }
       );
     });
+    */
+    return this.http.post<Character>(this.apiUrl, character);
   }
 
   updateCharacter(character: Character): Observable<Character> {
@@ -199,36 +170,6 @@ export class CharacterGenService {
   }
 
   deleteCharacter(characterId: number): Observable<void> {
-    return new Observable((subscriber) => {
-      this.http.delete<void>(`${this.apiUrl}/${characterId}`).subscribe(
-        () => {
-          this.characters = this.characters.filter((c) => c.id !== characterId);
-          subscriber.next();
-          subscriber.complete();
-        },
-        (error) => {
-          subscriber.error(error);
-        }
-      );
-    });
-  }
-
-  fetchPrivateCharacters(params: { visibility: string; playerName: string }): Observable<Character[]> {
-    const httpParams = new HttpParams()
-      .set('visibility', params.visibility)
-      .set('playerName', params.playerName);
-
-    return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
-      map((data: any[]) => data.map(item => new Character(item.name, item.id)))
-    );
-  }
-
-  fetchPublicCharacters(): Observable<Character[]> {
-    const httpParams = new HttpParams()
-      .set('visibility', 'public');
-
-    return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
-      map((data: any[]) => data.map(item => new Character(item.name, item.id)))
-    );
+    return this.http.delete<void>(`${this.apiUrl}/${characterId}`);
   }
 }

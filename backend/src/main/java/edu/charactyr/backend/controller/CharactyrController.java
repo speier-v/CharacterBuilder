@@ -83,7 +83,10 @@ public class CharactyrController {
         if ("public".equalsIgnoreCase(visibility)) {
             return repository.findByVisibilityIgnoreCase("public");
         } else if ("private".equalsIgnoreCase(visibility) && playerName != null) {
-            return repository.findByVisibilityIgnoreCaseAndPlayerNameIgnoreCase("private", playerName);
+            List<Character> privateChars = repository.findByVisibilityIgnoreCaseAndPlayerNameIgnoreCase("private", playerName);
+            List<Character> publicChars = repository.findByVisibilityIgnoreCaseAndPlayerNameIgnoreCase("public", playerName);
+            privateChars.addAll(publicChars);
+            return privateChars;
         } else {
             return List.of();
         }
