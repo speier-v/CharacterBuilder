@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { Abilities, Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { FilterKeyPipe } from './filter-key-pipe.pipe';
 
 @Component({
   selector: 'stat-display',
   standalone: true,
-  imports: [CommonModule, NgFor],
+  imports: [CommonModule, NgFor, FilterKeyPipe],
   templateUrl: './stat-display.component.html',
   styleUrl: './stat-display.component.css',
 })

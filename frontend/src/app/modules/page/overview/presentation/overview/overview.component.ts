@@ -33,13 +33,18 @@ export class OverviewComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.characters = [];
     this.getCharactersBasedOnView();   
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.characters = [];
     this.getCharactersBasedOnView();
+  }
+
+  trackByCharacterId(index: number, character: Character): number {
+    if (character.id) {
+      return character.id;
+    }
+    return 0;
   }
 
   protected toggleIsPublicCharactersOverview() {
@@ -74,14 +79,24 @@ export class OverviewComponent implements OnInit, OnChanges {
     if (this.isPublicCharactersOverview) {
       this.characterService.fetchPublicCharacters()
       .subscribe((data: Character[]) => {
-        this.characters = data;
+        this.characters = data.map((item: any) => {
+          const character = new Character(item.name, item.id);
+          Object.assign(character, item);
+          return character;
+        });
       });
     } else {
       var visibility = 'private';
       var playerName = this.characterService.userName;
       this.characterService.fetchPrivateCharacters({ visibility, playerName })
-      .subscribe((data: Character[]) => {
-        this.characters = data;
+      .subscribe(data => {
+        this.characters = data.map((item: any) => {
+          const character = new Character(item.name, item.id);
+          Object.assign(character, item);
+          return character;
+        });
+
+        console.log(this.characters);
       });
     }
   }

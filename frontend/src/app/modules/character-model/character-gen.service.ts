@@ -27,6 +27,18 @@ export class CharacterGenService {
     });
   }
 
+  /*
+    private loadCharactersFromStorage(): void {
+    const data = localStorage.getItem('characters');
+    const parsedData = data ? JSON.parse(data) : [];
+    this.characters = parsedData.map((item: any) => {
+        const character = new Character(item.name, item.id);
+        Object.assign(character, item);
+        return character;
+      });
+    }
+  */
+
   createCharacter(name: string): Character {
     const newCharacter = new Character(name);
     this.addCharacter(newCharacter).subscribe({
@@ -101,7 +113,6 @@ export class CharacterGenService {
       }
       
       // #################### //
-      /*
       if (this.currentCharacter && this.currentCharacter.id) {
         this.updateCharacter(this.currentCharacter.id, this.currentCharacter).pipe(
           catchError((err) => {
@@ -117,7 +128,6 @@ export class CharacterGenService {
           }
         });
       }
-      */
     } else {
       console.warn(`No current character to update.`);
     }
@@ -137,8 +147,15 @@ export class CharacterGenService {
       .set('playerName', params.playerName);
 
     return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
-      map((data: any[]) => data.map(item => new Character(item.name, item.id)))
-    );
+      map((data: any[]) => data.map(
+        item =>
+          {
+            const character = new Character(item.name, item.id);
+            Object.assign(character, item);
+            return character;
+          }
+      )
+    ));
   }
 
   fetchPublicCharacters(): Observable<Character[]> {

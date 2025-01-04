@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { CopyCharacterModalComponent } from '../copy-character-modal/copy-character-modal.component';
@@ -20,7 +20,7 @@ import { DetectClicksOutsideDirective } from '../../../shared/detect-clicks-outs
   templateUrl: './character-card.component.html',
   styleUrl: './character-card.component.css',
 })
-export class CharacterCardComponent {
+export class CharacterCardComponent implements OnChanges {
   @Input() isPublicCharacterCard = false;
   @Input() character: Character | null = null;
   @Output() characterDeleted = new EventEmitter<number>();
@@ -28,7 +28,16 @@ export class CharacterCardComponent {
   protected modalOpen = false;
   protected showDeleteConfirmationDialog = false;
 
-  constructor(private router: Router, private characterService: CharacterGenService) {
+  constructor(private router: Router,
+    private characterService: CharacterGenService,
+    private cdr: ChangeDetectorRef)
+    {
+    console.log(`Card with the following character ${this.character}`);
+  }
+
+  ngOnChanges() {
+    this.cdr.detectChanges();
+    console.log(this.character);
   }
 
   protected toggleModalVisibility() {
