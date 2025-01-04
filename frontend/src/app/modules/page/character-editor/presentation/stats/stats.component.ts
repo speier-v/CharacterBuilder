@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { Abilities, Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'stats',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.css',
 })
@@ -29,8 +30,9 @@ export class StatsComponent {
   showScoreModifierTable: boolean = false;
   character: Character | null = null;
   isFromSavedCharacter: boolean = false;
+  selectedOption: string = '';
 
-  availableValues = [15, 14, 13, 12, 10, 8, 'manual', 'random'] as (number | string)[];
+  availableValues = [15, 14, 13, 12, 10, 8] as (number | string)[];
   manualEntryStats: { [key in keyof Abilities]?: boolean } = {};
   manualStatValues: { [key in keyof Abilities]?: number | null } = {};
   rolledEntryStats: { [key in keyof Abilities]?: boolean } = {};
@@ -195,5 +197,42 @@ export class StatsComponent {
   onNavigate() {
     this.character = this.characterService.getCurrentCharacter();
     this.navigate.emit('character-class');
+  }
+
+  onSelectionChange() {
+    switch (this.selectedOption) {
+      case 'Standard Array':
+        //this.executeOption1();
+        break;
+      case 'Manual':
+        //this.executeOption2();
+        break;
+      case 'Random':
+        var stat;
+        for (stat of this.statsList) {
+          this.manualEntryStats[stat] = false;
+          this.rolledEntryStats[stat] = true;
+          this.rolledValue = this.roll4d6();
+          this.rolledStatValues[stat] = this.rolledValue;
+          this.stats[stat] = this.rolledValue;
+        }
+        break;
+    }
+
+    this.statsChange.emit(this.stats);
+    this.setStatsToCharacter();
+  }
+
+  reroll() {
+    var stat;
+    for (stat of this.statsList) {
+      this.manualEntryStats[stat] = false;
+      this.rolledEntryStats[stat] = true;
+      this.rolledValue = this.roll4d6();
+      this.rolledStatValues[stat] = this.rolledValue;
+      this.stats[stat] = this.rolledValue;
+    }
+    this.statsChange.emit(this.stats);
+    this.setStatsToCharacter();
   }
 }

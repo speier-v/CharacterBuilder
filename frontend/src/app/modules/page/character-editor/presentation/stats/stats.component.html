@@ -2,10 +2,30 @@
 <h1 class="text-2xl accent-font pt-5 pl-10">Ability Scores</h1>
 <hr class="border-black opacity-20 mt-5">
 
-<div class="stat-assignment grid grid-cols-3 gap-4 px-5 pt-3">
+<p *ngIf="!selectedOption" class="px-5 pt-2 text-xl">Choose stat generation method!</p>
+<div class="px-10 pb-5 pt-10 text-xl grid grid-cols-4 gap-4 items-center text-center">
+  <label class="flex justify-center items-center">
+    <input type="radio" name="option" value="Standard Array" [(ngModel)]="selectedOption" (change)="onSelectionChange()" />
+    <p class="pl-2">Standard Array</p>
+  </label>
+  <label class="flex justify-center items-center">
+    <input type="radio" name="option" value="Manual" [(ngModel)]="selectedOption" (change)="onSelectionChange()" />
+    <p class="pl-2">Manual</p>
+  </label>
+  <label class="flex justify-center items-center">
+    <input type="radio" name="option" value="Random" [(ngModel)]="selectedOption" (change)="onSelectionChange()" />
+    <p class="pl-2">Random</p>
+  </label>
+  <button *ngIf="selectedOption == 'Random'" (click)="reroll()" class="px-4 bg-teal-500 text-white corner-rounding accent-font hover:bg-teal-600">
+    Reroll
+  </button>
+</div>
+<hr class="border-black opacity-20 mt-5">
+
+<div *ngIf="selectedOption" class="stat-assignment grid grid-cols-3 gap-4 px-5 pt-3">
   <div *ngFor="let stat of statsList" class="flex flex-col items-start">
     <label class="text-lg">{{ stat | titlecase }}:</label>
-    <select (change)="assignValue(stat, $event)" [value]="stats[stat] || ''"
+    <select *ngIf="selectedOption == 'Standard Array'" (change)="assignValue(stat, $event)" [value]="stats[stat] || ''"
             class="w-full px-4 py-2 bg-white border corner-rounding input-field shadow-sm text-left hover:bg-gray-100">
       <option value="">-- Select Value --</option>
       <option *ngFor="let value of availableValues"
@@ -15,7 +35,7 @@
       </option>
     </select>
 
-    <div *ngIf="manualEntryStats[stat]" class="pb-1">
+    <div *ngIf="selectedOption == 'Manual'" class="pb-1">
       <input (input)="updateManualValue(stat, $event)"
              [value]="manualStatValues[stat] || ''"
              class="w-full px-2 mt-2 text-gray-700 bg-gray-100 border corner-rounding input-field"
@@ -23,7 +43,7 @@
              placeholder="Enter custom value"
              type="number" />
     </div>
-    <div *ngIf="rolledEntryStats[stat]" class="mt-2 text-green-600">
+    <div *ngIf="selectedOption == 'Random'" class="mt-2 text-green-600">
       Rolled Value: {{ rolledStatValues[stat] }}
     </div>
     <span class="px-5 font-medium text-gray-700 bg-gray-100 border corner-rounding shadow-sm">
