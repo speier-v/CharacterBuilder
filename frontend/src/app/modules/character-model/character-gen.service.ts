@@ -162,9 +162,16 @@ export class CharacterGenService {
     const httpParams = new HttpParams()
       .set('visibility', 'public');
 
-    return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
-      map((data: any[]) => data.map(item => new Character(item.name, item.id)))
-    );
+      return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
+        map((data: any[]) => data.map(
+          item =>
+            {
+              const character = new Character(item.name, item.id);
+              Object.assign(character, item);
+              return character;
+            }
+        )
+      ));
   }
 
   addCharacter(character: Character): Observable<Character> {
