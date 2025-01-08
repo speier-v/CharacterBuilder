@@ -40,7 +40,7 @@ public class BackendApplication {
           character.setProficiencyBonus(3);
           character.setPlayerName("test");
           character.setIcon("character_frame_0.png");
-          character.setVisibility("visible");
+          character.setVisibility("public");
 
           Abilities abilities = new Abilities();
           abilities.setStrength(16);
