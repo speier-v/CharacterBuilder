@@ -54,18 +54,12 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
       { level: 1,
         skills: [{ name: 'Strike', description: 'Basic melee attack' }],
         featureType: 'basic' },
-      { level: 1,
-        skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }],
-        featureType: 'proficiencies' },
       { level: 2,
         skills: [{ name: 'Shield Bash', description: 'Stun enemy for 1 turn' }],
         featureType: 'basic' },
       { level: 3,
         skills: [{ name: 'Heavy Attack', description: 'Deal double damage on a roll of 17 or higher.' }],
-        featureType: 'basic' },
-      { level: 4,
-        skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +2' }],
-        featureType: 'abilityScoreImprovement' },
+        featureType: 'basic' }
     ],
   },
   {
@@ -78,18 +72,12 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
       { level: 1,
         skills: [{ name: 'Magic Missile', description: 'Deals magic damage' }],
         featureType: 'basic' },
-      { level: 1,
-        skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }],
-        featureType: 'proficiencies' },
       { level: 2,
         skills: [{ name: 'Magic Missile', description: 'Spell that always hits the target.' }],
         featureType: 'basic' },
       { level: 3,
         skills: [{ name: 'Fireball', description: 'Deals AOE fire damage.' }],
         featureType: 'basic' },
-      { level: 4,
-        skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +2' }],
-        featureType: 'abilityScoreImprovement' },
     ],
   },
   {
@@ -102,21 +90,12 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
       { level: 1,
         skills: [{ name: 'Sneak Attack', description: 'Deals extra damage from stealth' }],
         featureType: 'basic' },
-      { level: 1,
-        skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }],
-        featureType: 'proficiencies' },
       { level: 2,
         skills: [{ name: 'Evasion', description: 'Avoids damage once per round' }],
         featureType: 'basic' },
       { level: 3,
         skills: [{ name: 'Stunning Strike', description: 'Stun enemy for 1 turn' }],
         featureType: 'basic' },
-      { level: 3,
-        skills: [{ name: 'Proficiencies', description: 'Choose 3 additional skill proficiencies.' }],
-        featureType: 'proficiencies' },
-      { level: 4,
-        skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +2' }],
-        featureType: 'abilityScoreImprovement' },
     ],
   },
 ];
@@ -269,6 +248,7 @@ export interface Character {
   spells: Spell[];
   icon: String;
   visibility: string;
+  asiIn: string;
 }
 
 export class Character implements Character {
@@ -292,6 +272,7 @@ export class Character implements Character {
   spells: Spell[];
   icon: String;
   visibility: string;
+  asiIn: string;
 
   constructor(
     name: string,
@@ -381,6 +362,8 @@ export class Character implements Character {
 
     this.icon = new IconImages().images[0];
     this.visibility = 'private';
+
+    this.asiIn = '';
 
     this.calculateStats();
   }

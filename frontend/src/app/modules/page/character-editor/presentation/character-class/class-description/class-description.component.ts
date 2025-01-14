@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModelCharacterClass, Skill, DisplaySkill } from '../../../../../character-model/character.model';
+import { ModelCharacterClass, Skill, DisplaySkill, Abilities } from '../../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../../character-model/character-gen.service';
 import { Character, SkillsProficiencies } from '../../../../../character-model/character.model';
 import { featureTemplates } from '../../../../../character-model/character.model';
@@ -40,8 +40,20 @@ export class ClassDescriptionComponent {
     stealth: false,
     survival: false,
   };
+  baseStats: Abilities = {
+    strength: 0,
+    dexterity: 0,
+    constitution: 0,
+    intelligence: 0,
+    wisdom: 0,
+    charisma: 0
+  };
+  selectedStat : string = '';
+  objectKeys = Object.keys;
 
-  constructor(private characterService: CharacterGenService) {}
+  constructor(private characterService: CharacterGenService) {
+    this.initializeAbilities();
+  }
 
   ngOnInit() {
     this.initializeAbilities();
@@ -54,6 +66,7 @@ export class ClassDescriptionComponent {
   private initializeAbilities(): void {
     if (this.character) {
       this.abilities = this.character.skillsProficiencies;
+      this.selectedStat = this.character.asiIn;
     }
 
     this.initializeSelectedAbilities();
@@ -74,11 +87,31 @@ export class ClassDescriptionComponent {
   initializeSelectedAbilities(): void {
     if (this.abilities) {
       this.selectedAbilities = Object.keys(this.abilities)
-        .filter(key => this.abilities[key as keyof SkillsProficiencies])
+        .filter(key => this.abilities[key as keyof SkillsProficiencies] && key != "Id")
         .slice(0, 3) as (keyof SkillsProficiencies)[];
     } else {
       this.selectedAbilities = [null, null, null];
     }
+  }
+
+  onStatChange(newStat: string): void {
+    this.character = this.characterService.getCurrentCharacter();
+    // Undo the previous bonus
+    if (this.selectedStat && this.character) {
+      console.log("Prev: "+this.character.abilities[this.selectedStat as keyof typeof this.character.abilities]);
+      this.character.abilities[this.selectedStat as keyof typeof this.character.abilities] -= 2;
+    }
+
+    // Apply the new bonus
+    if (newStat && this.character) {
+      console.log("New: "+this.character.abilities[newStat as keyof typeof this.character.abilities]);
+      this.character.abilities[newStat as keyof typeof this.character.abilities] += 2;
+    }
+
+    // Update the selected stat
+    this.selectedStat = newStat;
+
+    this.character?.calculateStats();
   }
 
   onAbilityChange(index: number) {
@@ -104,8 +137,6 @@ export class ClassDescriptionComponent {
     }
   }
   
-
-  /*
   getSkills() {
     if (!this.selectedClass || !this.selectedLevel) {
       return [];
@@ -115,29 +146,4 @@ export class ClassDescriptionComponent {
         .flatMap(level => level.skills);
     }
   }
-  */
-
-  getSkills() {
-    if (!this.selectedClass || !this.selectedLevel) {
-      return [];
-    } else {
-      return this.selectedClass.levels
-        .filter(level => level.level <= this.selectedLevel!)
-        .flatMap(level =>
-          level.skills.map(skill => ({
-            ...skill,
-            featureType: level.featureType, // Attach featureType to the skill
-          }))
-        );
-    }
-  }
-
-  renderFeature(skill: DisplaySkill): string {
-    const template = this.featureTemplates[skill.featureType as keyof typeof featureTemplates];
-    return template
-      ? template
-          .replace('{{name}}', skill.name)
-          .replace('{{description}}', skill.description)
-      : `<strong>${skill.name}:</strong> ${skill.description}`;
-  }  
 }

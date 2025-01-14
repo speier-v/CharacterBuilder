@@ -41,6 +41,7 @@ public class BackendApplication {
           character.setPlayerName("test");
           character.setIcon("character_frame_0.png");
           character.setVisibility("public");
+          character.setAsiIn("");
 
           Abilities abilities = new Abilities();
           abilities.setStrength(16);

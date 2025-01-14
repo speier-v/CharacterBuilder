@@ -39,6 +39,7 @@ public class Character {
     private int passivePerception;
     private String icon;
     private String visibility;
+    private String asiIn;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="abilities_id", referencedColumnName = "id")
