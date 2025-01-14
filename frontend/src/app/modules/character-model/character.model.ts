@@ -1,13 +1,19 @@
 import { UsernameAndLogoutComponent } from "../page/shared/username-and-logout/username-and-logout.component";
+import { FeatureService } from "./feature.service";
 
 export interface Skill {
   name: string;
   description: string;
 }
 
+export interface DisplaySkill extends Skill {
+  featureType: string;
+}
+
 export interface ClassLevelSkills {
   level: number;
   skills: Skill[];
+  featureType: string;
 }
 
 export interface ModelCharacterClass {
@@ -15,6 +21,26 @@ export interface ModelCharacterClass {
   description: string;
   levels: ClassLevelSkills[];
 }
+
+export const featureTemplates = {
+  basic: `
+    <p><strong>{{ skill.name }}:</strong></p>
+    <p>{{ skill.description }}</p>`,
+  proficiencies: `<div class="text-lg mb-2"><strong>Choose Additional Skills:</strong></div>
+      <div class="mb-2">Choose 3 skills that you will gain <strong>Proficiency</strong> in. Being proficient in a skill
+        gives you a bonus to your rolls with that skill equal to your <strong>proficiency modifier</strong>.
+      </div>
+      <div class="space-y-3" class="flex flex-col items-start" *ngIf="abilities">
+        <ng-container *ngFor="let dropdown of [0, 1, 2]; let i = index" class="flex flex-col items-start">
+          <select (change)="onAbilityChange(i)" [(ngModel)]="selectedAbilities[i]" class="px-4">
+            <option *ngFor="let abilityKey of availableAbilities" [disabled]="abilities[abilityKey]" [ngValue]="abilityKey">
+              {{ abilityKey | titlecase }}
+            </option>
+          </select>
+        </ng-container>        
+      </div>`,
+  abilityScoreImprovement: '<strong>{{name}}:</strong> {{description}} Choose which ability scores to augment with a +2.',
+};
 
 export const modelCharacterClasses: ModelCharacterClass[] = [
   {
@@ -25,11 +51,21 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
                     Beyond that basic degree of familiarity, each Fighter specializes in certain styles of combat. Some concentrate on archery, some on fighting with two weapons at once, and some on augmenting their martial skills with magic.<br>
                     This combination of broad ability and extensive specialization makes Fighters superior combatants.`,
     levels: [
-      { level: 1, skills: [{ name: 'Strike', description: 'Basic melee attack' }] },
-      { level: 1, skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }] },
-      { level: 2, skills: [{ name: 'Shield Bash', description: 'Stun enemy for 1 turn' }] },
-      { level: 3, skills: [{ name: 'Shield Bash', description: 'Stun enemy for 1 turn' }] },
-      { level: 4, skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +1' }] },
+      { level: 1,
+        skills: [{ name: 'Strike', description: 'Basic melee attack' }],
+        featureType: 'basic' },
+      { level: 1,
+        skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }],
+        featureType: 'proficiencies' },
+      { level: 2,
+        skills: [{ name: 'Shield Bash', description: 'Stun enemy for 1 turn' }],
+        featureType: 'basic' },
+      { level: 3,
+        skills: [{ name: 'Heavy Attack', description: 'Deal double damage on a roll of 17 or higher.' }],
+        featureType: 'basic' },
+      { level: 4,
+        skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +2' }],
+        featureType: 'abilityScoreImprovement' },
     ],
   },
   {
@@ -39,11 +75,21 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
                     The closest a Wizard is likely to come to an ordinary life is working as a sage or lecturer. Other Wizards sell their services as advisers, serve in military forces, or pursue lives of crime or domination.<br>
                     But the lure of knowledge calls even the most unadventurous Wizards from the safety of their libraries and laboratories and into crumbling ruins and lost cities. Most Wizards believe that their counterparts in ancient civilizations knew secrets of magic that have been lost to the ages, and discovering those secrets could unlock the path to a power greater than any magic available in the present age.`,
     levels: [
-      { level: 1, skills: [{ name: 'Magic Missile', description: 'Deals magic damage' }] },
-      { level: 1, skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }] },
-      { level: 2, skills: [{ name: 'Fireball', description: 'Deals area fire damage' }] },
-      { level: 3, skills: [{ name: 'Shield Bash', description: 'Stun enemy for 1 turn' }] },
-      { level: 4, skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +1' }] },
+      { level: 1,
+        skills: [{ name: 'Magic Missile', description: 'Deals magic damage' }],
+        featureType: 'basic' },
+      { level: 1,
+        skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }],
+        featureType: 'proficiencies' },
+      { level: 2,
+        skills: [{ name: 'Magic Missile', description: 'Spell that always hits the target.' }],
+        featureType: 'basic' },
+      { level: 3,
+        skills: [{ name: 'Fireball', description: 'Deals AOE fire damage.' }],
+        featureType: 'basic' },
+      { level: 4,
+        skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +2' }],
+        featureType: 'abilityScoreImprovement' },
     ],
   },
   {
@@ -53,12 +99,24 @@ export const modelCharacterClasses: ModelCharacterClass[] = [
                     In combat, Rogues prioritize subtle strikes over brute strength. They would rather make one precise strike than wear an opponent down with a barrage of blows.<br>
                     Some Rogues began their careers as criminals, while others used their cunning to fight crime. Whatever a Rogue’s relation to the law, no common criminal or officer of the law can match the subtle brilliance of the greatest Rogues.`,
     levels: [
-      { level: 1, skills: [{ name: 'Sneak Attack', description: 'Deals extra damage from stealth' }] },
-      { level: 1, skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }] },
-      { level: 2, skills: [{ name: 'Evasion', description: 'Avoids damage once per round' }] },
-      { level: 3, skills: [{ name: 'Shield Bash', description: 'Stun enemy for 1 turn' }] },
-      { level: 3, skills: [{ name: 'Proficiencies', description: 'Choose 3 additional skill proficiencies.' }] },
-      { level: 4, skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +1' }] },
+      { level: 1,
+        skills: [{ name: 'Sneak Attack', description: 'Deals extra damage from stealth' }],
+        featureType: 'basic' },
+      { level: 1,
+        skills: [{ name: 'Proficiencies', description: 'Choose 3 skill proficiencies.' }],
+        featureType: 'proficiencies' },
+      { level: 2,
+        skills: [{ name: 'Evasion', description: 'Avoids damage once per round' }],
+        featureType: 'basic' },
+      { level: 3,
+        skills: [{ name: 'Stunning Strike', description: 'Stun enemy for 1 turn' }],
+        featureType: 'basic' },
+      { level: 3,
+        skills: [{ name: 'Proficiencies', description: 'Choose 3 additional skill proficiencies.' }],
+        featureType: 'proficiencies' },
+      { level: 4,
+        skills: [{ name: 'Ability Score Improvement', description: 'Choose which ability scores to augment with a +2' }],
+        featureType: 'abilityScoreImprovement' },
     ],
   },
 ];
@@ -237,11 +295,12 @@ export class Character implements Character {
 
   constructor(
     name: string,
-    id?: number,
+    playerName: string,
+    id?: number
   ) {
     this.id = id;
     this.name = name;
-    this.playerName = UsernameAndLogoutComponent.userName;
+    this.playerName = playerName;
     this.characterClass = '';
     this.level = 1;
     this.hitPoints = 0; // calculated later
@@ -400,7 +459,6 @@ export class Character implements Character {
     const abilityModifier = this.calculateModifier(abilityScore);
     return abilityModifier + (isProficient ? proficiencyBonus : 0);
   }
-
   
   calculateSkillBonus(
     abilityScore: number | null,

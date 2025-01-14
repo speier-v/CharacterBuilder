@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModelCharacterClass } from '../../../../../character-model/character.model';
+import { ModelCharacterClass, Skill, DisplaySkill } from '../../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../../character-model/character-gen.service';
 import { Character, SkillsProficiencies } from '../../../../../character-model/character.model';
+import { featureTemplates } from '../../../../../character-model/character.model';
 
 @Component({
   selector: 'class-description',
@@ -16,6 +17,7 @@ export class ClassDescriptionComponent {
   @Input() selectedClass: ModelCharacterClass | null = null;
   @Input() selectedLevel: number | null = null;
   @Input() character: Character | null = null;
+  featureTemplates = featureTemplates;
 
   selectedAbilities: (keyof SkillsProficiencies | null)[] = [null, null, null];
   abilities: SkillsProficiencies = {
@@ -103,6 +105,7 @@ export class ClassDescriptionComponent {
   }
   
 
+  /*
   getSkills() {
     if (!this.selectedClass || !this.selectedLevel) {
       return [];
@@ -112,4 +115,29 @@ export class ClassDescriptionComponent {
         .flatMap(level => level.skills);
     }
   }
+  */
+
+  getSkills() {
+    if (!this.selectedClass || !this.selectedLevel) {
+      return [];
+    } else {
+      return this.selectedClass.levels
+        .filter(level => level.level <= this.selectedLevel!)
+        .flatMap(level =>
+          level.skills.map(skill => ({
+            ...skill,
+            featureType: level.featureType, // Attach featureType to the skill
+          }))
+        );
+    }
+  }
+
+  renderFeature(skill: DisplaySkill): string {
+    const template = this.featureTemplates[skill.featureType as keyof typeof featureTemplates];
+    return template
+      ? template
+          .replace('{{name}}', skill.name)
+          .replace('{{description}}', skill.description)
+      : `<strong>${skill.name}:</strong> ${skill.description}`;
+  }  
 }

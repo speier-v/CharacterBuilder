@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Character } from './character.model';
+import { Character, FeatureCollection } from './character.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { UsernameAndLogoutComponent } from '../page/shared/username-and-logout/username-and-logout.component';
 import { KeycloakService } from 'keycloak-angular';
+import { NgxSpinnerService } from "ngx-spinner";
+import { FeatureService } from './feature.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,31 +18,15 @@ export class CharacterGenService {
   private apiUrl = 'http://localhost:8090/characters';
   private searchUrl = `${this.apiUrl}/search/by-visibility`;
   
-  constructor(private http: HttpClient, private readonly keycloakService: KeycloakService) {
+  constructor(
+    private http: HttpClient,
+    private readonly keycloakService: KeycloakService,
+    private featureService: FeatureService) {
     this.userName = keycloakService.getUsername();
-
-    var visibility = 'private';
-    var playerName = this.userName;
-    this.fetchPrivateCharacters({ visibility, playerName })
-    .subscribe(data => {
-      this.characters = data;
-    });
   }
 
-  /*
-    private loadCharactersFromStorage(): void {
-    const data = localStorage.getItem('characters');
-    const parsedData = data ? JSON.parse(data) : [];
-    this.characters = parsedData.map((item: any) => {
-        const character = new Character(item.name, item.id);
-        Object.assign(character, item);
-        return character;
-      });
-    }
-  */
-
   createCharacter(name: string): Character {
-    const newCharacter = new Character(name);
+    const newCharacter = new Character(name, this.userName);
     this.addCharacter(newCharacter).subscribe({
       next: (character) => {
         console.log('Character added:', character);
@@ -58,7 +44,7 @@ export class CharacterGenService {
   }
 
   createCopiedCharacter(name: string, character: Character): Character {
-    const newCharacter = new Character(name);
+    const newCharacter = new Character(name, this.userName);
 
     Object.assign(newCharacter, character);
     newCharacter.name = name;
@@ -106,8 +92,7 @@ export class CharacterGenService {
       }
 
       this.currentCharacter = Object.assign(this.currentCharacter, updatedData) as Character;
-
-      this.currentCharacter.calculateStats();
+      
       if (index !== -1) {
         this.characters[index] = { ...this.currentCharacter } as Character;
       }
@@ -135,7 +120,7 @@ export class CharacterGenService {
     if (this.currentCharacter) {
       return this.currentCharacter;
     } else {
-      return new Character('unnamed');
+      return new Character('unnamed', this.userName);
     }
   }
 
@@ -152,6 +137,7 @@ export class CharacterGenService {
           {
             const character = new Character(item.name, item.id);
             Object.assign(character, item);
+
             return character;
           }
       )
@@ -168,6 +154,7 @@ export class CharacterGenService {
             {
               const character = new Character(item.name, item.id);
               Object.assign(character, item);
+
               return character;
             }
         )

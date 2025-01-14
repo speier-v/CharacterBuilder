@@ -1,3 +1,11 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="large"
+  color="#ffffff"
+  type="ball-scale-multiple"
+  [fullScreen]="true">
+</ngx-spinner>
+
 <ng-template #overviewHeaderEndActions>
   <div class="corner-rounding header-action-button cursor-pointer" (click)="toggleIsPublicCharactersOverview()"
        [title]="isPublicCharactersOverview ? 'My characters' : 'Public characters'">
@@ -40,5 +48,5 @@
             (click)="createCharacter()">
       Create a character
     </button>
-  </div>
+  </div>  
 </div>

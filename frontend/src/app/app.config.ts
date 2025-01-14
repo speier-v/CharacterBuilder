@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
+import {APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
@@ -8,28 +8,21 @@ import keycloakConfig from './keycloak.config';
 import {KeycloakService} from 'keycloak-angular';
 import {ApiService} from "./modules/core/api/api.service";
 import {environment} from "../environments/environment";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { BrowserAnimationsModule, provideAnimations } from "@angular/platform-browser/animations";
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init(keycloakConfig);
 }
 
-function testApiConnection(apiService: ApiService) {
-    return () => apiService.get(`${environment.backendUrl}/test`).subscribe({
-            next: value => {
-                console.log(value);
-            }, error: err => {
-                console.error(err);
-            }
-        }
-    );
-}
-
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZoneChangeDetection({eventCoalescing: true}),
         provideRouter(routes),
-        provideAnimationsAsync(),
+        //provideAnimationsAsync(),
+        provideAnimations(),
         provideHttpClient(),
         KeycloakService,
         {
@@ -38,13 +31,8 @@ export const appConfig: ApplicationConfig = {
             deps: [KeycloakService],
             multi: true,
         },
-        ApiService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: testApiConnection,
-            deps: [ApiService],
-            multi: true,
-        },
+        importProvidersFrom(NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })),
+        importProvidersFrom(BrowserAnimationsModule)
     ],
 };
 

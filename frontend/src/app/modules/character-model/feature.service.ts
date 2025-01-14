@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Feature, FeatureCollection } from './character.model';
+import { Character, Feature, FeatureCollection } from './character.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +25,21 @@ export class FeatureService {
       fighter: features.filter((feature) => feature.associatedClass === 'Fighter'),
       wizard: features.filter((feature) => feature.associatedClass === 'Wizard'),
     };
+  }
+
+  getFeaturesForCharacter(character: Character): Feature[] {
+    let features: Feature[] = [];
+
+    features = [...features, ...this.organizeFeatures(features).general];
+
+    if (character.characterClass.toLowerCase() === 'fighter') {
+      features = [...features, ...this.organizeFeatures(features).fighter];
+    } else if (character.characterClass.toLowerCase() === 'wizard') {
+      features = [...features, ...this.organizeFeatures(features).wizard];
+    } else if (character.characterClass.toLowerCase() === 'rogue') {
+      features = [...features, ...this.organizeFeatures(features).rogue];
+    }
+
+    return features.filter(feature => feature.featureLevel <= character.level);
   }
 }

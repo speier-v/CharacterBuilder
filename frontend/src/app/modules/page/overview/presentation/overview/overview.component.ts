@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { CharacterCardComponent } from '../character-card/character-card.component';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
@@ -8,6 +8,7 @@ import { DynamicHeaderComponent } from '../../../shared/dynamic-header/dynamic-h
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 import { environment } from '../../../../../../environments/environment';
 import { catchError, of, switchMap } from 'rxjs';
+import { NgxSpinnerService, NgxSpinner, NgxSpinnerComponent } from "ngx-spinner";
 
 @Component({
   selector: 'character-cards-overview',
@@ -17,23 +18,30 @@ import { catchError, of, switchMap } from 'rxjs';
     CommonModule,
     DynamicHeaderComponent,
     NgOptimizedImage,
+    NgxSpinnerComponent
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
 })
-export class OverviewComponent implements OnInit, OnChanges {
+export class OverviewComponent implements OnInit, OnChanges, AfterViewInit {
   protected isPublicCharactersOverview = false;
   characters: Character[] = [];
 
   constructor(
     private characterService: CharacterGenService,
     private router: Router,
+    private spinner: NgxSpinnerService
   ) {
-    this.getCharactersBasedOnView();
+    //this.getCharactersBasedOnView();
+  }
+
+  ngAfterViewInit(): void {
+    this.spinner.show();
   }
 
   ngOnInit(): void {
-    this.getCharactersBasedOnView();   
+    this.getCharactersBasedOnView();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -76,20 +84,27 @@ export class OverviewComponent implements OnInit, OnChanges {
   }
 
   public getCharactersBasedOnView() {
+    this.spinner.show();
+
     if (this.isPublicCharactersOverview) {
       this.characterService.fetchPublicCharacters()
       .subscribe((data: Character[]) => {
+        this.spinner.hide();
+
         this.characters = data.map((item: any) => {
           const character = new Character(item.name, item.id);
           Object.assign(character, item);
           return character;
         });
+
       });
     } else {
       var visibility = 'private';
       var playerName = this.characterService.userName;
       this.characterService.fetchPrivateCharacters({ visibility, playerName })
       .subscribe(data => {
+        this.spinner.hide();
+
         this.characters = data.map((item: any) => {
           const character = new Character(item.name, item.id);
           Object.assign(character, item);

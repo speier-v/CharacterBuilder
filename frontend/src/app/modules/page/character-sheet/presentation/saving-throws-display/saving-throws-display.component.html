@@ -1,7 +1,7 @@
 <div class="flex flex-col pl-5">
   <div *ngIf="character"
     class="w-full h-full border-4 border-teal-700 corner-rounding px-5 pt-4 shadow-sm bg-gray-50 grid grid-cols-2 gap-5 text-center items-center">
-    <div *ngFor="let stat of character.savingThrows | keyvalue" class="flex flex-row relative pr-4">
+    <div *ngFor="let stat of character.savingThrows | filterKey: ['id'] | keyvalue" class="flex flex-row relative pr-4">
             <span class="border-2 border-teal-700 corner-rounding py-2 flex-grow text-left font-xs pl-1 pr-4">
                 {{ stat.key | titlecase }}
             </span>

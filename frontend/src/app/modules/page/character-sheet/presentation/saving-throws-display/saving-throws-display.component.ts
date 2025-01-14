@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { FilterKeyPipe } from '../stat-display/filter-key-pipe.pipe';
 
 @Component({
   selector: 'saving-throws-display',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FilterKeyPipe],
   templateUrl: './saving-throws-display.component.html',
   styleUrl: './saving-throws-display.component.css',
 })
