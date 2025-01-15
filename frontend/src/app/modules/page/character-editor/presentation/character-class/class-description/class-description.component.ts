@@ -52,6 +52,9 @@ export class ClassDescriptionComponent {
   objectKeys = Object.keys;
 
   constructor(private characterService: CharacterGenService) {
+    if (this.character) {
+      this.selectedStat = this.character?.asiIn;
+    }    
     this.initializeAbilities();
   }
 
@@ -102,7 +105,7 @@ export class ClassDescriptionComponent {
   onStatChange(newStat: string): void {
     this.character = this.characterService.getCurrentCharacter();
     // Undo the previous bonus
-    if (this.selectedStat && this.character) {
+    if (this.character && this.character.asiIn != '') {
       console.log("Prev: "+this.character.abilities[this.selectedStat as keyof typeof this.character.abilities]);
       this.character.abilities[this.selectedStat as keyof typeof this.character.abilities] -= 2;
     }
@@ -111,12 +114,16 @@ export class ClassDescriptionComponent {
     if (newStat && this.character) {
       console.log("New: "+this.character.abilities[newStat as keyof typeof this.character.abilities]);
       this.character.abilities[newStat as keyof typeof this.character.abilities] += 2;
+      this.character.asiIn = newStat;
     }
 
     // Update the selected stat
     this.selectedStat = newStat;
 
     this.character?.calculateStats();
+    if (this.character) {
+      this.character = this.characterService.updateCurrentCharacter(this.character);
+    }    
   }
 
   onAbilityChange(index: number) {

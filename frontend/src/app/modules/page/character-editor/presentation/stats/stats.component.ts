@@ -77,6 +77,7 @@ export class StatsComponent {
 
   constructor(private router: Router, private characterService: CharacterGenService) {
     this.character = this.characterService.getCurrentCharacter();
+    this.selectedOption = "Manual";
     if (this.character != null) {
       this.stats = this.character.abilities;
       this.initializeStats();

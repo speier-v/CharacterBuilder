@@ -30,6 +30,19 @@
         </ng-container>        
       </div>
     </li>
+
+    <li *ngIf="selectedLevel === 4"
+      class="flex flex-col items-start p-2 text-lg font-medium text-gray-700 bg-gray-100 border rounded-md shadow-sm">
+      <div class="text-lg mb-2"><strong>Choose Ability Score Increase:</strong></div>
+      <div class="mb-2">Choose 1 Ability to gain a <strong>+2 stat increase</strong> in.</div>
+      <div class="space-y-3" class="flex flex-col items-start" *ngIf="baseStats">
+        <select [(ngModel)]="selectedStat" (change)="onStatChange(selectedStat)" class="px-4">
+          <option *ngFor="let stat of objectKeys(baseStats)" [ngValue]="stat">
+            {{ stat | titlecase }}
+          </option>
+        </select>    
+      </div>
+    </li>
   </ul>
 </div>
 <div *ngIf="!selectedClass || selectedLevel === null" class="text-lg">
