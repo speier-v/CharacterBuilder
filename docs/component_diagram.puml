@@ -1,4 +1,5 @@
 @startuml
+skinparam defaultTextAlignment center
 actor User as User
 
 rectangle "Character Builder" {
