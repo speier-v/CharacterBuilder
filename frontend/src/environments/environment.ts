@@ -15,5 +15,5 @@ export const environment = {
       icons: 'assets/images/icons',
     },
   },
-  backendUrl: 'http://localhost:8090/api',
+  backendUrl: 'http://localhost:8090',
 };

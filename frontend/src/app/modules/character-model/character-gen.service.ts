@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Character, FeatureCollection } from './character.model';
+import { Character } from './character.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
-import { UsernameAndLogoutComponent } from '../page/shared/username-and-logout/username-and-logout.component';
+import { catchError, map, Observable, of } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
-import { NgxSpinnerService } from "ngx-spinner";
 import { FeatureService } from './feature.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +14,9 @@ export class CharacterGenService {
   private currentCharacter: Character | null = null;
   public userName: string;
 
-  private apiUrl = 'http://localhost:8090/characters';
+  private apiUrl = `${environment.backendUrl}/characters`;
   private searchUrl = `${this.apiUrl}/search/by-visibility`;
-  
+
   constructor(
     private http: HttpClient,
     private readonly keycloakService: KeycloakService,
@@ -92,25 +91,25 @@ export class CharacterGenService {
       }
 
       this.currentCharacter = Object.assign(this.currentCharacter, updatedData) as Character;
-      
+
       if (index !== -1) {
         this.characters[index] = { ...this.currentCharacter } as Character;
       }
-      
+
       // #################### //
       if (this.currentCharacter && this.currentCharacter.id) {
         this.updateCharacter(this.currentCharacter.id, this.currentCharacter).pipe(
           catchError((err) => {
             console.error('Error updating character:', err);
             return of(null);
-          })
+          }),
         ).subscribe({
           next: (updatedCharacter) => {
             return updatedCharacter;
           },
           error: (err) => {
             console.error('Error updating character:', err);
-          }
+          },
         });
       }
     } else {
@@ -131,33 +130,31 @@ export class CharacterGenService {
       .set('visibility', params.visibility)
       .set('playerName', params.playerName);
 
-    return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
+    return this.http.get<Character[]>(this.searchUrl, { params: httpParams }).pipe(
       map((data: any[]) => data.map(
-        item =>
-          {
+          item => {
             const character = new Character(item.name, item.id);
             Object.assign(character, item);
 
             return character;
-          }
-      )
-    ));
+          },
+        ),
+      ));
   }
 
   fetchPublicCharacters(): Observable<Character[]> {
     const httpParams = new HttpParams()
       .set('visibility', 'public');
 
-      return this.http.get<Character[]>(this.searchUrl, { params : httpParams }).pipe(
-        map((data: any[]) => data.map(
-          item =>
-            {
-              const character = new Character(item.name, item.id);
-              Object.assign(character, item);
+    return this.http.get<Character[]>(this.searchUrl, { params: httpParams }).pipe(
+      map((data: any[]) => data.map(
+          item => {
+            const character = new Character(item.name, item.id);
+            Object.assign(character, item);
 
-              return character;
-            }
-        )
+            return character;
+          },
+        ),
       ));
   }
 

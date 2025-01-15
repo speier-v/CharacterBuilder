@@ -43,6 +43,3 @@ COPY --chmod=755 --from=maven /build/target/backend-*-SNAPSHOT.jar app.jar
 USER 10000:3000
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
-HEALTHCHECK --interval=5m --timeout=3s \
-  CMD curl -f http://localhost:4004/actuator/health || exit 1
