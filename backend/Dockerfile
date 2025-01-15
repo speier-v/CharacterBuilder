@@ -22,7 +22,6 @@
 
 # Dependencies
 FROM maven:3-eclipse-temurin-21-alpine AS maven
-ARG BUILD_TARGET=backend
 
 WORKDIR /build
 
@@ -30,11 +29,11 @@ COPY config config
 COPY pom.xml .
 
 # the --mount option requires BuildKit.
-RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests
+RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -DskipTests
 
 
 # Copy the jar and build image
-FROM eclipse-temurin:21-jre-alpine AS backend
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
