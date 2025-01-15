@@ -25,6 +25,7 @@ FROM maven:3-eclipse-temurin-21-alpine AS maven
 
 WORKDIR /build
 
+COPY src src
 COPY config config
 COPY pom.xml .
 
@@ -37,7 +38,7 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-COPY --chmod=755 --from=maven /build/backend/target/backend-*-exec.jar app.jar
+COPY --chmod=755 --from=maven /build/target/backend-*-SNAPSHOT.jar app.jar
 
 USER 10000:3000
 

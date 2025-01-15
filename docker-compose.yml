@@ -10,6 +10,17 @@ services:
     secrets:
       - charactyr_frontend_cert_key
 
+  backend:
+    container_name: charactyr-backend
+    image: charactyr/backend
+    build:
+      context: backend
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "8090:8090"
+    depends_on:
+      - backend-db
+
   keycloak:
     container_name: charactyr-auth-keycloak
     image: bitnami/keycloak

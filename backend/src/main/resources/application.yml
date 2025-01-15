@@ -2,7 +2,7 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:postgresql://localhost:5432/charactyr-app-management
+    url: jdbc:postgresql://charactyr-backend-postgres:5432/charactyr-app-management
     username: postgres
     password: password
   jpa:
