@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetectClicksOutsideDirective } from '../../../shared/detect-clicks-outside.directive';
+import { CharacterGenService } from '../../../../character-model/character-gen.service';
+import { Character } from '../../../../character-model/character.model';
 
 @Component({
   selector: 'abilities-and-spells',
@@ -14,6 +16,7 @@ export class AbilitiesAndSpellsComponent {
   selectedTab: string = 'all';
   isModalOpen: boolean = false;
   spellLimit: number = 3;
+  character: Character | null;
 
   actions = [
     { name: 'Attack', description: 'Make a melee or ranged weapon attack.' },
@@ -36,6 +39,10 @@ export class AbilitiesAndSpellsComponent {
     { name: 'Shield', level: 1, description: 'Grants +5 AC until the start of your next turn.' },
     { name: 'Detect Magic', level: 1, description: 'Sense magic within 30 feet.' },
   ];
+
+  constructor(private characterService: CharacterGenService) {
+    this.character = this.characterService.getCurrentCharacter();
+  }
 
   setTab(tab: string) {
     this.selectedTab = tab;
