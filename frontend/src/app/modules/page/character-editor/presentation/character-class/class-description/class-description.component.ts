@@ -65,7 +65,12 @@ export class ClassDescriptionComponent {
 
   private initializeAbilities(): void {
     if (this.character) {
-      this.abilities = this.character.skillsProficiencies;
+      for (const key in this.abilities) {
+        if (this.character.skillsProficiencies.hasOwnProperty(key)) {
+          this.abilities[key as keyof SkillsProficiencies] = this.character.skillsProficiencies[key as keyof SkillsProficiencies];
+        }
+      }
+
       this.selectedStat = this.character.asiIn;
     }
 
@@ -87,7 +92,7 @@ export class ClassDescriptionComponent {
   initializeSelectedAbilities(): void {
     if (this.abilities) {
       this.selectedAbilities = Object.keys(this.abilities)
-        .filter(key => this.abilities[key as keyof SkillsProficiencies] && key != "Id")
+        .filter(key => this.abilities[key as keyof SkillsProficiencies] && key != "id")
         .slice(0, 3) as (keyof SkillsProficiencies)[];
     } else {
       this.selectedAbilities = [null, null, null];
@@ -131,7 +136,13 @@ export class ClassDescriptionComponent {
     }
 
     if (this.character && this.abilities) {
-      this.character.skillsProficiencies = this.abilities;
+      
+      for (const key in this.abilities) {
+        if (this.character.skillsProficiencies.hasOwnProperty(key)) {
+          this.character.skillsProficiencies[key as keyof SkillsProficiencies] = this.abilities[key as keyof SkillsProficiencies];
+        }
+      }
+      
       this.character.calculateSkills();
       this.characterService.updateCurrentCharacter(this.character);
     }

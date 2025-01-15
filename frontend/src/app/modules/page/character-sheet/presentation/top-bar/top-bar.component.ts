@@ -33,30 +33,10 @@ export class TopBarComponent {
   myCharactersButtonClicked() {
     // ######## //
     if (this.character) {
-          this.characterService.updateCurrentCharacter(this.character);
-          
-          // #################### //
-          if (this.character && this.character.id) {
-            this.characterService.updateCharacter(this.character.id, this.character).pipe(
-              catchError((err) => {
-                console.error('Error updating character:', err);
-                return of(null);
-              })
-            ).subscribe({
-              next: (updatedCharacter) => {
-                this.router.navigate([`/${RoutePaths.OVERVIEW}`]);
-              },
-              error: (err) => {
-                console.error('Error updating character:', err);
-              }
-            });
-          }
-        } else {
-          console.warn(`No current character to update.`);
-        }
-    // ######## //
-
-    // this.router.navigate([`/${RoutePaths.OVERVIEW}`]);
+      this.characterService.updateCurrentCharacter(this.character);
+      
+      this.router.navigate([`/${RoutePaths.OVERVIEW}`]);
+    }
   }
 
   protected readonly environment = environment;
