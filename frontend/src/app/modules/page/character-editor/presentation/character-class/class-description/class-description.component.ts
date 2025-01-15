@@ -143,7 +143,7 @@ export class ClassDescriptionComponent {
         }
       }
       
-      this.character.calculateSkills();
+      this.character.calculateStats();
       this.characterService.updateCurrentCharacter(this.character);
     }
   }

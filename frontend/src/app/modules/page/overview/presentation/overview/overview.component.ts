@@ -62,8 +62,17 @@ export class OverviewComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   createCharacter(): void {
-    this.characterService.createCharacter('unnamed');
-    this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
+    //this.characterService.createCharacter('unnamed');
+    //this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
+
+    this.characterService.createCharacter('unnamed')
+    .then((character) => {
+      console.log('Character created:', character);
+      this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
+    })
+    .catch((error) => {
+      console.error('Failed to create character:', error);
+    });
   }
 
   onCharacterDeleted(id: number): void {
@@ -81,6 +90,10 @@ export class OverviewComponent implements OnInit, OnChanges, AfterViewInit {
         console.error('Error fetching characters after delete:', err);
       }
     });
+  }
+  
+  onCharacterCopied(): void {
+    this.getCharactersBasedOnView();
   }
 
   public getCharactersBasedOnView() {

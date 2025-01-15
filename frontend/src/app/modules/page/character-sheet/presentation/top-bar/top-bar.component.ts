@@ -7,6 +7,7 @@ import { DynamicHeaderComponent } from '../../../shared/dynamic-header/dynamic-h
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
 import { environment } from '../../../../../../environments/environment';
 import { catchError, of } from 'rxjs';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'top-bar',
@@ -21,9 +22,13 @@ export class TopBarComponent {
   @Output() characterImageIconClicked = new EventEmitter<void>();
 
   character: Character | null = null;
+  user: string;
 
-  constructor(private router: Router, private characterService: CharacterGenService) {
+  constructor(private router: Router,
+    private characterService: CharacterGenService,
+    private readonly keycloakService: KeycloakService) {
     this.character = this.characterService.getCurrentCharacter();
+    this.user = this.keycloakService.getUsername();
   }
 
   editButtonClicked() {

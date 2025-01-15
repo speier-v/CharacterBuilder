@@ -24,6 +24,7 @@ export class CharacterCardComponent implements OnChanges {
   @Input() isPublicCharacterCard = false;
   @Input() character: Character | null = null;
   @Output() characterDeleted = new EventEmitter<number>();
+  @Output() characterCopied = new EventEmitter<void>();
 
   protected modalOpen = false;
   protected showDeleteConfirmationDialog = false;
@@ -75,8 +76,8 @@ export class CharacterCardComponent implements OnChanges {
     }
   }
 
-  onCharacterCopied(characterId: number) {
-    this.characterDeleted.emit(characterId);
+  onCharacterCopied() {
+    this.characterCopied.emit();
   }
 
   protected readonly environment = environment;

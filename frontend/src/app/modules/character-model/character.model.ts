@@ -368,7 +368,7 @@ export class Character implements Character {
     this.calculateStats();
   }
 
-  calculateStats() : void {
+  public calculateStats() : void {
     this.calculateProficiency(this.level);
     this.calculateArmorClass();
     this.calculateMaxHP();
