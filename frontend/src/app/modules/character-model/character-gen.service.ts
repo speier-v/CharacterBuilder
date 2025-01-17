@@ -50,7 +50,6 @@ export class CharacterGenService {
     //Object.assign(newCharacter, character);
     newCharacter.name = name;
     newCharacter.visibility = visibility;
-    newCharacter.playerName = character.playerName;
     newCharacter.characterClass = character.characterClass;
     newCharacter.level = character.level;
     newCharacter.icon = character.icon;
