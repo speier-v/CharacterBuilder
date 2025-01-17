@@ -1,41 +1,43 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { CharacterStats, Character } from '../../../../character-model/character.model';
+import { Abilities, Character } from '../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../character-model/character-gen.service';
 import { RoutePaths } from '../../../../core/routing/route-paths.enum';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'stats',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.css',
 })
 export class StatsComponent {
 
   @Output() navigate = new EventEmitter<string>();
-  @Input() stats: CharacterStats = {
-    dexterity: null,
-    strength: null,
-    wisdom: null,
-    intelligence: null,
-    charisma: null,
-    constitution: null,
+  @Input() stats: Abilities = {
+    dexterity: 10,
+    strength: 10,
+    wisdom: 10,
+    intelligence: 10,
+    charisma: 10,
+    constitution: 10,
   };
-  @Output() statsChange = new EventEmitter<CharacterStats>();
+  @Output() statsChange = new EventEmitter<Abilities>();
   selectedStat: string | null = null;
   rolledValue: number | null = null;
   showScoreModifierTable: boolean = false;
   character: Character | null = null;
   isFromSavedCharacter: boolean = false;
+  selectedOption: string = '';
 
-  availableValues = [15, 14, 13, 12, 10, 8, 'manual', 'random'] as (number | string)[];
-  manualEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
-  manualStatValues: { [key in keyof CharacterStats]?: number | null } = {};
-  rolledEntryStats: { [key in keyof CharacterStats]?: boolean } = {};
-  rolledStatValues: { [key in keyof CharacterStats]?: number | null } = {};
-  statsList: (keyof CharacterStats)[] = [
+  availableValues = [15, 14, 13, 12, 10, 8] as (number | string)[];
+  manualEntryStats: { [key in keyof Abilities]?: boolean } = {};
+  manualStatValues: { [key in keyof Abilities]?: number | null } = {};
+  rolledEntryStats: { [key in keyof Abilities]?: boolean } = {};
+  rolledStatValues: { [key in keyof Abilities]?: number | null } = {};
+  statsList: (keyof Abilities)[] = [
     'dexterity', 'strength', 'wisdom', 'intelligence', 'charisma', 'constitution',
   ];
   statDescriptions: { [key: string]: string } = {
@@ -75,8 +77,9 @@ export class StatsComponent {
 
   constructor(private router: Router, private characterService: CharacterGenService) {
     this.character = this.characterService.getCurrentCharacter();
+    this.selectedOption = "Manual";
     if (this.character != null) {
-      this.stats = this.character.stats;
+      this.stats = this.character.abilities;
       this.initializeStats();
     }
   }
@@ -85,7 +88,7 @@ export class StatsComponent {
     let allValuesAreNull = true;
     for (const stat in this.stats) {
       if (this.stats.hasOwnProperty(stat)) {
-        const statKey = stat as keyof CharacterStats;
+        const statKey = stat as keyof Abilities;
 
         this.manualEntryStats[statKey] = true;
         this.manualStatValues[statKey] = this.stats[statKey];
@@ -103,7 +106,7 @@ export class StatsComponent {
     return typeof value === 'number' && Object.values(this.stats).includes(value);
   }
 
-  assignValue(stat: keyof CharacterStats, event: Event) {
+  assignValue(stat: keyof Abilities, event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const value = selectElement.value;
 
@@ -111,7 +114,7 @@ export class StatsComponent {
       this.manualEntryStats[stat] = true;
       this.rolledEntryStats[stat] = false;
       this.rolledValue = null;
-      this.stats[stat] = null;
+      this.stats[stat] = 0;
     } else if (value === 'random') {
       this.manualEntryStats[stat] = false;
       this.rolledEntryStats[stat] = true;
@@ -122,14 +125,14 @@ export class StatsComponent {
       this.rolledValue = null;
       this.manualEntryStats[stat] = false;
       this.rolledEntryStats[stat] = false;
-      this.stats[stat] = value ? parseInt(value, 10) : null;
+      this.stats[stat] = value ? parseInt(value, 10) : 0;
     }
     this.statsChange.emit(this.stats);
     this.setStatsToCharacter();
   }
 
 
-  updateManualValue(stat: keyof CharacterStats, event: Event) {
+  updateManualValue(stat: keyof Abilities, event: Event) {
     const inputElement = event.target as HTMLInputElement;
     let value = inputElement.value ? parseInt(inputElement.value, 10) : null;
 
@@ -142,21 +145,22 @@ export class StatsComponent {
     }
 
     this.manualStatValues[stat] = value;
-    this.stats[stat] = value;
+    this.stats[stat] = value ? value : 0;
     this.statsChange.emit(this.stats);
     this.setStatsToCharacter();
   }
 
   setStatsToCharacter() {
+    this.character = this.characterService.getCurrentCharacter();
     if (this.character != null) {
-      this.character.stats = this.stats;
+      this.character.abilities = this.stats;
       this.characterService.updateCurrentCharacter(this.character);
     }
     console.log('Stats: ', this.stats);
   }
 
-  unassignValue(stat: keyof CharacterStats) {
-    this.stats[stat] = null;
+  unassignValue(stat: keyof Abilities) {
+    this.stats[stat] = 0;
     this.manualEntryStats[stat] = false;
     this.rolledEntryStats[stat] = false;
     this.statsChange.emit(this.stats);
@@ -167,6 +171,7 @@ export class StatsComponent {
   }
 
   clickToNav() {
+    this.character = this.characterService.getCurrentCharacter();
     this.router.navigate([`/${RoutePaths.PRIVATE_CHARACTER_SHEET}`]);
   }
 
@@ -191,6 +196,44 @@ export class StatsComponent {
   }
 
   onNavigate() {
+    this.character = this.characterService.getCurrentCharacter();
     this.navigate.emit('character-class');
+  }
+
+  onSelectionChange() {
+    switch (this.selectedOption) {
+      case 'Standard Array':
+        //this.executeOption1();
+        break;
+      case 'Manual':
+        //this.executeOption2();
+        break;
+      case 'Random':
+        var stat;
+        for (stat of this.statsList) {
+          this.manualEntryStats[stat] = false;
+          this.rolledEntryStats[stat] = true;
+          this.rolledValue = this.roll4d6();
+          this.rolledStatValues[stat] = this.rolledValue;
+          this.stats[stat] = this.rolledValue;
+        }
+        break;
+    }
+
+    this.statsChange.emit(this.stats);
+    this.setStatsToCharacter();
+  }
+
+  reroll() {
+    var stat;
+    for (stat of this.statsList) {
+      this.manualEntryStats[stat] = false;
+      this.rolledEntryStats[stat] = true;
+      this.rolledValue = this.roll4d6();
+      this.rolledStatValues[stat] = this.rolledValue;
+      this.stats[stat] = this.rolledValue;
+    }
+    this.statsChange.emit(this.stats);
+    this.setStatsToCharacter();
   }
 }

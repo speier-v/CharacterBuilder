@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { CopyCharacterModalComponent } from '../copy-character-modal/copy-character-modal.component';
@@ -20,16 +20,25 @@ import { DetectClicksOutsideDirective } from '../../../shared/detect-clicks-outs
   templateUrl: './character-card.component.html',
   styleUrl: './character-card.component.css',
 })
-export class CharacterCardComponent {
+export class CharacterCardComponent implements OnChanges {
   @Input() isPublicCharacterCard = false;
   @Input() character: Character | null = null;
   @Output() characterDeleted = new EventEmitter<number>();
+  @Output() characterCopied = new EventEmitter<void>();
 
   protected modalOpen = false;
   protected showDeleteConfirmationDialog = false;
 
-  constructor(private router: Router, private characterService: CharacterGenService) {
+  constructor(private router: Router,
+    private characterService: CharacterGenService,
+    private cdr: ChangeDetectorRef)
+    {
+    console.log(`Card with the following character ${this.character}`);
+  }
 
+  ngOnChanges() {
+    this.cdr.detectChanges();
+    console.log(this.character);
   }
 
   protected toggleModalVisibility() {
@@ -42,14 +51,14 @@ export class CharacterCardComponent {
 
   navigateToEditor() {
     if (this.character != null) {
-      this.characterService.setCurrentCharacter(this.character.id);
+      this.characterService.setCurrentCharacter(this.character);
     }
     this.router.navigate([`/${RoutePaths.CHARACTER_EDITOR}`]);
   }
 
   navigateToCharacterSheet() {
     if (this.character != null) {
-      this.characterService.setCurrentCharacter(this.character.id);
+      this.characterService.setCurrentCharacter(this.character);
     }
 
     if (this.isPublicCharacterCard) {
@@ -60,19 +69,15 @@ export class CharacterCardComponent {
   }
 
   deleteCharacter() {
-    console.log('in deleteCharacter!');
-    if (this.character) {
-      console.log('Deleting character...');
-      this.characterService.deleteCharacterById(this.character.id);
-      console.log('Deleted character!');
+    if (this.character && this.character.id) {
       this.characterDeleted.emit(this.character.id);
     } else {
       console.log('couldn\'t assign this.character for deletion??');
     }
   }
 
-  onCharacterCopied(characterId: number) {
-    this.characterDeleted.emit(characterId);
+  onCharacterCopied() {
+    this.characterCopied.emit();
   }
 
   protected readonly environment = environment;

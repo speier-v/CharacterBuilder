@@ -20,7 +20,7 @@ export class CopyCharacterModalComponent {
   @Input() modalOpen: boolean = false;
   @Input() character : Character | null = null;
   @Output() modalClosedEvent = new EventEmitter<void>();
-  @Output() characterCopied = new EventEmitter<number>();
+  @Output() characterCopied = new EventEmitter<void>();
 
   constructor(private router: Router, private characterService: CharacterGenService) {
   }
@@ -41,11 +41,16 @@ export class CopyCharacterModalComponent {
     const characterName = this.copyCharacterForm.get('newCharacterName')?.value;
     const visibility = this.copyCharacterForm.get('newCharacterVisibility')?.value?.split("-")[2];
     if (this.character && characterName && visibility) {
-      this.character = this.characterService.createCopiedCharacter(characterName, this.character);
-      this.character.visibility = visibility;
-      this.characterService.updateCurrentCharacter(this.character);
-      this.characterCopied.emit(this.character.id);
-      this.modalClosedEvent.emit();
+      this.characterService.createCopiedCharacter(characterName, visibility, this.character).subscribe({
+        next: (createdCharacter: Character) => {
+          this.characterCopied.emit();
+          this.modalClosedEvent.emit();
+        },
+        error: (err) => {
+          console.error('Error copying character:', err);
+          alert('Failed to copy character. Please try again.');
+        },
+      });
     }
   }
 }

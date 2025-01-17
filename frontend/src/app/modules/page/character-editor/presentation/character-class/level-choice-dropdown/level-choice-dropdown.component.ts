@@ -16,7 +16,7 @@ export class LevelChoiceDropdownComponent implements OnChanges {
   @Input() selectedLevel: number | null = null;
   @Output() levelChange = new EventEmitter<number | null>();
   level : number | null = null;
-  levels: number[] = [];
+  levels = [1, 2, 3, 4];
   character: Character | null = null;
 
   constructor(private characterService: CharacterGenService) {
@@ -29,18 +29,16 @@ export class LevelChoiceDropdownComponent implements OnChanges {
       const find = modelCharacterClasses.find((characterClass) => characterClass.className === selectedClassName);
       if (find) {
         this.selectedClass = find;
-        this.levels = this.character.characterClass ? this.selectedClass.levels.map(level => level.level) : [];
+        //this.levels = this.character.characterClass ? this.selectedClass.levels.map(level => level.level) : [];
         this.level = this.character.level;
         console.log(`Level ${this.level}, levels: ${this.levels}, selectedClass ${this.selectedClass}`);
-      } else {
-        this.levels = [];
       }
       this.levelChange.emit(this.level);
     }
   }
 
   ngOnChanges() {
-    this.levels = this.selectedClass ? this.selectedClass.levels.map(level => level.level) : [];
+    //this.levels = this.selectedClass ? this.selectedClass.levels.map(level => level.level) : [];
   }
 
   onLevelSelect(event: Event) {

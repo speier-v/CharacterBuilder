@@ -1,27 +1,25 @@
 @startuml
+skinparam defaultTextAlignment center
 actor User as User
-interface HTTPS as Interface_HTTPS
-User <.> Interface_HTTPS: connects over
 
-component "Character Builder application" {
+rectangle "Character Builder" {
+  [<<Container>>\nFrontend • nginx] as Frontend
 
-[Frontend\n<<Container>> Apache httpd] as Frontend
+  rectangle "Anwendungsverwaltung" {
+  [<<Container>>\nREST API • Java Spring Boot] as SpringBootBackend
+    Database "<<Container>>\n Datenbank • PostgreSQL" as NonUserDataDb
+  }
 
-component "Application management"{
-[REST API\n<<Container>> Java Spring Boot] as SpringBootBackend
-  Database "<<Container>> PostgreSQL" as NonUserDataDb
-}
+  rectangle "Nutzerverwaltung" {
+      Database "<<Container>>\n Datenbank • PostgreSQL" as UserDataDb
+      [<<Container>>\nAuthentifizierungsserver • Keycloak IAM] as AuthServer
+  }
 
-component "User Management" {
-    Database "<<Container>> PostgreSQL" as UserDataDb
-    [Auth server\n<<Container>> Keycloak IAM] as AuthServer
-}
+  User <----> Frontend
+  User <--> AuthServer
 
-Interface_HTTPS - Frontend
-Frontend <-> SpringBootBackend: communicates with
-Frontend <--> AuthServer: communicates with
-SpringBootBackend - NonUserDataDb
-AuthServer - UserDataDb
-
+  User <-> SpringBootBackend
+  SpringBootBackend <. NonUserDataDb
+  AuthServer <. UserDataDb
 }
 @enduml

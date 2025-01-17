@@ -15,12 +15,14 @@ import { DetectClicksOutsideDirective } from '../detect-clicks-outside.directive
 })
 export class UsernameAndLogoutComponent {
   profileActionsVisible = false;
+  static userName: string;
 
   toggleProfileActionsVisible() {
     this.profileActionsVisible = !this.profileActionsVisible;
   }
 
   constructor(private readonly keycloakService: KeycloakService) {
+    UsernameAndLogoutComponent.userName = this.keycloakService.getUsername();
   }
 
   get username(): string {

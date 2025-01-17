@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Character, CharacterStats } from './character.model';
+import { Abilities, Character, SkillsProficiencies } from './character.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { catchError, map, Observable, of } from 'rxjs';
+import { KeycloakService } from 'keycloak-angular';
+import { FeatureService } from './feature.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -7,73 +12,99 @@ import { Character, CharacterStats } from './character.model';
 export class CharacterGenService {
   private characters: Character[] = [];
   private currentCharacter: Character | null = null;
-  private lastAssignedId: number = 0;
-  
-  constructor() {
-    this.loadCharactersFromStorage();
+  public userName: string;
+
+  private apiUrl = `${environment.backendUrl}/characters`;
+  private searchUrl = `${this.apiUrl}/search/by-visibility`;
+
+  constructor(
+    private http: HttpClient,
+    private readonly keycloakService: KeycloakService,
+    private featureService: FeatureService) {
+    this.userName = keycloakService.getUsername();
   }
 
-  private saveCharactersToStorage(): void {
-    localStorage.setItem('characters', JSON.stringify(this.characters));
-  }
+  createCharacter(name: string): Promise<Character> {
+    const newCharacter = new Character(name, this.userName);
+    return new Promise((resolve, reject) => {
+      this.addCharacter(newCharacter).subscribe({
+        next: (character) => {
+          console.log('Character added:', character);
+          //alert(`Character ${character.id} added successfully!`);
+          this.characters.push(character);
+          this.setCurrentCharacter(character);
 
-  deleteCharacterById(id: number): void {
-    console.log("in deleteCharacterById");
-    const index = this.characters.findIndex(char => char.id === id);
-    console.log(`Found index ${index}!`);
-    if (index !== -1) {
-      console.log(`Splicing characters at index ${index}!`);
-      this.characters.splice(index, 1);
-    }
-    this.saveCharactersToStorage();
-    this.loadCharactersFromStorage();
-  }
-
-  private loadCharactersFromStorage(): void {
-    const data = localStorage.getItem('characters');
-    const parsedData = data ? JSON.parse(data) : [];
-    this.characters = parsedData.map((item: any) => {
-      const character = new Character(item.name, item.id);
-      Object.assign(character, item);
-      return character;
+          resolve(character);
+        },
+        error: (err) => {
+          console.error('Error adding character:', err);
+          alert('Failed to add character. Please try again.');
+          reject(err);
+        },
+      });
     });
   }
 
-  createCharacter(name: string): Character {
-    while (this.characters.some(character => character.id === (this.lastAssignedId + 1))) {
-      this.lastAssignedId += 1;
+  createCopiedCharacter(name: string, visibility: string, character: Character): Observable<Character> {
+    const newCharacter = new Character(name, this.userName);
+    //Object.assign(newCharacter, character);
+    newCharacter.name = name;
+    newCharacter.visibility = visibility;
+    newCharacter.playerName = character.playerName;
+    newCharacter.characterClass = character.characterClass;
+    newCharacter.level = character.level;
+    newCharacter.icon = character.icon;
+    newCharacter.asiIn = character.asiIn;
+
+    // skill proficiencies
+    for (const key in character.skillsProficiencies) {
+      if (newCharacter.skillsProficiencies.hasOwnProperty(key)) {
+        newCharacter.skillsProficiencies[key as keyof SkillsProficiencies] = character.skillsProficiencies[key as keyof SkillsProficiencies];
+      }
     }
 
-    const newCharacter = new Character(name, (this.lastAssignedId+1));
-    this.lastAssignedId += 1;
-    this.characters.push(newCharacter);
-    this.setCurrentCharacter(newCharacter.id);
-    this.saveCharactersToStorage();
-    
-    return newCharacter;
+    // abilities
+    for (const key in character.abilities) {
+      if (newCharacter.abilities.hasOwnProperty(key)) {
+        newCharacter.abilities[key as keyof Abilities] = character.abilities[key as keyof Abilities];
+      }
+    }
+
+    newCharacter.calculateStats();
+
+    console.log("!!!!! "+newCharacter);
+
+    return this.addCharacter(newCharacter).pipe(
+      map((createdCharacter: Character) => {
+        console.log('Character added:', createdCharacter);
+        return createdCharacter;
+      }),
+      catchError((err) => {
+        console.error('Error adding character:', err);
+        alert('Failed to add character. Please try again.');
+        throw err;
+      })
+    );
+
+    /*
+    this.addCharacter(newCharacter).subscribe({
+      next: (character) => {
+        console.log('Character added:', character);
+      },
+      error: (err) => {
+        console.error('Error adding character:', err);
+        alert('Failed to add character. Please try again.');
+      },
+    });
+    */
   }
 
-  createCopiedCharacter(name: string, character: Character): Character {
-    const newCharacter = new Character(name, (this.lastAssignedId+1));
-    this.lastAssignedId += 1;
-
-    Object.assign(newCharacter, character);
-    newCharacter.name = name;
-    newCharacter.id = this.lastAssignedId;
-
-    this.characters.push(newCharacter);
-    this.setCurrentCharacter(newCharacter.id);
-    this.saveCharactersToStorage();
-
-    return newCharacter;
-  }
-
-  setCurrentCharacter(id: number): void {
-    this.currentCharacter = this.getCharacterById(id) || null;
+  setCurrentCharacter(character: Character): void {
+    this.currentCharacter = character;
     if (this.currentCharacter) {
-      //////console.log(`Current character set to: ${this.currentCharacter.name}, ${this.currentCharacter.id}`);
+      console.log(`Current character set to: ${this.currentCharacter.name}, ${this.currentCharacter.id}, ${typeof character}`);
     } else {
-      //////console.warn(`Character with id ${id} not found.`);
+      console.warn(`Character not assigned.`);
     }
   }
 
@@ -81,66 +112,102 @@ export class CharacterGenService {
     return this.characters;
   }
 
-  getPublicCharacters(): Character[] {
-    return this.characters.filter(character => character.visibility === 'public');
-  }
-
   getCurrentCharacter(): Character | null {
-    if (this.currentCharacter) {
-      ////console.log(`Current character retrieved: ${JSON.stringify(this.currentCharacter)}`);
-      //console.log(this.currentCharacter instanceof Character);
-    } else {
-      //console.warn(`No current character is set.`);
-    }
     return this.currentCharacter;
   }
 
-  private getCharacterByName(name: string): Character | undefined {
-    const character = this.characters.find(character => character.name === name);
-    if (character) {
-      ////console.log(`Character found by name ${name}: ${JSON.stringify(character)}`);
-    } else {
-      ////console.warn(`Character not found by name: ${name}`);
-    }
-    return character;
-  }
-
-  private getCharacterById(id: number): Character | undefined {
-    var foundCharacter = this.characters.find(character => character.id === id);
-    if (foundCharacter) {
-      var character = new Character(foundCharacter.name, foundCharacter.id);
-      Object.assign(character, foundCharacter);
-      ////console.log("getCharacterById");
-      ////console.log(character instanceof Character);
-      return character;
-      ////console.log(`Character found by id ${id}: ${JSON.stringify(character)}`);
-    } else {
-      return undefined;
-      ////console.warn(`Character not found by id: ${id}`);
-    }
-  }
-
-  updateCurrentCharacter(updatedData: Partial<Character>): void {
+  updateCurrentCharacter(updatedData: Partial<Character>): Character {
     if (this.currentCharacter) {
+      /*
       const index = this.characters.findIndex(char => char.id === this.currentCharacter?.id);
       if (index !== -1) {
-        //this.characters[index] = { ...updatedData } as Character;
         Object.assign(this.characters[index], updatedData);
       }
+      */
 
       this.currentCharacter = Object.assign(this.currentCharacter, updatedData) as Character;
-
-      this.currentCharacter.calculateAdditionalStats();
-      this.currentCharacter.calculateSavingThrows(this.currentCharacter.level);
-      this.currentCharacter.calculateSkills();
+      this.currentCharacter = new Character(this.currentCharacter.name, this.currentCharacter.playerName);
+      Object.assign(this.currentCharacter, updatedData);
+      this.currentCharacter.calculateStats();
+      
+      /*
       if (index !== -1) {
         this.characters[index] = { ...this.currentCharacter } as Character;
       }
-      
-      ////console.log(`Current character updated: ${JSON.stringify(this.currentCharacter)}`);
-      this.saveCharactersToStorage();
+      */
+
+      // #################### //
+      if (this.currentCharacter && this.currentCharacter.id) {
+        this.updateCharacter(this.currentCharacter.id, this.currentCharacter).pipe(
+          catchError((err) => {
+            console.error('Error updating character:', err);
+            return of(null);
+          }),
+        ).subscribe({
+          next: (updatedCharacter) => {
+            this.fetchPrivateCharacters({visibility: 'public', playerName: this.userName});
+            return updatedCharacter;
+          },
+          error: (err) => {
+            console.error('Error updating character:', err);
+          },
+        });
+      }
     } else {
-      ////console.warn(`No current character to update.`);
+      console.warn(`No current character to update.`);
     }
+
+    if (this.currentCharacter) {
+      return this.currentCharacter;
+    } else {
+      return new Character('unnamed', this.userName);
+    }
+  }
+
+
+  // API calls
+  fetchPrivateCharacters(params: { visibility: string; playerName: string }): Observable<Character[]> {
+    const httpParams = new HttpParams()
+      .set('visibility', params.visibility)
+      .set('playerName', params.playerName);
+
+    return this.http.get<Character[]>(this.searchUrl, { params: httpParams }).pipe(
+      map((data: any[]) => data.map(
+          item => {
+            const character = new Character(item.name, item.id);
+            Object.assign(character, item);
+
+            return character;
+          },
+        ),
+      ));
+  }
+
+  fetchPublicCharacters(): Observable<Character[]> {
+    const httpParams = new HttpParams()
+      .set('visibility', 'public');
+
+    return this.http.get<Character[]>(this.searchUrl, { params: httpParams }).pipe(
+      map((data: any[]) => data.map(
+          item => {
+            const character = new Character(item.name, item.id);
+            Object.assign(character, item);
+
+            return character;
+          },
+        ),
+      ));
+  }
+
+  addCharacter(character: Character): Observable<Character> {
+    return this.http.post<Character>(this.apiUrl, character);
+  }
+
+  updateCharacter(id: number, updatedCharacter: Character): Observable<Character> {
+    return this.http.put<Character>(`${this.apiUrl}/${id}`, updatedCharacter);
+  }
+
+  deleteCharacter(characterId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${characterId}`);
   }
 }

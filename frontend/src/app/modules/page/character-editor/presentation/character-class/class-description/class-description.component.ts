@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModelCharacterClass } from '../../../../../character-model/character.model';
+import { ModelCharacterClass, Skill, DisplaySkill, Abilities } from '../../../../../character-model/character.model';
 import { CharacterGenService } from '../../../../../character-model/character-gen.service';
-import { Character, skillProficiencies } from '../../../../../character-model/character.model';
+import { Character, SkillsProficiencies } from '../../../../../character-model/character.model';
+import { featureTemplates } from '../../../../../character-model/character.model';
 
 @Component({
   selector: 'class-description',
@@ -16,9 +17,10 @@ export class ClassDescriptionComponent {
   @Input() selectedClass: ModelCharacterClass | null = null;
   @Input() selectedLevel: number | null = null;
   @Input() character: Character | null = null;
+  featureTemplates = featureTemplates;
 
-  selectedAbilities: (keyof skillProficiencies | null)[] = [null, null, null];
-  abilities: skillProficiencies = {
+  selectedAbilities: (keyof SkillsProficiencies | null)[] = [null, null, null];
+  abilities: SkillsProficiencies = {
     acrobatics: false,
     animalHandling: false,
     arcana: false,
@@ -38,8 +40,23 @@ export class ClassDescriptionComponent {
     stealth: false,
     survival: false,
   };
+  baseStats: Abilities = {
+    strength: 0,
+    dexterity: 0,
+    constitution: 0,
+    intelligence: 0,
+    wisdom: 0,
+    charisma: 0
+  };
+  selectedStat : string = '';
+  objectKeys = Object.keys;
 
-  constructor(private characterService: CharacterGenService) {}
+  constructor(private characterService: CharacterGenService) {
+    if (this.character) {
+      this.selectedStat = this.character?.asiIn;
+    }    
+    this.initializeAbilities();
+  }
 
   ngOnInit() {
     this.initializeAbilities();
@@ -51,15 +68,21 @@ export class ClassDescriptionComponent {
 
   private initializeAbilities(): void {
     if (this.character) {
-      this.abilities = this.character.skillProficiencies;
+      for (const key in this.abilities) {
+        if (this.character.skillsProficiencies.hasOwnProperty(key)) {
+          this.abilities[key as keyof SkillsProficiencies] = this.character.skillsProficiencies[key as keyof SkillsProficiencies];
+        }
+      }
+
+      this.selectedStat = this.character.asiIn;
     }
 
     this.initializeSelectedAbilities();
   }
 
-  get availableAbilities(): (keyof skillProficiencies)[] {
+  get availableAbilities(): (keyof SkillsProficiencies)[] {
     if (this.abilities) {
-      const abilityKeys = Object.keys(this.abilities) as (keyof skillProficiencies)[];
+      const abilityKeys = Object.keys(this.abilities) as (keyof SkillsProficiencies)[];
       return abilityKeys.filter(
         ability =>
           !this.selectedAbilities.includes(ability) ||
@@ -72,19 +95,44 @@ export class ClassDescriptionComponent {
   initializeSelectedAbilities(): void {
     if (this.abilities) {
       this.selectedAbilities = Object.keys(this.abilities)
-        .filter(key => this.abilities[key as keyof skillProficiencies])
-        .slice(0, 3) as (keyof skillProficiencies)[];
+        .filter(key => this.abilities[key as keyof SkillsProficiencies] && key != "id")
+        .slice(0, 3) as (keyof SkillsProficiencies)[];
     } else {
       this.selectedAbilities = [null, null, null];
     }
   }
 
+  onStatChange(newStat: string): void {
+    this.character = this.characterService.getCurrentCharacter();
+    // Undo the previous bonus
+    if (this.character && this.character.asiIn != '') {
+      console.log("Prev: "+this.character.abilities[this.selectedStat as keyof typeof this.character.abilities]);
+      this.character.abilities[this.selectedStat as keyof typeof this.character.abilities] -= 2;
+    }
+
+    // Apply the new bonus
+    if (newStat && this.character) {
+      console.log("New: "+this.character.abilities[newStat as keyof typeof this.character.abilities]);
+      this.character.abilities[newStat as keyof typeof this.character.abilities] += 2;
+      this.character.asiIn = newStat;
+    }
+
+    // Update the selected stat
+    this.selectedStat = newStat;
+
+    this.character?.calculateStats();
+    if (this.character) {
+      this.character = this.characterService.updateCurrentCharacter(this.character);
+    }    
+  }
+
   onAbilityChange(index: number) {
+    this.character = this.characterService.getCurrentCharacter();
     const selectedAbility = this.selectedAbilities[index];
 
     if (this.abilities) {
       Object.keys(this.abilities).forEach(abilityKey => {
-        const key = abilityKey as keyof skillProficiencies;
+        const key = abilityKey as keyof SkillsProficiencies;
 
         if (key === selectedAbility) {
           this.abilities[key] = true;
@@ -95,13 +143,18 @@ export class ClassDescriptionComponent {
     }
 
     if (this.character && this.abilities) {
-      this.character.skillProficiencies = this.abilities;
-      this.character.calculateSkills();
+      
+      for (const key in this.abilities) {
+        if (this.character.skillsProficiencies.hasOwnProperty(key)) {
+          this.character.skillsProficiencies[key as keyof SkillsProficiencies] = this.abilities[key as keyof SkillsProficiencies];
+        }
+      }
+      
+      this.character.calculateStats();
       this.characterService.updateCurrentCharacter(this.character);
     }
   }
   
-
   getSkills() {
     if (!this.selectedClass || !this.selectedLevel) {
       return [];

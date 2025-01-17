@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FilterKeyPipe } from '../stat-display/filter-key-pipe.pipe';
 import { SavingThrowsDisplayComponent } from './saving-throws-display.component';
 
 describe('SavingThrowsDisplayComponent', () => {
@@ -8,7 +8,7 @@ describe('SavingThrowsDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SavingThrowsDisplayComponent],
+      imports: [SavingThrowsDisplayComponent, FilterKeyPipe],
     })
       .compileComponents();
 

@@ -12,6 +12,10 @@
   src: url("assets/fonts/bokor-regular.ttf") format("truetype");
 }
 
+.ngx-spinner {
+  z-index: 9999 !important;
+}
+
 :root {
   --light-gray-btn-bg-color: rgba(0, 0, 0, 0.2);
 }

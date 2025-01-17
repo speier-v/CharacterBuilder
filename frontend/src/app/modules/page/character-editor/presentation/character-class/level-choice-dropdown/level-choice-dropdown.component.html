@@ -1,6 +1,9 @@
-<div *ngIf="levels.length > 0 && character">
+<div *ngIf="character" class="flex flex-row">
+  <div class="text-lg pt-3 pr-5">Level: </div>
   <select [(ngModel)]="character.level" (change)="onLevelSelect($event)" [value]="character.level"
-          class="w-full py-2 pl-5 pr-10 text-center bg-white border rounded-md shadow-sm hover:bg-gray-100">
-    <option class="text-center" *ngFor="let level of levels" [value]="level">{{ level }}</option>
+      [ngClass]="{'bg-teal-500': character.level === 0, 'bg-white': character.level !== 0}"    
+      class="w-full py-2 pl-5 pr-10 text-center bg-white border rounded-md shadow-sm hover:bg-gray-100">
+      <option selected value="0">0</option>
+      <option class="text-center" *ngFor="let level of levels" [value]="level">{{ level }}</option>
   </select>
 </div>

@@ -50,14 +50,16 @@ export class CharacterClassComponent {
     }
 
     this.characterForm.get('characterName')?.valueChanges.subscribe(name => {
+      this.character = this.characterService.getCurrentCharacter();
       if (this.character != null && name != null) {
         this.character.name = name;
-        this.characterService.updateCurrentCharacter(this.character);
+        this.character = this.characterService.updateCurrentCharacter(this.character);
       }
       //console.log('Name changed to:', name);
     });
 
     this.copyCharacterForm.get('newCharacterVisibility')?.valueChanges.subscribe(value => {
+      this.character = this.characterService.getCurrentCharacter();
       if (this.character != null && value != null) {
         if (value.includes('private')) {
           this.character.visibility = 'private';
@@ -103,6 +105,7 @@ export class CharacterClassComponent {
   }
 
   onImageSelected(image: String) {
+    this.character = this.characterService.getCurrentCharacter();
     this.selectedImage = image;
     if (this.character != null) {
       this.character.icon = image;
@@ -111,10 +114,12 @@ export class CharacterClassComponent {
   }
 
   onNavigate() {
+    this.character = this.characterService.getCurrentCharacter();
     this.navigate.emit('stats');
   }
 
   onClassChosen(selected: string) {
+    this.character = this.characterService.getCurrentCharacter();
     this.dropdownSelectedClass = selected;
     this.selectedClass = this.characterClasses.find(c => c.className === selected) || null;
 
@@ -128,14 +133,15 @@ export class CharacterClassComponent {
   }
 
   onLevelSelection(level: number | null) {
+    this.character = this.characterService.getCurrentCharacter();
     this.selectedLevel = level;
 
     if (this.character != null && level != null) {
       this.character.level = level;
-      this.characterService.updateCurrentCharacter(this.character);
+      this.character = this.characterService.updateCurrentCharacter(this.character);
     } else if (this.character != null) {
       this.character.level = 0;
-      this.characterService.updateCurrentCharacter(this.character);
+      this.character = this.characterService.updateCurrentCharacter(this.character);
     }
   }
 

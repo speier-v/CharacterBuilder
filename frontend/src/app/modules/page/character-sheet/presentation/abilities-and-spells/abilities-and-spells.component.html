@@ -17,6 +17,7 @@
       class="tab-button">Bonus Actions
     </button>
     <button
+      *ngIf="character && character.characterClass == 'Wizard'"
       (click)="setTab('spells')"
       [class.active]="selectedTab === 'spells'"
       class="tab-button">Spells
@@ -44,20 +45,22 @@
     </ul>
   </div>
 
-  <div *ngIf="selectedTab === 'all' || selectedTab === 'spells'">
-    <div class="flex justify-between items-center mb-3">
-      <h2 class="text-xl font-bold text-gray-700">Spells</h2>
-      <button class="corner-rounding flex items-center header-action-button" (click)="toggleModal()"
-              title="Edit this character's spells">
-        <i class="fa-solid fa-pen"></i>
-      </button>
+  <div *ngIf="character && character.characterClass == 'Wizard'">
+    <div *ngIf="selectedTab === 'all' || selectedTab === 'spells'">
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="text-xl font-bold text-gray-700">Spells</h2>
+        <button *ngIf="isEditable" class="corner-rounding flex items-center header-action-button" (click)="toggleModal()"
+                title="Edit this character's spells">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+      </div>
+      <ul class="space-y-3">
+        <li *ngFor="let spell of activeSpells" class="p-3 bg-white border-l-4 border-purple-500 rounded-md shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-800">{{ spell.name }} (Level {{ spell.level }})</h3>
+          <p class="text-gray-600">{{ spell.description }}</p>
+        </li>
+      </ul>
     </div>
-    <ul class="space-y-3">
-      <li *ngFor="let spell of activeSpells" class="p-3 bg-white border-l-4 border-purple-500 rounded-md shadow-sm">
-        <h3 class="text-lg font-semibold text-gray-800">{{ spell.name }} (Level {{ spell.level }})</h3>
-        <p class="text-gray-600">{{ spell.description }}</p>
-      </li>
-    </ul>
   </div>
 </div>
 <div *ngIf="isModalOpen"

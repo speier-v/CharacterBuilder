@@ -3,8 +3,10 @@
     <img class="rounded-full h-10 w-10 cursor-pointer"
          ngSrc="{{ environment.resourceRoots.images.characterFrames.mini }}/{{ character.icon }}"
          (click)="this.characterImageIconClicked.emit()" width="40" height="40" alt="Character icon" title="Show character image">
-    <p class="ml-1 text-xl"> {{ character.name }} • Level {{ character.level }} {{ character.characterClass }} •
-      P{{ character.getVisibility().slice(1) }} character</p>
+    <p class="ml-1 text-xl" *ngIf="character.playerName != user"> {{ character.name }} • Level {{ character.level }} {{ character.characterClass }} •
+      P{{ character.getVisibility().slice(1) }} character | Owned by {{ character.playerName }} </p>
+    <p class="ml-1 text-xl" *ngIf="character.playerName == user"> {{ character.name }} • Level {{ character.level }} {{ character.characterClass }} •
+      Your character </p>
   </div>
 </ng-template>
 <ng-template #characterSheetHeaderEndActions>
